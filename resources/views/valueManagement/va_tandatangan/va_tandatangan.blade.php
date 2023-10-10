@@ -1,0 +1,616 @@
+@include('valueManagement.pelakasanan_makmal.style')
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MINI LAB</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('Vm_module/assets/images/16x16.png') }}" />
+    <link rel="stylesheet" href="{{ asset('Vm_module/assets/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('Vm_module/assets/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('Vm_module/assets/css/Mediaquery.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/icons.css') }}" />
+    <script src="//code.iconify.design/1/1.0.6/iconify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+  </head>
+
+    @include('layouts.vmmodule.sidebar')
+
+    @include('layouts.vmmodule.topbar')
+
+        <!-- HEADER Section Ends -->
+        <div class="Mainbody_content mtop">
+
+        <x-form.spinner>
+          <x-slot name="message">
+              Sila tunggu sebentar sementara data sedang dimuatkan
+          </x-slot>
+        </x-form.spinner> 
+        
+          <div class="Mainbody_content_nav_header project_register align-items-center row">
+            <div class="col-md-3 col-xs-12">
+              <h5><strong>Maklumat Kajian Nilai (VA)</strong></h5>
+            </div>
+            <div class="col-md-9 col-xs-12 path_nav_col">
+              <ul class="path_nav row">
+                <li>
+                  <a href="#" style="display: flex; align-items: center;">
+                  <i class="ri-calculator-fill" style="font-size:1rem; vertical-align:middle; color:#39afd1"></i>
+                    Value Management
+                    <i class="ri-arrow-right-s-line ri-lg icon_arrow ml-1"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" style="display: flex; align-items: center;">
+                    Senarai Projek
+                    <i class="ri-arrow-right-s-line ri-lg icon_arrow ml-1"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" style="display: flex; align-items: center;">
+                    Maklumat Pelaksanaan Makmal
+                    <i class="ri-arrow-right-s-line ri-lg icon_arrow ml-1"></i>
+                  </a>
+                </li>
+                <li style="display: flex; align-items: center;">
+                  <a href="#" class="active"> Makmal Kajian Nilai (VA) </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card vaTandatanganCard">
+            <div class="card-body">
+              <h4><strong>MAKLUMAT PELAKSANAAN MAKMAL</strong></h4>
+              <div class="topnav d-flex justify-content-around" id="myTopnav">
+                <a href="#home" class="active col-md-2 col-xs-12 mt-2 d-flex align-items-center"><i class="ri-file-list-line ri-2x icon_white mx-2"></i>Makmal Kajian Nilai (VE)</a>
+                <a class="col-md-4 col-xs-12" style="display: flex; align-items: center; justify-content: center; text-align: center;" href="#news"><i class="mdi mdi-wrench icon_dropdown mx-2" style="font-size: 1.8em; transform: rotate(90deg);"></i>Makmal Kejuruteraan Nilai (VE)</a>
+                <a class="col-md-4 col-xs-12" style="display: flex; align-items: center; justify-content: center; text-align: center;"  href="#contact"><i class="mdi mdi-layers-triple-outline icon_dropdown mx-2" style="font-size: 2em;"></i>Makmal Semakan Nilai (VR)</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                  <i class="fa fa-bars"></i>
+                </a>
+              </div>
+              <div class="project_register_tab_container">
+                <div class="project_register_tab_btn_container col-2">
+                    <ul>
+                    <li >
+                        <div class="tab_image">
+                        <a href="/load_ringkasan/{{$kod_projek}}/{{$type}}"><img src="{{ asset('Vm_module/assets/images/vmringkasanProjek_icon_blue.png') }}" alt="" /></a>
+                        </div>
+                        <h4>RINGKASAN<br>PROJEK</h4>
+                    </li>
+                    <li>
+                        <div class="tab_image">
+                        <a href="/KalendarVM/{{$kod_projek}}/{{$type}}"><img src="{{ asset('Vm_module/assets/images/vmmaklumat_perancangan_blue.png') }}" alt="" /></a>
+                        </div>
+                        <h4>
+                        MAKLUMAT<br>
+                        PERANCANGAN<br>MAKMAL TAHUNAN
+                        </h4>
+                    </li>
+                    <li class="success active">
+                        <div class="tab_image">
+                        <a href="/maklumat_pelakasanaan_makmal/{{$kod_projek}}/{{$type}}"><img src="{{ asset('Vm_module/assets/images/vmmaklumat_pelaksanaan_blue.png') }}" alt="" /></a>
+                        </div>
+                        <h4>
+                        MAKLUMAT<br>
+                        PELAKSANAAN<br>MAKMAL
+                        </h4>
+                    </li>
+                    </ul>
+                </div>
+                
+                <div class="project_register_tab_content_container col-10">
+          
+                    <!-- <div class="flow_Chart">
+                      <div class="flow_chart_container">
+                        <div class="flow_Chart_Content_container d-flex">
+                          <div class="flow_chart_content">
+                            <p>daerah</p>
+                          </div>
+                          <div class="flow_chart_content">
+                            <p>negeri</p>
+                          </div>
+                          <div class="flow_chart_content">
+                            <p>bahagian</p>
+                          </div>
+                          <div class="flow_chart_content mb-4">
+                            <p>pengarah/timb.pengarah bahagian</p>
+                          </div>
+                          <div class="flow_chart_content">
+                            <p>bkor</p>
+                          </div>
+                          <div class="flow_chart_content">
+                            <h5 class="flow_box red">Dalam Penyediaan</h5>
+                          </div>
+  
+                          <div class="flow_chart_content">
+                            <h5 class="flow_box">Untuk Semakan Penyemas 1</h5>
+                          </div>
+                          <div class="flow_chart_content">
+                            <h5 class="flow_box">Untuk Semakan Penyemak 2</h5>
+                          </div>
+                          <div class="flow_chart_content">
+                            <h5 class="flow_box">Untuk Pengesahan</h5>
+                          </div>
+                          <div class="flow_chart_content">
+                            <h5 class="flow_box">Untuk Perakuan</h5>
+                          </div>
+                        </div>
+                        <div class="row mt-4 flow_end">
+                          <h5 class="flow_box_small mx-2">Ditalok</h5>
+                          <h5 class="flow_box_small mx-2">Lulus</h5>
+                        </div>
+                      </div>
+                    </div> -->
+                    <div class="brief_project_container">
+                      <div class="brief_project_content">
+                        <div style="height:5.5%; display: flex; align-items: center;">
+                          <i class="ri-list-unordered ri-2x icon_header icon_yellow_bg"></i>
+                          <h6 class="m-3"><strong>Makmal Kajian Nilai (VA)</strong></h6>
+                        </div>
+                          <div class="card-body">
+                            <!-- <div class="row mb-3">
+                            <label for="" class="mr-5 ml-3">Jenis Pengecualian<sup>*</sup></label>
+                            <div>
+                              <div class="form-check">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                              <label class="form-check-label" for="flexRadioDefault1">
+                                Pengecualian Penuh
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                              <label class="form-check-label" for="flexRadioDefault2">
+                                Pengecualian dengan Masyarakat Memuktamadkan Skop dan Kos (MMSK)
+                              </label>
+                            </div>
+                            </div>
+                          </div> -->
+  
+                            <h6 class="mb-3"><strong>Tandatangan Laporan</strong></h6>
+                            <hr>
+  
+                            <!-- Start RMK Flow Chart in Horizontal -->
+                            <div class="rmk_flow_Chart flow-horizontal">
+                              <div class="rmk_flow_Chart_container">
+                                <div class="d-flex justify-content-between">
+                                  <div class="rmk_flow_Chart_content">
+                                    <h5>BAHAGIAN</h5>
+                                  </div>
+                                  <div class="rmk_flow_Chart_content">
+                                    <h5>PENYELARAS MAKMAL VA (BKOR)</h5>
+                                  </div>
+                                  <div class="rmk_flow_Chart_content_grey">
+                                    <h5>BAHAGIAN PENGURUSAN NILAI (BPN),
+                                      KEMENTERIAN EKONOMI</h5>
+                                  </div>
+                                  <div class="rmk_flow_Chart_content_grey">
+                                    <h5>KETUA FASILITATOR, KETUA PENGARAH JPS, KEMENTERIAN & BEASSA KEMENTERIAN EKONOMI</h5>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                  <div class="rmk_flow_Chart_content">
+                                    <div class="box_content vmbox_content">
+                                      <p>Penyediaan Draf Laporan Makmal</p>
+                                    </div>
+                                  </div>
+                                  <div class="rmk_flow_Chart_content">
+                                    <div class="box_content vmbox_content">
+                                      <p>Dalam Semakan</p>
+                                    </div>
+                                  </div>
+                                  <div class="rmk_flow_Chart_content">
+                                    <div class="box_content">
+                                      <p>Dalam Semakan</p>
+                                    </div>
+                                  </div>
+                                  <div class="rmk_flow_Chart_content">
+                                    <div class="box_content bend bend">
+                                      <p class="yellow">Tandatangan Laporan</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-5">
+                                  <div class="rmk_flow_Chart_content ml-auto">
+                                    <h5 class="py-2">BAHAGIAN</h5>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                  <div class="rmk_flow_Chart_content">
+                                    <h4 class="mt-4">Selesai</h4>
+                                  </div>
+                                  <div class="rmk_flow_Chart_content">
+                                    <div class="box_content end"><p>Dalam Penjilidan</p></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- End RMK Flow Chart in Horizontal -->
+  
+                            <!-- Start RMK Flow Chart in Vertical -->
+                            <div class="rmk_flow_Chart flow-vertical">
+                              <div class="rmk_flow_Chart_container">
+                                <div class="d-flex justify-content-between">
+                                  <div class="rmk_flow_Chart_content" style="width: 100%;">
+                                    <h5>BAHAGIAN</h5>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                  <div class="rmk_flow_Chart_content" style="width: 100%;">
+                                    <div class="box_content vmbox_content_vertical">
+                                      <p>Penyediaan Draf Laporan Makmal</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-5">
+                                  <div class="rmk_flow_Chart_content" style="width: 100%;">
+                                    <h5>PENYELARAS MAKMAL VA (BKOR)</h5>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                  <div class="rmk_flow_Chart_content" style="width: 100%;">
+                                    <div class="box_content vmbox_content_vertical">
+                                      <p>Dalam Semakan</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-5">
+                                  <div class="rmk_flow_Chart_content_grey" style="width: 100%;">
+                                    <h5>BAHAGIAN PENGURUSAN NILAI (BPN),
+                                      KEMENTERIAN EKONOMI</h5>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                  <div class="rmk_flow_Chart_content" style="width: 100%;">
+                                    <div class="box_content bend">
+                                      <p>Dalam Semakan</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-5">
+                                  <div class="rmk_flow_Chart_content_grey" style="width: 100%;">
+                                    <h5>KETUA FASILITATOR, KETUA PENGARAH JPS, KEMENTERIAN & BEASSA KEMENTERIAN EKONOMI</h5>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                  <div class="rmk_flow_Chart_content" style="width: 100%;">
+                                    <div class="box_content bend bend">
+                                      <p class="yellow">Tandatangan Laporan</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-5">
+                                  <div class="rmk_flow_Chart_content" style="width: 100%;">
+                                    <h5 class="py-2">BAHAGIAN</h5>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                  <div class="rmk_flow_Chart_content" style="width: 100%;">
+                                    <div class="box_content bend"><p>Dalam Penjilidan</p></div>
+                                  </div>
+                                </div>
+                                <div class="d-flex justify-content-end mt-5">
+                                  <div class="rmk_flow_Chart_content" style="width: 100%;">
+                                    <h4>Selesai</h4>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- End RMK Flow Chart in Vertical -->
+  
+                            <form id="tandatanganForm">
+                              <h6 class="mb-3"><strong>Tandatangan</strong></h6>
+                              <hr>
+                              <div class="row m-1">
+                                <div class="col-md-6 col-xs-12">
+                                  <div class="row">
+                                    <div class="col-md-5 col-xs-12"><label for="Kategori_Tandatangan">Kategori Tandatangan<sup>*</sup></label></div>
+                                    <div class="col-md-7 col-xs-12 form-group">
+                                      <select id="Kategori_Tandatangan" class="form-control" value="Ketua Fasilitator">
+                                        <option value="" selected>-- Pilih --</option>
+                                        <option value="0">Ketua Fasilitator</option>
+                                        <option value="1">Ketua Pengarah JPS</option>
+                                        <option value="2">Kementerian</option>
+                                        <option value="3">BEASSA, Kementerian Ekonomi</option>
+                                        <option value="4">Kementerian Kewangan (MOF)</option>
+                                      </select>
+                                      <p class="text-danger" id="Kategori_Tandatangan_error"></p>
+                                    </div>
+
+                                  </div>
+
+                                </div>
+                                <div class="col-md-6 col-xs-12">
+                                  <div class="row">
+                                    <div class="col-md-5 col-xs-12"><label for="Tarikh_Tandatangan">Tarikh Tandatangan<sup>*</sup></label></div>
+                                    <div class="col-md-7 col-xs-12 form-group">
+                                      <input  class="form-control" type="date" name="Tarikh_Tandatangan" id="Tarikh_Tandatangan">
+                                      <p class="text-danger" id="Tarikh_Tandatangan_error"></p>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                              <div class="row m-1 justify-content-end">
+                                <div class="col-md-6 col-xs-12">
+                                  <div class="row align-items-center">
+                                    <div class="col-md-5 col-xs-12">
+                                      <label for="terima_file_name">Muat Naik Dokumen<br>Lampiran<sup>*</sup></label>
+                                    </div>
+                                    <div class="col-md-7 col-xs-12 form-group">
+                                      <div class="upload_img col-12">
+                                        <div class="row col-12 d-none" id="fileUploaded1">
+                                          <div>
+                                            <button style="float:right" id="removefile1" type="button" class="btn btn text-danger P-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                            </svg></button>
+                                            <div>
+                                              <img id="filePreview1" style="height:45px">
+                                              <label id="fileName1" ></label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row col-12 justify-content-center" id="Uploadfile1">
+                                          <label for="terima_file_name">
+                                            <img
+                                              src="{{ asset('Vm_module/assets/images/upload_img.png') }}"
+                                              class="d-block m-auto"
+                                              alt=""
+                                            />
+                                          </label>
+                                          <input name="terima_file_name" type="file" class="custom-file-input d-none" id="terima_file_name">
+    
+                                          <label for="terima_file_name">
+                                            <h5>
+                                              Letakkan fail di sini atau klik untuk memuat
+                                              naik
+                                            </h5>
+                                            <p>(Saiz fail tidak melebihi 2mb)</p>
+                                          </label>
+                                        
+                                        </div>
+                                      </div>
+  
+                                      <p class="text-danger" id="terima_file_name_error"></p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="nageri_footer">
+                                <button id="va_tandatanganSaveBtn" class="vmsimpan mt-4 align-self-center">Simpan</button>
+                              </div>
+                            </form>
+  
+                            <div class="table_scroll">
+                              <table id="tandatanganTable" class="table table-bordered mt-5 projek_cmn_table">
+                                <thead>
+                                  <tr>
+                                    <th class="text-center" scope="col">Bil</th>
+                                    <th class="text-center" scope="col">Kategori Tandatangan</th>
+                                    <th class="text-center" scope="col">Tarikh Tandatangan</th>
+                                    <th class="text-center" scope="col">Dokumen Lampiran</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                              </table>
+                            </div>
+
+                                      <div class="row">
+                                        <div class="col-md-4 col-xs-12">
+                                          <label for="kemuka_file_name" class="">Muat Naik Dokumen Lampiran<sup>*</sup></label>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-6 form-group">
+                                          <div class="upload_img col-12">
+                                            <div class="row col-12 d-none" id="fileUploaded2">
+                                              <div>
+                                                <button style="float:right" id="removefile2" type="button" class="btn btn text-danger P-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                </svg></button>
+                                                <div>
+                                                  <img id="filePreview2" style="height:45px">
+                                                  <label id="fileName2" ></label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="row col-12" id="Uploadfile2">
+                                              <label for="kemuka_file_name" id="">
+                                                <img
+                                                  src="{{ asset('Vm_module/assets/images/upload_img.png') }}"
+                                                  class="d-block m-auto"
+                                                  alt=""
+                                                />
+                                              </label>
+                                              <input name="kemuka_file_name" type="file" class="custom-file-input d-none" id="kemuka_file_name">
+                                              <label for="kemuka_file_name" class="ml-3" id="">
+                                                <h5 >
+                                                Letakkan fail di sini atau klik untuk memuat
+                                                naik
+                                                </h5>
+                                                <p>(Saiz fail tidak melebihi 2mb)</p>
+                                              </label>
+                                            </div>
+                                          </div>
+                                          <p class="text-danger" id="kemuka_file_name_error"></p>
+                                        </div>
+                                      </div>
+  
+                            <div class="form-check form-check-inline mt-3 mb-4">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                              <label class="form-check-label" for="inlineCheckbox1">Laporan Penuh disyorkan untuk proses penjilidan
+                              </label>
+                            </div>
+
+                            <div class="vmsimpan_hantar d-flex flex-sm-row flex-column align-items-center">
+                              <button class="vmkemaskini m-1" id="simp_redirect">Tindakan Permohonan NOC oleh Bahagian</button>
+                              <button class="vmhantar m-1" id="hant_redirect">Hantar Untuk Penjilidan</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+            </div>
+          </div>
+          <p class="user_profile_footer m-0 P-3">{{ now()->year }} <img class="mr-1" src="{{ asset('Vm_module/assets/images/copyrightLogo.png') }}">NPIS - JPS</p>
+
+        </div>
+        
+      </div>
+      <!-- Mainbody_conatiner Starts -->
+    </div>
+
+     <!-- Modal -->
+<div class="vmadd_role_sucess_modal_container">
+<div class="modal fade" 
+  id="exampleModal" 
+  tabindex="-1" 
+  aria-labelledby="exampleModalLabel" 
+  aria-hidden="true"
+  >
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header vmmodal_header">
+        <h5 class="modal-title ml-2" id="exampleModalLabel">Butiran Makmal</h5>
+      </div>
+      <div class="modal-body">
+          <div class="ml-2 row mb-2">
+              <label class="mr-5" for="">Tarikh Cadangan Makmal<sup>*</sup></label>
+              <input disabled class="form-control col-3 ml-1 mr-5" type="date" id="modal_cadangan_makmal"> 
+              <label class="mr-2" for="">Lokasi Makmal<sup>*</sup></label>
+              <input disabled class="form-control col-3 ml-5"  type="text" value="" id="modal_negeri">
+          </div>
+          <div class="ml-2 row mb-2">
+              <label class="mr-5" for="">Tarikh Makmal Sebenar<sup>*</sup></label>
+              <input disabled class="form-control col-3 ml-4 mr-5" type="date" id="modal_makmal_sebenar"> 
+              <label for="">Tarikh Lawatan Tapak<sup>*</sup></label>
+              <input disabled class="form-control col-3" type="date" id="modal_lawatan_tapak"> 
+          </div>
+          <div class="ml-2 row mb-2">
+            <label class="mr-1" for="">Tahun Pelaksanaan Makmal<sup>*</sup></label>
+            <input disabled class="form-control col-3 ml-4" type="text" value="" id="modal_tahun">
+          </div>
+
+          <label class="ml-2 "for="">Senarai Fasilitator<sup>*</sup></label>
+          <div class="container pt-4">
+            <div class="table-responsive">
+              <table class="table table-bordered projek_cmn_table">
+                <thead>
+                  <tr>
+                    <th class="text-center">Bil</th>
+                    <th class="text-center">Nama Fasilitator</th>
+                    <th class="text-center">Gred</th>
+                    <th class="text-center">Peranan</th>
+                    <th class="text-center">Pejabat</th>
+                  </tr>
+                </thead>
+                <tbody id="modal_fasilitators">
+                    
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+
+      <div class="nageri_footer mb-3">
+           <button type="button" data-bs-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<section>
+      <div class="container"></div>
+</section>
+
+<section>
+      <div class="add_role_sucess_modal_container">
+        <div
+          class="modal fade"
+          id="add_role_sucess_modal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+          data-backdrop="static"
+          data-keyboard="false"
+        >
+          <div
+            class="modal-dialog modal-dialog-centered add_role_sucess_modal_dialog"
+            role="document"
+          >
+            <div class="modal-content add_role_sucess_modal_content" style="width:88% !important;">
+              <div class="modal-body add_role_sucess_modal_body">
+                <div class="add_role_sucess_modal_header text-end">
+                  <button class="ml-auto" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="mdi mdi-window-close" id="close_image"></i>
+                  </button>
+                </div>
+                <div class="add_role_sucess_modal_body_Content" id="user_pop-up">
+                  <h5 style="width:102% !important; text-align: center;" id="save_text"  class="" >Maklumat berjaya di simpan<br></h5>
+                  <h5 style="width:102% !important; text-align: center;" id="penjilidan_text" class="d-none" >Laporan telah berjaya dihantar untuk penjilidan</h5>
+                  <br>
+                  <div class="text-center">
+                    <button data-dismiss="modal" class="tutup" id="tutup">Tutup</button>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+            <div class="add_role_sucess_modal_container">
+                <div
+                class="modal fade"
+                id="global_sucess_modal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+                data-backdrop="static" data-keyboard="false"
+                >
+                <div
+                    class="modal-dialog modal-dialog-centered add_role_sucess_modal_dialog"
+                    role="document"
+                >
+                    <div class="modal-content add_role_sucess_modal_content">
+                    <div class="modal-body add_role_sucess_modal_body">
+                      <div class="add_role_sucess_modal_header text-end">
+                        <button class="ml-auto" data-bs-dismiss="modal" aria-label="Close">
+                          <i class="mdi mdi-window-close" id="close_image"></i>
+                        </button>
+                      </div>
+                      <div class="add_role_sucess_modal_body_Content" id="user_pop-up">
+                        <h5 style="text-align: center;">Adakah anda pasti untuk membuat permohonan di NOC?</h5>
+                        <div class="text-center">
+                            <button data-dismiss="modal" class="close-confirm" id="close-confirm">Tidak</button>
+                            <button data-dismiss="modal" class="tutup-confirm" id="tutup-confirm">Ya</button>
+                        </div>
+                      </div>
+                        
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+</section>
+
+    
+    
+
+@include('layouts.vmmodule.footer')
+@include('valueManagement.va_tandatangan.script')
