@@ -1149,7 +1149,7 @@ function loadPrestasi() {
                                     </select>
                                 </td>
                                 <td>
-                                    <input style="max-width: 80%;" type="date" class="form-control rbtnBulanan" id="tarikhMulaJadual"
+                                    <input style="max-width: 80%;" type="date" class="form-control rbtnBulanan tarikhMulaJadual" id="tarikhMulaJadual"
                                         value="` + prestasi.tarikh_mula_jadual + `" ` + readonly + ` `+gagalReadonly+`/>
                                 </td>
                                 <td>

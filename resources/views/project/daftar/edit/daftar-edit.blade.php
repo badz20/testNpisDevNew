@@ -410,7 +410,7 @@
                                                     </td>
                                                     <td class="col-6 d-flex align-items-center">
                                                         <input type="text"
-                                                               class="py-1 col-8 form-control"
+                                                               class="py-1 col-8 form-control text-right"
                                                                name="total_cost"
                                                                id="total_cost"
                                                                value="0.00" readonly/>
@@ -646,7 +646,8 @@
                                     <label for="Tahun Jangka Mula" class="col-7 p-0 mr-2">Tahun Jangka Mula <sup>*</sup></label>
                                     <div class="form-group col-lg-3 col-xs-6 p-0 m-0">
                                       <input type="text"
-                                      class="form-control col-md-8"
+                                      class="form-control"
+                                      style="width: 85px !important"
                                       name="tahun_jangka_mula" @if ($is_submitted) readonly @endif
                                       id="tahun_jangka_mula"
                                       minlength="4" maxlength="4"
@@ -661,6 +662,7 @@
                                         <input type="text"
                                             class="form-control" @if ($is_submitted) readonly @endif
                                             name="tahun_jangka_siap"
+                                            style="width: 85px !important"
                                             id="tahun_jangka_siap"
                                             minlength="4" maxlength="4"
                                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
@@ -675,6 +677,7 @@
                                       class="form-control" @if ($is_submitted) readonly @endif
                                       name="tempoh_pelaksanaan"
                                       id="tempoh_pelaksanaan"
+                                      style="width: 85px !important"
                                       value="" required  disabled/>
                                         <p id="tempoh_pelaksanaan_error" style="color:red"></p>
                                     </div>
@@ -1089,10 +1092,10 @@
 <div class="container"></div>
 </section>
 @include('project.common-scripts')
-@include('project.daftar.data_scripts')
 @include('project.daftar.skop_script')
 @include('project.daftar.edit.load_skop_script')
 @include('project.daftar.edit.load_script')
+@include('project.daftar.data_scripts')
 @include('project.daftar.scripts')
 @endsection
 

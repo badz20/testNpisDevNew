@@ -27,6 +27,11 @@
   padding-top: 1rem;
 }
 
+.inline-input {
+    display: inline-block;
+    margin-right: 5px; /* Add margin for spacing between elements */
+  }
+
 .Components_table {
   -webkit-box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
           box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;

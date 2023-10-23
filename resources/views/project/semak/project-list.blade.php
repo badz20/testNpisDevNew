@@ -101,6 +101,7 @@
                   <th style="white-space:nowrap;">Rolling Plan</th>
                   <th>Daerah</th>
                   <th>PPT Download</th>
+                  <th>sort</th>
                 </tr>
               </thead>
               <tbody>                

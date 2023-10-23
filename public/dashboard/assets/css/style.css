@@ -5179,7 +5179,7 @@ input:checked + .slider:before {
     background-color: #fff;
     margin: auto;
     padding: 0;
-    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+    /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
 }
 .add_role_sucess_modal_container
     #add_role_sucess_modal-confirm
@@ -5256,7 +5256,7 @@ input:checked + .slider:before {
     .add_role_sucess_modal_body
     .add_role_sucess_modal_body_Content
     h3 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 500;
     text-align: center;
     margin: 4% 0 10% 0;
@@ -5299,7 +5299,9 @@ input:checked + .slider:before {
 .project_register_form_modal_container #reject_application_modal,
 .project_register_form_modal_container #approve_application_modal,
 .project_register_form_modal_container #Priority_set_model,
-.project_register_form_modal_container #success_change_password_modal {
+.project_register_form_modal_container #success_change_password_modal,
+.project_register_form_modal_container #cadangan_application_modal,
+.project_register_form_modal_container #comment_application_modal {
     background-color: rgba(0, 0, 0, 0.2);
 }
 /* 2023 March 21 by Nabilah (Increase and centered modal box for responsive) */
@@ -5327,6 +5329,18 @@ input:checked + .slider:before {
         .project_register_form_modal_dialog,
     .project_register_form_modal_container
         #success_change_password_modal
+        .project_register_form_modal_dialog,
+    .project_register_form_modal_container
+        #reject_mode_sucess_modal
+        .project_register_form_modal_dialog,
+        .project_register_form_modal_container
+        #cadangan_application_modal
+        .project_register_form_modal_dialog,
+        .project_register_form_modal_container
+        #reject_mode_sucess_modal
+        .project_register_form_modal_dialog,
+        .project_register_form_modal_container
+        #comment_application_modal
         .project_register_form_modal_dialog {
         max-width: 80%;
         margin: 0;
@@ -5361,6 +5375,15 @@ input:checked + .slider:before {
         .project_register_form_modal_dialog,
     .project_register_form_modal_container
         #success_change_password_modal
+        .project_register_form_modal_dialog,
+        .project_register_form_modal_container
+        #reject_mode_sucess_modal
+        .project_register_form_modal_dialog,
+        .project_register_form_modal_container
+        #cadangan_application_modal
+        .project_register_form_modal_dialog,
+        .project_register_form_modal_container
+        #comment_application_modal
         .project_register_form_modal_dialog {
         max-width: 40%;
     }
@@ -5397,6 +5420,18 @@ input:checked + .slider:before {
     .project_register_form_modal_content,
 .project_register_form_modal_container
     #success_change_password_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content,
+    .project_register_form_modal_container
+    #comment_application_modal
     .project_register_form_modal_dialog
     .project_register_form_modal_content {
     padding: 0;
@@ -5448,7 +5483,22 @@ input:checked + .slider:before {
     #success_change_password_modal
     .project_register_form_modal_dialog
     .project_register_form_modal_content
-    .project_register_form_modal_body {
+    .project_register_form_modal_body,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body,
+    .project_register_form_modal_container
+    #comment_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body  {
     width: 100%;
     background-color: #fff;
     margin: auto;
@@ -5501,6 +5551,24 @@ input:checked + .slider:before {
     .project_register_form_modal_header,
 .project_register_form_modal_container
     #success_change_password_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_header,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_header,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_header,
+    .project_register_form_modal_container
+    #comment_application_modal
     .project_register_form_modal_dialog
     .project_register_form_modal_content
     .project_register_form_modal_body
@@ -5562,6 +5630,27 @@ input:checked + .slider:before {
     .project_register_form_modal_content
     .project_register_form_modal_body
     .project_register_form_modal_header
+    button,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_header
+    button,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_header
+    button,
+    .project_register_form_modal_container
+    #comment_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_header
     button {
     background-color: transparent;
     border: none;
@@ -5610,6 +5699,24 @@ input:checked + .slider:before {
     .project_register_form_modal_body_Content,
 .project_register_form_modal_container
     #success_change_password_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content,
+    .project_register_form_modal_container
+    #comment_application_modal
     .project_register_form_modal_dialog
     .project_register_form_modal_content
     .project_register_form_modal_body
@@ -5667,6 +5774,27 @@ input:checked + .slider:before {
     h3.success_header,
 .project_register_form_modal_container
     #success_change_password_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h3.success_header,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h3.success_header,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h3.success_header,
+    .project_register_form_modal_container
+    #comment_application_modal
     .project_register_form_modal_dialog
     .project_register_form_modal_content
     .project_register_form_modal_body
@@ -5729,7 +5857,28 @@ input:checked + .slider:before {
     .project_register_form_modal_content
     .project_register_form_modal_body
     .project_register_form_modal_body_Content
-    h3 {
+    h3,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h3,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h3,
+    .project_register_form_modal_container
+    #comment_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h3   {
     font-size: 1.35rem;
     font-weight: 600;
     text-align: center;
@@ -5788,6 +5937,27 @@ input:checked + .slider:before {
     h3.vms,
 .project_register_form_modal_container
     #success_change_password_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h3.vms,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h3.vms,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h3.vms,
+    .project_register_form_modal_container
+    #comment_application_modal
     .project_register_form_modal_dialog
     .project_register_form_modal_content
     .project_register_form_modal_body
@@ -5852,7 +6022,28 @@ input:checked + .slider:before {
     .project_register_form_modal_content
     .project_register_form_modal_body
     .project_register_form_modal_body_Content
-    h2 {
+    h2,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h2,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h2,
+    .project_register_form_modal_container
+    #comment_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    h2   {
     font-family: Poppins_bold;
     text-align: center;
     font-size: 1.8rem;
@@ -5915,6 +6106,27 @@ input:checked + .slider:before {
     .project_register_form_modal_content
     .project_register_form_modal_body
     .project_register_form_modal_body_Content
+    .btn_holder,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    .btn_holder,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    .btn_holder,
+    .project_register_form_modal_container
+    #comment_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
     .btn_holder {
     align-items: center;
     justify-content: center;
@@ -5971,6 +6183,27 @@ input:checked + .slider:before {
     button.fix_button,
 .project_register_form_modal_container
     #success_change_password_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button,
+    .project_register_form_modal_container
+    #comment_application_modal
     .project_register_form_modal_dialog
     .project_register_form_modal_content
     .project_register_form_modal_body
@@ -6050,7 +6283,28 @@ input:checked + .slider:before {
     .project_register_form_modal_content
     .project_register_form_modal_body
     .project_register_form_modal_body_Content
-    button.fix_button.red {
+    button.fix_button.red,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button.red,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button.red,
+    .project_register_form_modal_container
+    #comment_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button.red  {
     background-color: #fa5c7c;
 }
 .fix_button.red {
@@ -6107,6 +6361,27 @@ input:checked + .slider:before {
     button.fix_button.green,
 .project_register_form_modal_container
     #success_change_password_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button.green,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button.green,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button.green,
+    .project_register_form_modal_container
+    #comment_application_modal
     .project_register_form_modal_dialog
     .project_register_form_modal_content
     .project_register_form_modal_body
@@ -6172,6 +6447,27 @@ input:checked + .slider:before {
     .project_register_form_modal_content
     .project_register_form_modal_body
     .project_register_form_modal_body_Content
+    button.fix_button.blue,
+    .project_register_form_modal_container
+    #reject_mode_sucess_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button.blue,
+    .project_register_form_modal_container
+    #cadangan_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
+    button.fix_button.blue,
+    .project_register_form_modal_container
+    #comment_application_modal
+    .project_register_form_modal_dialog
+    .project_register_form_modal_content
+    .project_register_form_modal_body
+    .project_register_form_modal_body_Content
     button.fix_button.blue {
     background-color: #5b63c3;
 }
@@ -6188,10 +6484,10 @@ a.logs {
 /* -------------- */
 
 a.senarai {
-    color: white;
-    font-size: 0.86rem;
-    padding: 0.3rem 0;
-    display: block;
+    color: white !important;
+    font-size: 0.76rem !important;
+    padding: 0.3rem 0 !important;
+    display: block !important;
 }
 
 /* 2023 March 14 by Nabilah */

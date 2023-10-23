@@ -46,7 +46,7 @@
                     "previous":   "Sebelum"
                     },       
                 },
-                "order": [ 16, 'desc' ],
+                "order": [ 22, 'asc' ],
                 pagingType: 'full_numbers',
               columnDefs: [
                 {
@@ -213,9 +213,9 @@
                               }
                               else if(row.workflow_status=="5")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                     data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                    '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                    '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                   '</div>';
                                 }
                                else
@@ -254,9 +254,9 @@
                               }
                               else if(row.workflow_status=="8")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                         data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                        '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                        '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                       '</div>';
                                   }
                                 else
@@ -304,9 +304,9 @@
                               }
                               else if(row.workflow_status=="12")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                   data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                          '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                          '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                         '</div>';
                                   }
                                 else
@@ -345,9 +345,9 @@
                               }
                               else if(row.workflow_status=="15")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                       data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                      '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                      '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                     '</div>';
                                   }
                                 else
@@ -383,9 +383,9 @@
                               }
                               else if(row.workflow_status=="18")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                   data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                  '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                  '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                 '</div>';
                                   }
                                 else
@@ -409,9 +409,9 @@
                               }
                               else if(row.workflow_status=="20")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                     data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                              '<p>' + 'Dibatalkan'+'<br>' +row.updatedBy.name + '</p>' +
+                                              '<p>' + 'Dibatalkan'+'<br>' +row.updated_by.name + '</p>' +
                                             '</div>';
                                   }
                                 else
@@ -733,7 +733,23 @@
                         }
                         
                   }, 
-                  { data: 'id'},                                
+                  { data: 'id'}, 
+                  {
+                        targets:22,
+                        render: function ( data, type, row, meta ) {
+
+                              if(row.pengesha_priority_order!=null)
+                              {
+                                data = row.pengesha_priority_order;
+                              } 
+                              else
+                              {
+                                data = '0.00'
+                              }  
+                            return data;
+                        }
+                        
+                  },                                
               ],
               
                  
@@ -761,6 +777,7 @@
             project_table.column(15).visible(false);    // To hide
         }
         project_table.column(16).visible(false);    // To hide
+        project_table.column(22).visible(false);    // To hide
         loadcompleted();     
 
         $("#excelBtn").click(function(){
@@ -810,7 +827,14 @@
           data.rujukan = all_rujukan[i].value;
           data.bahagian = all_bahagian[i].value;
           data.user_id = {{Auth::user()->id}};
-          all_details.push(JSON.stringify(data))
+          if(all_susunan[i].value=='' || all_susunan[i].value==0)
+          {
+
+          }
+          else
+          {
+            all_details.push(JSON.stringify(data))
+          }
        }
 
        var formData = new FormData();

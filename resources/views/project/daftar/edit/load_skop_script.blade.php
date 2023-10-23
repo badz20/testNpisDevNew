@@ -41,7 +41,7 @@ function load_skop_project(skop_projects){
                 <div class="col-12 p-2 ml-2">
                     <input
                           type="" id="skop_text"
-                          class="py-2 col-md-8 col-xs-12 form-control"
+                          class="py-2 col-md-8 col-xs-12 form-control text-right"
                           value="`+item.cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+`" readonly
                         />
                   </div>
@@ -146,7 +146,7 @@ function load_sub_skops(sub_skop_projects,skop_code,mainRowNo,mainRow){
                           <div class="col-md-8 col-xs-12 p-2 ml-2">
                             <input
                                   type="" id="sub_skop_text"
-                                  class="col-12 form-control"
+                                  class="col-12 form-control text-right"
                                   value=`+item.jumlahkos.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+` readonly
                                 />
                           </div>

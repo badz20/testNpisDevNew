@@ -74,7 +74,7 @@
         overflow: auto;
         padding: 12px 15px;
         width: 300px;
-        height: 385px;
+        /* height: 385px; */
       }
 
       .list-heading {
@@ -148,11 +148,13 @@
 }
 
 .popWindow{
-  position: absolute;
-  top: 87%;
-  z-index: 1;
-  left: 57%;
-  width:40%;
+    top: 50px;
+    z-index: 1;
+    right: 15px;
+    width: 40%;
+    height: calc(100% - 150px);
+    position: absolute;
+    overflow: auto;
 
 }
 
@@ -404,7 +406,8 @@
               </div>
 
                               
-                <button data-toggle="modal" data-target="#exampleModal" type="button" class="pop_btn" onmouseover="mapInfo()" onmouseout="mouseout()">
+                <button data-toggle="modal" title='Maklumat Komponen Kerja' data-target="#exampleModal" 
+                type="button" class="pop_btn" onmouseover="mapInfo()" onmouseout="mouseout()">
                   <img class="pl-4" src="{{ asset('assets/images/i-icon.png') }}" alt="icon" />
                 </button>
                 <div style="width:15%;z-index: 1;left:50px;text-align: -webkit-center;" class="position-absolute pop_content d-none" id="popData">
@@ -522,63 +525,13 @@
                   </div>
 
                 <!-- Button trigger modal -->
-
-                
-
-                
-              
-              <div class="nageri_file_inputs" id="mapDiv" style="padding:20px;">
-                <div id="ArcgisSatelliteHeader" class="border border-dark" style="background-color:#20a7dd">
-                  <div class="container">
-                    <div class="row d-flex justify-content-between">
-                      <div style="align-self: center;">
-                        <label class="h4">MAKLUMAT LAKARAN GIS</label>
-                      </div>
-                      <div style="align-self: center;">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                          <li class="nav-item" role="presentation">
-                            <button title="Senarai Layer" class="nav-link" style="background: border-box;" id="Senarai-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/LayerList/images/icon.png?wab_dv=2.24"></button>
-                          </li>
-                          <li class="nav-item" role="presentation">
-                            <button title="Petunjuk" class="nav-link" style="background: border-box;" id="Legend-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/Legend/images/icon.png?wab_dv=2.24"></button>
-                          </li>
-                          <li class="nav-item" role="presentation">
-                            <button title="Lakaran GIS" class="nav-link" style="background: border-box;" id="Edit-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/Edit/images/icon.png?wab_dv=2.24"></button>
-                          </li>
-                          <li class="nav-item" role="presentation">
-                            <button title="Carian Pelbagai" class="nav-link" style="background: border-box;" id="Lakaran-tab" data-bs-toggle="tab" data-bs-target="#Lakaran" type="button" role="tab" aria-controls="Lakaran" aria-selected="true"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/SmartEditor/images/icon.png?wab_dv=2.24"></button>
-                          </li>
-                          {{-- <li class="nav-item" role="presentation">
-                            <button class="nav-link" style="background: border-box;" id="Profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/Query/images/icon.png?wab_dv=2.24"></button>
-                          </li> --}}
-                          
-
-                          <li class="nav-item" role="presentation">
-                            <button title="Basemap" class="nav-link" style="background: border-box;" id="Basemap-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/BasemapGallery/images/icon.png?wab_dv=2.24"></button>
-                          </li>
-
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div id="ArcgisSatellite" class="border border-dark"  style="width:100%;height:30%;">
-                  <div id="toolbarDiv" class="esri-component esri-widget">
-                    <button type="button" id="distance" class="esri-widget--button esri-interactive esri-icon-measure-line" title="Distance Measurement Tool">
-                    </button>
-                    <button type="button" id="area" class="esri-widget--button esri-interactive esri-icon-measure-area" title="Area Measurement Tool">
-                    </button>
-                    <button type="button" id="clear" class="esri-widget--button esri-interactive esri-icon-trash" title="Clear Measurements">
-                    </button>
-                  </div>
-                </div>
-
-                  <div class="tab-content" id="myTabContent">
+            <div class="nageri_file_inputs" id="mapDiv" style="padding:20px;">
+              <div class="tab-content" id="myTabContent" style="position: relative;">
                     <div class="tab-pane fade" id="Lakaran" role="tabpanel" aria-labelledby="Lakaran-tab">
-                      <div class="container LakaranContent  bg-white h-25 popWindow" style="overflow: auto;">
+                      <div class="container LakaranContent  bg-white popWindow" style="overflow: auto;">
                         <div class="row ">
                           <div style="background-color:#20a7dd;" class="header w-100  d-flex justify-content-between p-2">
-                            <div class="h6 text-white">Query</div>
+                            <div class="h6 text-white">Carian Pelbagai</div>
                             <div class="text-white">
                               <span class="p-1 downBtn text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12.575q-.2 0-.375-.062T11.3 12.3L6.7 7.7q-.275-.275-.288-.688T6.7 6.3q.275-.275.7-.275t.7.275l3.9 3.875L15.9 6.3q.275-.275.688-.287t.712.287q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Zm0 6q-.2 0-.375-.062T11.3 18.3l-4.6-4.6q-.275-.275-.288-.687T6.7 12.3q.275-.275.7-.275t.7.275l3.9 3.875l3.9-3.875q.275-.275.688-.288t.712.288q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Z"/></svg></span>
                               <span class="p-1 fullscreenBtn text-white"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"><path fill="currentColor" d="M3 12h10V4H3v8zm2-6h6v4H5V6zM2 6H1V2.5l.5-.5H5v1H2v3zm13-3.5V6h-1V3h-3V2h3.5l.5.5zM14 10h1v3.5l-.5.5H11v-1h3v-3zM2 13h3v1H1.5l-.5-.5V10h1v3z"/></svg></span>
@@ -592,12 +545,12 @@
                         <form id="queryForm">
                           <div>
                             <div class="form-group col-12">
-                              <label for="layerQueryData"><strong>Select layer to query</strong></label>
+                              <label for="layerQueryData"><strong>Pilihan carian</strong></label>
                               <select id="layerQueryData" class="form-control border border-info">
                                 <option value="0" selected>--Pilih--</option>
                                 <option value="https://services1.arcgis.com/5CTUlM2boWa13ftf/arcgis/rest/services/lakaran_point_feature/FeatureServer/0">Point Layer</option>
                                 <option value="https://services1.arcgis.com/5CTUlM2boWa13ftf/arcgis/rest/services/lakaran_line_feature/FeatureServer/0">Line Layer</option>
-                                <option value="https://services1.arcgis.com/5CTUlM2boWa13ftf/arcgis/rest/services/polygon_feature/FeatureServer/0">polygon Layer</option>
+                                <option value="https://services1.arcgis.com/5CTUlM2boWa13ftf/arcgis/rest/services/polygon_feature/FeatureServer/0">Polygon Layer</option>
                               </select>
                             </div>
                             <div class="form-group col-12">
@@ -635,7 +588,7 @@
                             </select>
                             </div> 
                             <div class="form-group col-12">
-                              <label for="dunData"><strong>Dun</strong></label>
+                              <label for="dunData"><strong>DUN</strong></label>
                               <select id="dunData" class="form-control border border-info">
                               <option selected value="0">All</option>
                             </select>
@@ -740,10 +693,10 @@
                         </div>
                     </div> --}}
                     <div class="tab-pane fade" id="Legend" role="tabpanel" aria-labelledby="Legend-tab">
-                      <div id="" class="popWindow container LakaranContent  h-25 bg-white">
+                      <div id="" class="popWindow container LakaranContent bg-white">
                         <div class="row ">
                           <div style="background-color:#20a7dd;" class="header w-100  d-flex justify-content-between p-2">
-                            <div class="h6 text-white">Legend</div>
+                            <div class="h6 text-white">Petunjuk</div>
                               <div class="text-white">
                                 <span class="p-1 downBtn text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12.575q-.2 0-.375-.062T11.3 12.3L6.7 7.7q-.275-.275-.288-.688T6.7 6.3q.275-.275.7-.275t.7.275l3.9 3.875L15.9 6.3q.275-.275.688-.287t.712.287q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Zm0 6q-.2 0-.375-.062T11.3 18.3l-4.6-4.6q-.275-.275-.288-.687T6.7 12.3q.275-.275.7-.275t.7.275l3.9 3.875l3.9-3.875q.275-.275.688-.288t.712.288q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Z"/></svg></span>
                                 <span class="p-1 fullscreenBtn text-white"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"><path fill="currentColor" d="M3 12h10V4H3v8zm2-6h6v4H5V6zM2 6H1V2.5l.5-.5H5v1H2v3zm13-3.5V6h-1V3h-3V2h3.5l.5.5zM14 10h1v3.5l-.5.5H11v-1h3v-3zM2 13h3v1H1.5l-.5-.5V10h1v3z"/></svg></span>
@@ -782,13 +735,13 @@
                               <div style="background-color:purple;height:1px;width:1px" class="badge d-block"> </div>
                             </li>
                           </ul> --}}
-                          <div id="LegendContent" style="height:87%">
+                          <div id="LegendContent">
 
                           </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="Senarai" role="tabpanel" aria-labelledby="Senarai-tab">
-                      <div id=""  class=" popWindow container LakaranContent  h-25 bg-white">
+                      <div id=""  class=" popWindow container LakaranContent bg-white">
                         <div class="row ">
                           <div style="background-color:#20a7dd;" class="header w-100  d-flex justify-content-between p-2">
                             <div class="h6 text-white">Senarai Layer</div>
@@ -874,7 +827,7 @@
                         </div>
                     </div> 
                     <div class="tab-pane fade" id="Basemap" role="tabpanel" aria-labelledby="Basemap-tab">
-                      <div id="t"  class="popWindow container LakaranContent  h-25 bg-white">
+                      <div id="t"  class="popWindow container LakaranContent bg-white">
                         <div class="row ">
                           <div style="background-color:#20a7dd;" class="header w-100  d-flex justify-content-between p-2">
                             <div class="h6 text-white">Basemap</div>
@@ -889,9 +842,9 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="Edit" role="tabpanel" aria-labelledby="Edit-tab">
-                      <div id=""  class="popWindow container LakaranContent h-25 bg-white">
+                      <div id=""  class="popWindow container LakaranContent bg-white">
                         <div class="row ">
-                          <div style="background-color:#20a7dd;" class="header w-100  d-flex justify-content-between p-2">
+                          <div style="background-color:#20a7dd;" class="header w-100 d-flex justify-content-between p-2">
                               <div class="h6 text-white">Edit</div>
                               <div class="text-white">
                                 <span class="p-1 downBtn text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12.575q-.2 0-.375-.062T11.3 12.3L6.7 7.7q-.275-.275-.288-.688T6.7 6.3q.275-.275.7-.275t.7.275l3.9 3.875L15.9 6.3q.275-.275.688-.287t.712.287q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Zm0 6q-.2 0-.375-.062T11.3 18.3l-4.6-4.6q-.275-.275-.288-.687T6.7 12.3q.275-.275.7-.275t.7.275l3.9 3.875l3.9-3.875q.275-.275.688-.288t.712.288q.275.275.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062Z"/></svg></span>
@@ -1018,7 +971,7 @@
                                       <input type="text" class="form-control" id="lineparlimen" readonly />
                                     </div>
                                     <div class="form-group col-12">
-                                      <label for="linedun">Dun</label>
+                                      <label for="linedun">DUN</label>
                                       <input type="text" class="form-control" id="linedun" readonly />
                                     </div>
                                     <div class="form-group col-12">
@@ -1053,7 +1006,7 @@
                               </div>
                             </div>
                           </div>
-                          <!-- for line ends -->
+                          <!-- for line ends -->  
                           <!-- for polygon -->
                           <div id="featureUpdateDivpoly" style="display:none; margin-top: 1em;">
                             <div class="row">
@@ -1089,7 +1042,7 @@
                                       <input type="text" class="form-control" id="polyparlimen" readonly />
                                     </div>
                                     <div class="form-group col-12">
-                                      <label for="polydun">Dun</label>
+                                      <label for="polydun">DUN</label>
                                       <input type="text" class="form-control" id="polydun" readonly />
                                     </div>
                                     <div class="form-group col-12">
@@ -1130,7 +1083,51 @@
                       </div>
                     </div>
                   </div>
+                <div id="ArcgisSatelliteHeader" class="border border-dark" style="background-color:#20a7dd">
+                  <div class="container">
+                    <div class="row d-flex justify-content-between">
+                      <div style="align-self: center;">
+                        <label class="h4">MAKLUMAT LAKARAN GIS</label>
+                      </div>
+                      <div style="align-self: center;">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                          <li class="nav-item" role="presentation">
+                            <button title="Lakaran GIS" class="nav-link" style="background: border-box;" id="Edit-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/Edit/images/icon.png?wab_dv=2.24"></button>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <button title="Carian Pelbagai" class="nav-link" style="background: border-box;" id="Lakaran-tab" data-bs-toggle="tab" data-bs-target="#Lakaran" type="button" role="tab" aria-controls="Lakaran" aria-selected="true"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/SmartEditor/images/icon.png?wab_dv=2.24"></button>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <button title="Petunjuk" class="nav-link" style="background: border-box;" id="Legend-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/Legend/images/icon.png?wab_dv=2.24"></button>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <button title="Senarai Layer" class="nav-link" style="background: border-box;" id="Senarai-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/LayerList/images/icon.png?wab_dv=2.24"></button>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <button title="Basemap" class="nav-link" style="background: border-box;" id="Basemap-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><img style="width:25px" src="https://npisportal.water.gov.my/arcgis/apps/webappviewer/widgets/BasemapGallery/images/icon.png?wab_dv=2.24"></button>
+                          </li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                <div id="ArcgisSatellite" class="border border-dark"  style="width:100%;height:30%;">
+                  <div id="toolbarDiv" class="esri-component esri-widget">
+                    <button type="button" id="distance" class="esri-widget--button esri-interactive esri-icon-measure-line" title="Distance Measurement Tool">
+                    </button>
+                    <button type="button" id="area" class="esri-widget--button esri-interactive esri-icon-measure-area" title="Area Measurement Tool">
+                    </button>
+                    <button type="button" id="clear" class="esri-widget--button esri-interactive esri-icon-trash" title="Clear Measurements">
+                    </button>
+                  </div>
+                </div>
+
+                  
+              </div>
+            </div>
+              <div id="tableContainer" class="container">
+                <div id="tableDiv"></div>
               </div>
               
 
@@ -1214,7 +1211,7 @@
               @if(!$is_submitted)
                 <button type="button"  id="negeri_lokasi_save">Simpan</button>              
               @endif
-              <button class="nageri_green green" type="button" id="negeri_lokasi_next" style="background-color: #0ACF97">
+              <button class="nageri_green green" type="button" id="negeri_lokasi_next">
                 <a class="text-decoration-none text-white" href="{{route('daftar.section',[$id ,$status,$user_id, 'kewangan'])}}">Seterusnya</a>
               </button>
             </div>
@@ -1425,7 +1422,7 @@ window.initMap = initMap;
   const apiKey="AAPKf49418ab6f204def9460df6565e9f552e9xa7tdpLgOEKskndzbLnpNn49OLB4PQpdGtHtg_CnMLLqn01T2xyIYNLJhOIPen"
   
 
-  const street=L.esri.Vector.vectorBasemapLayer("ArcGIS:Streets", { apiKey: apiKey,version: 1  })
+  const street=L.esri.Vector.vectorBasemapLayer("ArcGIS:Streets", { apiKey: apiKey,version: 1  });
   // const basemapEnum = "ArcGIS:Navigation";
   
 
@@ -1447,15 +1444,20 @@ window.initMap = initMap;
   // }).addTo(map);
 
 
-  
+  const image_layer = L.esri.Vector.vectorBasemapLayer("ArcGIS:Imagery:Standard", { apiKey: apiKey,version: 1 });
   const basemapLayers = {
-    Streets: street,
-    Navigation: L.esri.Vector.vectorBasemapLayer("ArcGIS:Navigation", { apiKey: apiKey,version: 1 }),
+    Imagery: image_layer,
+    "Imagery Hybrid": L.esri.Vector.vectorBasemapLayer("ArcGIS:Imagery", { apiKey: apiKey,version: 1 }),
     Topographic: L.esri.Vector.vectorBasemapLayer("ArcGIS:Topographic", { apiKey: apiKey,version: 1 }),
-    LightGray: L.esri.Vector.vectorBasemapLayer("ArcGIS:LightGray", { apiKey: apiKey,version: 1 }),
-    DarkGray: L.esri.Vector.vectorBasemapLayer("ArcGIS:DarkGray", { apiKey: apiKey,version: 1 }),
-    StreetsRelief: L.esri.Vector.vectorBasemapLayer("ArcGIS:StreetsRelief", { apiKey: apiKey,version: 1 }),
-    Imagery: L.esri.Vector.vectorBasemapLayer("ArcGIS:Imagery", { apiKey: apiKey,version: 1 }),
+    Streets: street,
+    "Streets (Night)": L.esri.Vector.vectorBasemapLayer("ArcGIS:StreetsNight", { apiKey: apiKey,version: 1 }),
+    Navigation: L.esri.Vector.vectorBasemapLayer("ArcGIS:Navigation", { apiKey: apiKey,version: 1 }),
+    "Navigation (Night)": L.esri.Vector.vectorBasemapLayer("ArcGIS:NavigationNight", { apiKey: apiKey,version: 1 }),
+    "Light Gray Canvas": L.esri.Vector.vectorBasemapLayer("ArcGIS:LightGray", { apiKey: apiKey,version: 1 }),
+    "Dark Gray Canvas": L.esri.Vector.vectorBasemapLayer("ArcGIS:DarkGray", { apiKey: apiKey,version: 1 }),
+    "Terrain with Labels": L.esri.Vector.vectorBasemapLayer("ArcGIS:Terrain", { apiKey: apiKey,version: 1 }),
+    Ocean: L.esri.Vector.vectorBasemapLayer("ArcGIS:Oceans", { apiKey: apiKey,version: 1 }),
+    "Streets (with Relief)": L.esri.Vector.vectorBasemapLayer("ArcGIS:StreetsRelief", { apiKey: apiKey,version: 1 }),
     OSM: L.esri.Vector.vectorBasemapLayer("OSM:Standard", { apiKey: apiKey,version: 1 }),
     OSMStreets: L.esri.Vector.vectorBasemapLayer("OSM:Streets", { apiKey: apiKey,version: 1 })
 };

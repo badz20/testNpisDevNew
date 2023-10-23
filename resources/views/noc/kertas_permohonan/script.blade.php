@@ -123,7 +123,7 @@
 
         $("#tutup-global").click(function(){  
             $('#global_sucess_modal').modal('hide');                  
-            UpdateStatus(43);
+            UpdateStatus(43,1);
         })
 
         $("#close-global").click(function(){                    
@@ -136,7 +136,7 @@
     })
 
     $("#hanter_btn").click(function(){
-        UpdateStatus(32);
+        UpdateStatus(32,2);
     });
 
     $("#bkor_batal_btn").click(function(){
@@ -144,7 +144,7 @@
 
         $("#tutup-global").click(function(){  
             $('#global_sucess_modal').modal('hide');                  
-            UpdateStatus(43);
+            UpdateStatus(43,1);
         })
 
         $("#close-global").click(function(){                    
@@ -153,7 +153,7 @@
     });
 
     $("#bkor_hanter_btn").click(function(){
-        UpdateStatus(41);
+        UpdateStatus(41,2);
     });
 
 
@@ -289,7 +289,7 @@ else
                             $("#diffCount").val(dateDiff);
                             for(i=0;i<=dateDiff;i++){
                                 $("#table_body").append(
-                                    '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" class="form-control m-1 col-6" type="text" id="yearData'+i+'"></td>'
+                                    '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" class="form-control m-1 col-6 text-center" type="text" id="yearData'+i+'"></td>'
                                 )
                             }
                             
@@ -344,7 +344,7 @@ else
                         for(i=0;i<=dateDiff;i++){
                             // //console.log(i)
                             $("#table_body").append(
-                                '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" class="form-control m-1 col-6" type="text" id="yearData'+i+'"></td>'
+                                '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" class="form-control m-1 col-6 text-center" type="text" id="yearData'+i+'"></td>'
                             )
                         }
                         
@@ -486,7 +486,7 @@ else
     }
 
 
-    function UpdateStatus(status)
+    function UpdateStatus(status,type)
     {
          var id=$("#noc_id").val();
          var formData = new FormData();
@@ -509,6 +509,16 @@ else
                     $("div.overlay").removeClass("show");
 
                     $('#add_role_sucess_modal').modal('show');
+                    if(type==1)
+                    {
+                       $('#saveText').removeClass('d-none');
+                       $('#hanterText').addClass('d-none');
+                    }
+                    else
+                    {
+                        $('#saveText').addClass('d-none');
+                        $('#hanterText').removeClass('d-none');
+                    }
                         $("#tutup").click(function(){                    
                                 window.location.href = "/Kertas_Permohonan_NOC";
                         })
@@ -525,7 +535,7 @@ else
 
         var pp_id=document.getElementById("pp_id").value; console.log(pp_id);
         var justification=document.getElementById("sJustifikasi").value; //alert(justification);
-        
+        var penerangan=document.getElementById("penerangan").value; //alert(justification);
 
         if(pp_id=='')
         {
@@ -536,6 +546,7 @@ else
         var formData = new FormData();
             formData.append('project_id', pp_id);
             formData.append('justification', justification);
+            formData.append('penerangan', penerangan);
             
             
 
@@ -569,6 +580,13 @@ else
                             })
                 });
 
+    }
+
+    function countWords() {
+            var str= document.getElementById('penerangan').value; console.log(str);
+            const arr = str.split(' ');
+            var count=  arr.filter(word => word !== '').length;
+            document.getElementById('l_count').innerText = count;
     }
 
         

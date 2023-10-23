@@ -131,7 +131,7 @@
                 <form>
                     <div>
                         <div class="section1">
-                            <div class="col-md-12 col-xs-12 "><label class="NOC_title" for="RMK">Kategori Notice Perubahan</label></div>
+                            <div class="col-md-12 col-xs-12 "><label class="NOC_title" for="RMK">Kategori Notis Perubahan</label></div>
                         </div>
                         <div class="section2 NOC_desc">
                           <div class="row" style="width: 120%">
@@ -214,7 +214,7 @@
                         <div class="ml-2 col-md-12 col-xs-12">
                             <p class="NOC_title" for="">Sebab Terperinci <sup>*</sup></p>
                             <fieldset style="text-align-last:center">
-                                <label class="text-white bg-success p-1" style="border-radius: 5px;position: relative;top: 10px;width: 30%">patah perkataan 0 dari 500</label>
+                                <label class="text-white bg-success p-1" style="border-radius: 5px;position: relative;top: 10px;width: 30%">Patah perkataan 0 dari 500</label>
                                 <textarea name="" id="" cols="30" rows="3" class="form-control"></textarea>
                             </fieldset>
                         </div> 
@@ -225,7 +225,7 @@
 
               <div id="maklumat_pilih_projek_form" class="project_register_search_container mt-3 d-none">
                 <div class="project_register_search_header  d-flex">
-                  <h4>MAKLUMAT PILIH PROJEK</h4>
+                  <h4>MAKLUMAT PROJEK</h4>
                 </div>
                 <hr>
               <form>
@@ -703,7 +703,7 @@
                                      <div class="section7">
                                       <div class="m-5">
                                           <div class="mb-5">
-                                              <label for="">Adun</label>
+                                              <label for="">DUN</label>
                                           </div>
                                           <div style="font-size: 0.8rem;">
                                             <div id="dundiv">
@@ -804,7 +804,7 @@
                                  <div class="section7">
                                   <div class="m-5">
                                       <div class="mb-5">
-                                          <label for="">Adun</label>
+                                          <label for="">DUN</label>
                                       </div>
                                       <div style="font-size: 0.8rem;">
                                         <div id="dun_mohon_div">
@@ -1655,7 +1655,7 @@
         <div class="modal fade" id="add_role_sucess_modal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered add_role_sucess_modal_dialog" role="document">
-                <div class="modal-content add_role_sucess_modal_content" style="width:88% !important;">
+                <div class="modal-content add_role_sucess_modal_content" style="width:100% !important;">
                     <div class="modal-body add_role_sucess_modal_body">
                         <div class="add_role_sucess_modal_header text-end">
                             <button class="ml-auto" data-bs-dismiss="modal" aria-label="Close">

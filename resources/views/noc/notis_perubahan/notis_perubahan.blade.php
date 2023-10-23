@@ -136,7 +136,7 @@
                 <form>
                     <div>
                         <div class="section1">
-                            <div class="col-md-12 col-xs-12 "><label class="NOC_title" for="RMK">Kategori Notice Perubahan</label></div>
+                            <div class="col-md-12 col-xs-12 "><label class="NOC_title" for="RMK">Kategori Notis Perubahan</label></div>
                         </div>
                         <div class="section2 NOC_desc">
                           <div class="row" style="width: 120%">
@@ -219,7 +219,7 @@
                         <div class="ml-2 col-md-12 col-xs-12">
                             <p class="NOC_title" for="">Sebab Terperinci <sup>*</sup></p>
                             <fieldset style="text-align-last:center">
-                                <label class="text-white bg-success p-1" style="border-radius: 5px;position: relative;top: 10px;width: 30%">patah perkataan 0 dari 500</label>
+                                <label class="text-white bg-success p-1" style="border-radius: 5px;position: relative;top: 10px;width: 30%">Patah perkataan 0 dari 500</label>
                                 <textarea name="" id="" cols="30" rows="3" class="form-control"></textarea>
                             </fieldset>
                         </div> 
@@ -428,7 +428,9 @@
                                 </div>
                                 <div class="col-md-6 col-xs-12 p-0 py-1">
                                   <div class="row align-items-center">
-                                    <div class="col-md-3 col-xs-12"><label class="pemberat_title" for="RMK">Tahun Permohonan</label></div>
+                                    <div class="col-md-3 col-xs-12">
+                                      <label class="pemberat_title mb-3" for="RMK">Tahun Permohonan</label>
+                                    </div>
                                     <div class="col-md-8 col-xs-12 form-group">
                                       <p id="tahunAsal" class="form-control" disabled ></p>
                                     </div>
@@ -514,8 +516,8 @@
                                <table class="table m-5" style="height: auto; width: 90%;">
                           <thead>
                             <tr style="font-size: 0.8rem; background-color: #39Afd1; color: #fff;">
-                              <th scope="col" class="text-center text-white NOCtblKodprojek col-6">Kod Asal</th>
-                              <th scope="col" class="text-center text-white NOCtblKodprojek col-6">Kod Mohon</th>
+                              <th scope="col" class="text-center text-white NOCtblKodprojek col-6">Skop Asal</th>
+                              <th scope="col" class="text-center text-white NOCtblKodprojek col-6">Skop Mohon</th>
                             </tr>
                           </thead>
                           <tbody style="font-size: 0.8rem">
@@ -716,7 +718,7 @@
                                      <div class="section7">
                                       <div class="m-5">
                                           <div class="mb-5">
-                                              <label for="">Adun</label>
+                                              <label for="">Dun</label>
                                           </div>
                                           <div style="font-size: 0.8rem;">
                                           <div id="dundiv">
@@ -817,7 +819,7 @@
                                  <div class="section7">
                                   <div class="m-5">
                                       <div class="mb-5">
-                                          <label for="">Adun</label>
+                                          <label for="">Dun</label>
                                       </div>
                                       <div style="font-size: 0.8rem;">
                                         <div id="dun_mohon_div">
@@ -1260,7 +1262,7 @@
                                          <table class="table table-borderless border-1" style="height: auto; width: 90%; margin-left: 80px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
                                     <thead>
                                       <tr style="font-size: 0.8rem; background-color: #EEEEEE; color: #fff;">
-                                        <th scope="col" colspan="9" class="text-left NOCtblKodprojek text-white" style="background-color: #39Afd1;">OutCome Asal</th>
+                                        <th scope="col" colspan="9" class="text-left NOCtblKodprojek text-white" style="background-color: #39Afd1;">Outcome Asal</th>
                                       </tr>
                                     </thead>
                                     <tbody style="font-size: 0.8rem" id="old_outcome_table">
@@ -1271,7 +1273,7 @@
                                   <table id="editOutcomeTable" class="table table-borderless border-1" style="height: auto; width: 90%; margin-left: 80px;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
                                     <thead>
                                       <tr style="font-size: 0.8rem; background-color: #EEEEEE; color: #fff;">
-                                        <th scope="col" colspan="9" class="text-left NOCtblKodprojek text-white" style="background-color: #39Afd1;">OutCome Mohon</th>
+                                        <th scope="col" colspan="9" class="text-left NOCtblKodprojek text-white" style="background-color: #39Afd1;">Outcome Mohon</th>
                                       </tr>
                                     </thead>
                                     <tbody style="font-size: 0.8rem" id="outcomeBody">
@@ -1381,7 +1383,7 @@
         <div class="modal fade" id="add_role_sucess_modal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered add_role_sucess_modal_dialog" role="document">
-                <div class="modal-content add_role_sucess_modal_content" style="width:88% !important;">
+                <div class="modal-content add_role_sucess_modal_content" style="width:100% !important;">
                     <div class="modal-body add_role_sucess_modal_body">
                         <div class="add_role_sucess_modal_header text-end">
                             <button class="ml-auto" data-bs-dismiss="modal" aria-label="Close">

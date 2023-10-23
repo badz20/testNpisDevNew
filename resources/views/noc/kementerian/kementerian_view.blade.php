@@ -144,7 +144,19 @@
                             <br>
                             
                             <div class="row">
-                              <div class="upload_img m-3" id="kem_list">
+                              <div id="kem_list">
+                                  <table class="table table-borderless border-1" style="height: auto;width:39rem !important;">
+                                    <thead>
+                                      <tr style="font-size: 0.8rem; background-color: #EEEEEE; color: #fff;">
+                                        <th scope="col"  class="text-left NOCtblKodprojek text-white" style="background-color: #39Afd1;">Bil</th>
+                                        <th scope="col"  class="text-left NOCtblKodprojek text-white" style="background-color: #39Afd1;">Tarikh Hantar</th>
+                                        <th scope="col"  class="text-left NOCtblKodprojek text-white" style="background-color: #39Afd1;">Lampiran</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody style="font-size: 0.8rem" id="hanter_table">
+                                
+                                    </tbody>
+                                  </table>
                                 <!-- <div class="" style="text-align: left;">
                                   <label for="" class=" NOC_label">17/1/2023</label>
                                   <label for="" class="NOC_label_uploaded_file">1. SST lampiran.pdf</label>
@@ -153,8 +165,9 @@
                             </div>
                               <center>
                                 <div class="userlist_content_header_right col-md-12 text-center">
-                                      <button type="button" class="KembaliBtnNOC" id="batal">Batal</button>
-                                      <button type="button" class="SimpanBtnNOC" id="simpan">Simpan</button>                                
+                                      <button type="button" class="KembaliBtnNOC" id="batal">Kembali Ke BKOR</button>
+                                      <button type="button" class="SimpanBtnNOC" id="lulus">Simpan</button> 
+                                      <button type="button" class="TambahBtnNOC" id="simpan">Hantar Kelulusan</button>                               
                                 </div>
                               </center>
                          </form>
@@ -257,8 +270,10 @@
                             </div>
                     </div>
                     <div class="userlist_content_header_right col-md-12 text-center">
-                                      <button type="button" class="KembaliBtnNOC" id="batal_btn">Batal</button>
-                                      <button type="button" class="SimpanBtnNOC" id="simpan_btn">Simpan</button>
+
+                                      <button type="button" class="KembaliBtnNOC" id="batal_btn">Kembali Ke BKOR</button>
+                                      <button type="button" class="SimpanBtnNOC" id="lulus_btn">Simpan</button> 
+                                      <button type="button" class="TambahBtnNOC" id="simpan_btn">Hantar</button> 
                     </div>
                   </div>
                 </div>
@@ -276,7 +291,7 @@
         <div class="modal fade" id="add_role_sucess_modal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered add_role_sucess_modal_dialog" role="document">
-                <div class="modal-content add_role_sucess_modal_content" style="width:88% !important;">
+                <div class="modal-content add_role_sucess_modal_content" style="width:100% !important;">
                     <div class="modal-body add_role_sucess_modal_body">
                         <div class="add_role_sucess_modal_header text-end">
                             <button class="ml-auto" data-bs-dismiss="modal" aria-label="Close">

@@ -26,7 +26,7 @@ $(document).ready(function () {
             var kementerian_data = response.data.data.noc_kementerian;
             var noc_economi = response.data.data.noc_economi;
 
-            if(project_data)
+            if(project_data!=null)
             {
                 if(project_data.status==41)
                 {
@@ -124,7 +124,7 @@ $(document).ready(function () {
                 }
             }
 
-            if(kementerian_data)
+            if(kementerian_data!='')
             {
                 // var data= "'"+kementerian_data.id+"'"+","+"'"+kementerian_data.kementerian_file_name+"'"+","+"'"+'kementerian_file_name'+"'"; //console.log(data);
                 // let html= `<div class="" style="text-align: left;">
@@ -169,7 +169,7 @@ $(document).ready(function () {
                 document.getElementById("lulus").style.opacity = "0.5";
             }
 
-            if(noc_economi)
+            if(noc_economi!='') 
             {
 
                 document.getElementById('economi_date').value = noc_economi.economi_tarikh;
@@ -222,6 +222,13 @@ $("#kementerian_file_name").on( "change", function() {
         $("#fileUploaded").removeClass('d-none')
 
 });
+
+$("#removefile").click(function(){
+      $("#kementerian_file_name").val('')
+      $("#filePreview").attr('src','');
+      $("#Uploadfile").removeClass('d-none')
+      $("#fileUploaded").addClass('d-none')
+})
 
 
 $("#economi_hanter_file_name").on( "change", function() {

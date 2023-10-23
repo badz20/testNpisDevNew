@@ -64,7 +64,7 @@
              <div class="rmk_flow_Chart flow-horizontal row">
               <div class="rmk_flow_Chart_container">
                 <div class="d-flex justify-content-between">
-                  <div class="rmk_flow_Chart_content">
+                  <div class="rmk_flow_Chart_content_grey" style="width: 20%;">
                     <h5>BAHAGIAN</h5>
                   </div>
                   <div class="rmk_flow_Chart_content" style="width: 20%;">
@@ -95,13 +95,18 @@
                     </div>
                   </div>
                   <div class="rmk_flow_Chart_content">
-                    <div class="box_content_no_arrow">
+                    <div class="box_content no_arrow bend">
                       <p style="text-align: center;">Dalam Tindakan
                         KEMENTERIAN EKONOMI</p>
                     </div>
                   </div>
                 </div>
-                
+                <div class="d-flex justify-content-end mt-4">
+                  <div class="rmk_flow_Chart_content" style="width: 20%;">
+                    <h4 class="mt-4 ml-5" id="lulus_stat">Lulus</h4>
+                    <h4 class="mt-4 ml-5" id="tidak_lulus_stat">Tidak Lulus</h4>
+                  </div>
+                </div>
                 <!-- <div class="d-flex justify-content-end">
                   <div class="rmk_flow_Chart_content" style="width: 20%;">
                     <h4 class="mt-4 ml-5">Lulus</h4>
@@ -113,19 +118,23 @@
             </div>
           <!-- flowchart end -->
               </div>
-              <div class="card project_register_search_container my-3">
-              <div class="project_register_search_header mb-3 d-flex">
+              <div class="card project_register_search_container my-3 d-flex">
+              <div class="mb-3 d-flex" style="vertical-align: middle;">
+                <div style="color: #ffcb71; padding: 0rem 0.4rem 0rem 0.4rem;">
                     <img class="" src="{{ asset('assets/images/Vector-12.png') }}" alt="">
-                    <h4 class="">SENARAI PROJEK </h4>
-                  <div class="ml-auto userlist_content_header_right KON_downloadImg d-flex" type="" id="dropdownMenuButton" >
+                </div>
+                <h4 class="mt-2 d-flex" style="font-size: 1rem; margin: 0; color: #717483; font-weight: 600;">SENARAI PROJEK </h4>
+                    <div class="ml-auto userlist_content_header_right KON_downloadImg d-flex" type="" id="dropdownMenuButton">
                     <!-- <div class="pemberat_content_header_right text-center col-xs-12" id="addpopbtn">
                       <button class="pemberat_greenBtn mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal2">
                         <i class="ri-add-circle-fill" style="font-size: 1.5em; vertical-align: middle;color:white"></i>
                         <lable id="pemberat_greenBtn">NOC</lable>
                       </button>
                     </div> -->
-                    <div class="userlist_content_header_righttext-center col-xs-12" style="margin-top:25px;">
-                      <x-form.print></x-form.print>
+                    <div class="userlist_content_header_righttext-center col-xs-12" style="margin-top: 25px;">
+                      <button class="printing col-xs-12">
+                        <img src="{{ asset('assets/images/printing (1) 2.png') }}" alt="printing" onclick="printDataTable()"/>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -140,9 +149,10 @@
                 <div class="userlist_tab_content_container">
                   <div class="userlist_tab_content">
                         <div class="userlist_tab_contents_holder">
-                            <div id="jps_card" class="card-body p-3" style="overflow-x:auto;">
-                                <table class="table table-bordered"  id="jps_user" style="width:150em !important;">    
-                                <thead>
+                            <div id="jps_card" class="card-body p-3">
+                            <div style="overflow-x:auto;">
+                                <table class="table table-layout: auto; table-striped"  id="jps_user" style="width:150em !important;">    
+                                <thead class="text-nowrap">
                                                 <tr class="">
                                                     <th class=""></th>
                                                     <th class="">Kod Projek</th>
@@ -161,33 +171,34 @@
                                                 </tr>
                                     </thead>
                                     <thead class="">
-                                                <tr style="font-size: 0.8rem; background-color: #39Afd1; color: #fff;">
-                                                    <th scope="col" class="text-center NOCtblKodprojek"></th>
-                                                    <th scope="col" colspan="3" class="text-center NOCtblKodprojek">JUMLAH</th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek" id="jps_kos_sum"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek" id="jps_keseluruhan_sum"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek" id="jps_baki_sum"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek" id="jps_peruntukan_sum"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek" id="jps_tambah_sum"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek" id="jps_kurang_sum"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek" id="jps_tamba_kurang_sum"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek" id="jps_dipinda_sum"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek"></th>
+                                                <tr style="font-size: 0.8rem; background-color: #39Afd1;">
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;"></th>
+                                                    <th scope="col" colspan="3" class="text-center NOCtblKodprojek" style="color: #fff !important;">JUMLAH</th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;" id="jps_kos_sum"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;" id="jps_keseluruhan_sum"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;" id="jps_baki_sum"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;" id="jps_peruntukan_sum"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;" id="jps_tambah_sum"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;" id="jps_kurang_sum"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;" id="jps_tamba_kurang_sum"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;" id="jps_dipinda_sum"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;"></th>
                                                 </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
                                 </table>
+                              </div>
                             </div> <!-- end card-body-->
                         </div>
                   </div>
                   <div class="userlist_tab_content">
                     <div class="userlist_tab_contents_holder">
                         <div id="agensi_card" class="card-body p-3" style="overflow-x:auto;">
-                            <table class="table table-bordered"  id="agensi_user" style="width:150em !important;">
-                                  <thead>
-                                                <tr class="">
+                            <table class="table table-layout: auto; table-striped" id="agensi_user" style="width:150em !important;">
+                                  <thead class="text-nowrap">
+                                                <tr>
                                                     <th class=""></th>
                                                     <th class="">Kod Projek</th>
                                                     <th class="">Kod Butiran</th>
@@ -206,16 +217,16 @@
                                 </thead>
                                 <thead class="">
                                                 <tr style="font-size: 0.8rem; background-color: #39Afd1; color: #fff;">
-                                                    <th scope="col" class="text-center NOCtblKodprojek"></th>
-                                                    <th scope="col" colspan="4" class="text-center NOCtblKodprojek">JUMLAH</th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek" id="agensi_kos_sum"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek" id="agensi_keseluruhan_sum"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek"></th>
-                                                    <th scope="col" class="text-center NOCtblKodprojek"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" style="color: #fff !important;"></th>
+                                                    <th scope="col" colspan="4" class="text-center NOCtblKodprojek" style="color: #fff !important;">JUMLAH</th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" id="agensi_kos_sum" style="color: #fff !important;"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" id="agensi_keseluruhan_sum" style="color: #fff !important;"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" id="agensi_baki_sum" style="color: #fff !important;"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" id="agensi_peruntukan_sum" style="color: #fff !important;"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" id="agensi_kurang_sum" style="color: #fff !important;"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" id="agensi_tamba_kurang_sum" style="color: #fff !important;"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" id="agensi_dipinda_sum" style="color: #fff !important;"></th>
+                                                    <th scope="col" class="text-center NOCtblKodprojek" ></th>
                                                     <th scope="col" class="text-center NOCtblKodprojek"></th>
                                                 </tr>
                                 </thead>
@@ -295,7 +306,7 @@
             <div class="modal-content">
               <div class="modal-body m-4 text-center">
                 <div class="mt-5">
-                  Kelulusan NOC 5
+                  Kelulusan <label id="kelulusan_text"></label>
                 </div>
                 <div class="userlist_content_header_right col-md-12 text-center mt-5">
                   <button class="KembaliBtnNOC" id="tidak_btn">Tidak</button>

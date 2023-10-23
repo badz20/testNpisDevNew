@@ -58,6 +58,7 @@
                 project = response.data.data 
                 console.log('project data')
                 console.log(project)
+
                 var set=document.getElementById('no_rujukan').value = project.no_rujukan
                 if(set){
                     loadcompleted();
@@ -195,6 +196,7 @@
                         document.getElementById('radio_Kelulusan_yes').setAttribute('checked', '')
                         $(".nota_tambahan").removeClass('d-none');
                         document.getElementById('kelulus_khas').required = true;
+                        break;
                     case 2:
                         document.getElementById('radio_Kelulusan_na').setAttribute('checked', '')
                         $(".nota_tambahan").addClass('d-none');

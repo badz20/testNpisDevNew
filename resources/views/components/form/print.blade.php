@@ -4,7 +4,7 @@
         type="button" 
         class="printing btn btn-info" 
         onclick="window.print()"
-        style="height: 39px; width: 60px; display: flex; align-items: center;"
+        style="height: 39px; width: 60px; display: flex; align-items: center; color: #fff !important;"
         >
             <i class="ri-printer-fill icon_white ri-2x"></i>
         </button>

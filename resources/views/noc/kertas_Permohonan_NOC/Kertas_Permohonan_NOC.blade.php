@@ -49,14 +49,16 @@
                 <div class="project_register_search_header project_register icon_yellow_bg">
                     <img class="" src="assets/images/Vector-12.png" alt=""/>
                 </div>
-                <h5 class="project_list m-2 mt-1 text-secondary"><strong>SENARAI PROJEK </strong></h5>
+                <h5 class="project_list m-2 mt-1 text-secondary mt-3" style="font-size: 1rem !important;"><strong>SENARAI PROJEK </strong></h5>
             </div>
             <div class="col-6 d-flex" style="place-content:flex-end">
                 <div class="pemberat_content_header_right text-center mt-1">
-                    <button class="pemberat_greenBtn" onclick="notis_perubahan()"><i class ="ri-add-circle-fill text-white" style="font-size: 1.5em; vertical-align: middle;"></i> Kertas Permohonan</button>
+                    <button class="pemberat_greenBtn" onclick="notis_perubahan()"><i class ="ri-add-circle-fill text-white" style="font-size: 1.5rem; vertical-align: middle;"></i> Kertas Permohonan</button>
                 </div>
-                <div class="userlist_content_header_right text-center" style="margin-top: 3px !important;">
-                    <i alt="printing" class="ri-printer-fill ri-2x printerIco ml-1"style="color: #fff; background-color: #39afd1;"></i>
+                <div class="userlist_content_header_right text-center" style="margin-top: 3px !important;margin-left:5px !important;">
+                  <button class="printing col-xs-12">
+                      <img src="{{ asset('assets/images/printing (1) 2.png') }}" alt="printing" onclick="printDataTable()"/>
+                  </button>
                 </div>
             </div>
           <!-- <button class="btn btn-success col-md-2 col-xs-12 ml-auto mt-3">Tindakan BKOR</button> -->
@@ -96,7 +98,7 @@
                 </div> --}}
               </div>
           <div class="table_holder mt-4">
-            <table class="table table_preview application_list" id="projectTable">
+            <table class="table table_preview application_list table-scrollable" id="projectTable">
               <thead>
                 <tr class="pemberat_title_1">
                   <th> </th>

@@ -44,6 +44,39 @@
         button.disabled = true;
       }
     }
+
+  //   document.addEventListener('DOMContentLoaded', function() {
+  //   // Get references to the select element and the link
+  //   const sdgSelect = document.getElementById('obb_sdg');
+  //   const link = document.getElementById('seterusnya');
+
+  //   // Add an event listener to the select element
+  //   sdgSelect.addEventListener('change', function() {
+  //     // Check if the selected value is not equal to 0 (SDG is selected)
+  //     if (sdgSelect.value == '0') {
+        
+  //       // Enable the link and set the correct href
+  //       document.getElementById("sdg_error").style.color = 'red'
+  //       document.getElementById("sdg_error").style.display = 'block'
+  //       document.getElementById("sdg_error").innerHTML = 'Sila lengkapkan bahagian ini'
+  //       sdgSelect.focus();
+  //     } else{
+  //       link.href = "{{ route('daftar.section', [$id, $status, $user_id, 'output']) }}";
+  //     }
+  //   });
+
+  //   // Initial check in case the SDG is pre-selected
+  //   if (sdgSelect.value !== '0') {
+  //     link.href = "{{ route('daftar.section', [$id, $status, $user_id, 'output']) }}";
+  //   } else {
+     
+  //     document.getElementById("sdg_error").style.color = 'red'
+  //       document.getElementById("sdg_error").innerHTML = 'Sila lengkapkan bahagian ini'
+  //       sdgSelect.focus();
+  //       link.href = "#";
+  //   }
+  // });
+
 var numsdg=0;
 var options = '';
 var active_options = '';
@@ -54,6 +87,20 @@ var isSDGDuplicate=-1;
 var pilihan_buttons = [];
 
 $(document).ready(function() {
+  $("#seterusnya").click(function() {
+    var sdgSelect = document.getElementById('obb_sdg');
+
+    if(sdgSelect.value == 0) {
+      $('#sdg_error').show();
+      document.getElementById("sdg_error").style.color = 'red'
+      document.getElementById("sdg_error").innerHTML = 'Sila lengkapkan bahagian ini'
+      document.getElementById("sdg_error").focus();
+      this.href = "#";
+    } else {
+      this.href = "{{ route('daftar.section', [$id, $status, $user_id, 'output']) }}";
+    }
+  });
+
   //$('#Sasaran').multiselect();
   
 
@@ -358,6 +405,8 @@ $(document).ready(function() {
             $("div.spanner").removeClass("show");
             $("div.overlay").removeClass("show");
     })
+
+   
 
   //------Simpan ends--------------------------------------------------
 

@@ -120,8 +120,8 @@
                           <div class="col-lg-7 col-xs-12">
                             <input
                               type="text"
-                              class="form-control bg-light input-element"
-                              value="0"
+                              class="form-control bg-light input-element text-right"
+                              value="0.00"
                               id="totalkoscomponen"
                               readonly
                             />
@@ -136,8 +136,8 @@
                           <div class="col-lg-7 col-xs-12">
                             <input
                               type="text"
-                              class="form-control input-element"
-                              value="0"
+                              class="form-control input-element text-right"
+                              value="0.00"
                               id="txtsilingdimohon"
 
                             />
@@ -150,7 +150,7 @@
                             >
                           </div>
                           <div class="col-lg-7">
-                            <input type="text" class="form-control input-element" id="txtsilingbayangan" value="0" />
+                            <input type="text" class="form-control input-element text-right" id="txtsilingbayangan" value="0.00" />
                           </div>
                         </div>
                       </div>
@@ -665,7 +665,7 @@
                           <span class="iconify info_icon" data-icon="mdi-information"></span>
                       </button>
                       <div class="pop_content p-2 d-none  position-absolute" style="z-index: 2;background-color: #eeecec;
-                      border-radius: 7px; width: 250px;">
+                      border-radius: 7px; width: 250px; margin-left:430px">
                         {{-- <p>Hijau - kos adalah sejajar dengan kos yang diperuntukkan</p> --}}
                         
                         <p>KUNING - Anggaran Kos yang dimasukkan kurang daripada kos yang diperuntukkan</p>
@@ -729,7 +729,7 @@
                         *Sila lengkapkan anggaran perbelanjaan pengurusan projek mengikut tahun.
                       </h3>
 
-                      <div class="table_scroll">
+                      {{-- <div class="table_scroll">
                         <table class="perkara_table_kewagan" id="perkara_table_kewagan">
                           <thead>
                             <tr>
@@ -745,13 +745,70 @@
                             
                           </tfoot>
                         </table>
+                      </div> --}}
+                      <div style="overflow-x: auto">
+
+                        <table
+                                            class="components_table table table-striped table-responsive text-nowrap col-12">
+                                            <thead class="belanja_pengurus_main_thead" id="belanja_pengurus_main_thead">
+
+                                                <tr class="col-11">
+                                                    <div>
+                                                        <th rowspan="3" style="min-width: 500px;"
+                                                            class="col-10 text-left">Skop & Komponen
+                                                            <!-- <button type="button" class="add_main_one" id="addRowBtn"
+                                                                style="vertical-align: middle; margin-left: 60%; border:none">
+                                                                <i class="ri-add-box-line ri-2x"
+                                                                    style="color: #fff;"></i>
+                                                            </button> -->
+                                                        </th>
+                                                    </div>
+
+
+                                                    <th colspan="6" class="text-center borders">PENGIRAAN</th>
+                                                    <th rowspan="3" class=" text-center">Jumlah (RM)</th>
+                                                    <th rowspan="3" class=" text-center">Peratus (%)</th>
+                                                    <th rowspan="1" class="text-center"  id="belanjaSillingspan">SILING PERUNTUKAN
+                                                        (RM)</th>
+                                                        <th rowspan="3" class=" text-center">Jumlah (RM)</th>
+                                                        <th rowspan="3" class=" text-center">Peratus (%)</th>
+                                                </tr>
+
+                                                <tr class="text-center">
+                                                    <th rowspan="2">Nilai</th>
+                                                    <th rowspan="2">Unit</th>
+                                                    <th rowspan="2">RM</th>
+                                                    <th rowspan="2">Kadar unit</th>
+                                                    <th rowspan="2">Nilai</th>
+                                                    <th rowspan="2">Hari/Kali</th>
+                                                    <th rowspan="1" class="col-2 text-center"  id="belanjaTahunspan">TAHUN</th>
+                                                </tr>
+
+                                                <tr class="text-nowrap" id="belanja_SP_tahun">
+                                                </tr>
+                                            </thead>
+
+                                            <tbody class="text-nowrap" id="tableBody">
+
+
+                                            </tbody>
+                                            <tfoot id="belanja_mengurusFooter">
+
+                                            </tfoot>
+
+                                        </table>
+                        
                       </div>
+                      
                     </div>
                     
                     <div class="components_table_container mt-5" style="width: 100%;">
                       <h3 class="table_heading">
                         Maklumat Peruntukan (Belanja Penyenggaraan)
                       </h3>
+
+                      
+
                       <h3 class="table_heading">
                       <sup>*</sup>Sila lengkapkan maklumat belanja penyelenggaraan bagi pengiraan Creativity index.
                       </h3>
@@ -838,7 +895,6 @@
 
 
               <!-- ----------- new table end ----------------- -->
-
 
 
               <div class="brief_project_content_footer">
@@ -1022,9 +1078,47 @@
         </div>
       </div>
     </div>
+    <script>
+    var projectData = {};
+    var global_api_url = "{{env('API_URL')}}"
+    var global_user_id = "{{ Auth::user()->id }}"
+
+    function getYears(date1,date2)
+  {
+    ////console.log(date1)
+    ////console.log(date2)
+        var start = new Date(date1,01,01); ////console.log(start)
+        var end = new Date(date2,01,01); ////console.log(end)
+
+        var diff = Math.floor(end.getTime() - start.getTime());
+        var day = 1000 * 60 * 60 * 24;
+
+        var days = Math.floor(diff/day);
+        var months = Math.floor(days/31);
+        var years = Math.floor(months/12);
+
+        localStorage.setItem("colspan", parseInt(years)+2);
+
+        
+        const date_array=[];
+
+        for(let k=0;k<=years;k++)
+        {
+          date_array.push(date1);
+          var date1=parseInt(date1)+1;
+        }
+        date_array.push(date2);
+
+      return date_array;
+  }
+</script>
 
     @include('project.common-scripts')
     @include('project.kewangan.scripts')
+    @include('project.kewangan.belanja_script')
+    @include('project.kewangan.belanja_pelaksanaan_table_script')
+    @include('project.kewangan.belanja_documentasi_table_script')
+    @include('project.kewangan.belanja_tuntujan_table_script')
     <script>
       
     function SetKewangan(row,col)

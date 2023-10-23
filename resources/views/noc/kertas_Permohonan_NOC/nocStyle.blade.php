@@ -1022,7 +1022,7 @@ body.white {
   td {
   border-top: 1px solid #dee2e6;
   padding: 0.48rem;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: #818390;
   vertical-align: middle;
 }
@@ -1478,7 +1478,7 @@ body.white {
   .project_register_table_container
   .table_holder
   .table_preview {
-  font-size: 0.78rem;
+  font-size: 0.8rem !important;
 }
 .Mainbody_conatiner
   .Mainbody_content
@@ -1651,7 +1651,7 @@ body.white {
   aspect-ratio: 1/1;
 }
 .form-control {
-  font-size: 0.7rem !important;
+  font-size: 0.8rem !important;
 }
 .Mainbody_conatiner .Mainbody_content .project_register_tab_container {
   width: 97%;
@@ -7841,7 +7841,7 @@ body.white {
   .add_role_sucess_modal_content {
   padding: 3% 2.5%;
   border-radius: 10px;
-  background-color: #f5f6fa;
+  /* background-color: #f5f6fa; */
   border: none;
 }
 .add_role_sucess_modal_container
@@ -7877,7 +7877,7 @@ body.white {
   background-color: #fff;
   margin: auto;
   padding: 0;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
 }
 .add_role_sucess_modal_container
   #add_role_sucess_modal
@@ -9298,12 +9298,12 @@ input:checked + .slider:before {
 .dataTables_length label {
   color: #818390;
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.7rem !important;
 }
 .dataTables_length label select {
   border-radius: 0.4rem;
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  font-size: 0.8rem !important;
   line-height: 1.5;
   color: #495057;
   background-color: #fff;
@@ -11020,6 +11020,10 @@ input:checked + .slider:before {
 .NOC_flow_Chart_content_EPU {
   width: 40%;
 }
+.pemberat_xstable {
+  font-size: 0.8rem !important;
+  color: #6C757D;
+}
 .NOC_flow_Chart_content_EPU h5 {
   font-size: 0.75rem;
   background-color: #4bcfc7;
@@ -11130,16 +11134,19 @@ sup {
   background-color: #0acf97;
   font-size: 0.8rem;
   color: #fff;
+  padding: 0.7% 2% 0.7% 2%;
 }
 .KembaliBtnNOC {
   background-color: #fa5c7c;
   font-size: 0.8rem;
   color: #fff;
+  padding: 0.7% 2% 0.7% 2%;
 }
 .SimpanBtnNOC {
   background-color: #5b63c3;
   font-size: 0.8rem;
   color: #fff;
+  padding: 0.7% 2% 0.7% 2%;
 }
 
 .NOCmodalTitle {
@@ -11159,13 +11166,15 @@ sup {
 }
 .pemberat_greenBtn {
   color: #fff;
-  background-color: #0abb87;
+  background-color: #0acf97;
   font-size: 0.8rem;
+  border: transparent;
+
 }
 .pemberat_content_header_right button {
   border: none;
   border-radius: 5px;
-  padding: 0.29rem 1.6rem;
+  padding: 0.10rem 1.6rem;
 }
 .pemberat_redFont {
   color: #d22d3b;
@@ -11175,7 +11184,7 @@ sup {
 }
 .pemberat_title_1 {
   color: #646c9a;
-  font-size: 0.7rem;
+  font-size: 0.8rem !important;
 }
 .pemberat_title1_1 {
   color: #515252;
@@ -11275,7 +11284,7 @@ button.pemberat_greenBtn_new.mt-2 {
     width: 10%;
     border: 0px;
     padding: 7px;
-    background-color: #0abb87;
+    background-color: #0acf97;
     border-radius: 5px;
     color:#fff
 }
@@ -11368,5 +11377,8 @@ p#maklubalas_file_name_error {
 
 .green_stat{
   background-color: #4bcfc7 !important;
+}
+.table-scrollable {
+  overflow-x:auto;;
 }
 </style>

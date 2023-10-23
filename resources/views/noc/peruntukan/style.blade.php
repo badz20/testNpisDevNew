@@ -1681,7 +1681,7 @@ body.white {
   aspect-ratio: 1/1;
 }
 .form-control {
-  font-size: 0.7rem !important;
+  font-size: 0.8rem !important;
 }
 .Mainbody_conatiner .Mainbody_content .project_register_tab_container {
   width: 97%;
@@ -7990,7 +7990,7 @@ body.white {
   .add_role_sucess_modal_content {
   padding: 3% 2.5%;
   border-radius: 10px;
-  background-color: #f5f6fa;
+  /* background-color: #f5f6fa; */
   border: none;
 }
 .add_role_sucess_modal_container
@@ -8017,7 +8017,7 @@ body.white {
   background-color: #fff;
   margin: auto;
   padding: 0;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
 }
 .add_role_sucess_modal_container
   #add_role_sucess_modal
@@ -8315,7 +8315,7 @@ body.white {
   background-color: #fff;
   margin: auto;
   padding: 0;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
 }
 .project_register_form_modal_container
   #Make_sure_application_modal

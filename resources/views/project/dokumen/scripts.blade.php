@@ -12,6 +12,205 @@
 
 
     $(document).ready(function() {
+      // Muat naik dokumen sokongan
+      $('#upload_doc_sokongan').click( function () {
+        var project_id = {{ $id }}; console.log(project_id);
+
+        const api_url = "{{env('API_URL')}}";  console.log(api_url);
+        const api_token = "Bearer "+ window.localStorage.getItem('token');  console.log(api_token);
+
+        $.ajaxSetup({
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": api_token,
+          }
+        });
+        $.ajax({
+          type: "GET",
+          url: api_url+"api/project/get-dokumen-lain-data?id="+{{$id}},
+          dataType: 'json',
+          success: function(result) {
+            var data = result.data; console.log(data);
+            if(data !== null && data.length > 0) {
+              var table = document.getElementById("table_body");
+              var rowCount = table.rows.length;
+
+              var documentNames = [
+                  'lain_lain_dokumen_nama1',
+                  'lain_lain_dokumen_nama2',
+                  'lain_lain_dokumen_nama3',
+                  'lain_lain_dokumen_nama4',
+                  'lain_lain_dokumen_nama5'
+              ];
+
+              var documentKeterangan = [
+                  'lain_katerangan_documen1',
+                  'lain_katerangan_documen2',
+                  'lain_katerangan_documen3',
+                  'lain_katerangan_documen4',
+                  'lain_katerangan_documen5'
+              ];
+
+              for (var i=0; i < data.length; i++) {
+                  var dataRow = result.data[i];
+                
+                  var row = table.insertRow(rowCount + i);
+                  var cell1 = row.insertCell(0);
+                  var cell2 = row.insertCell(1);
+                  var cell3 = row.insertCell(2);
+                  var cell4 = row.insertCell(3);
+                  cell1.style.textAlign = "center";
+
+                  var docNama = documentNames[i % documentNames.length];
+                  var docKeterangan = documentKeterangan[i % documentKeterangan.length];
+                  var imageDiv = '<div class="nageri_table_img"><a id="download_file'+[i]+'" class="text-primary" style="cursor: pointer"><p>' + dataRow[docNama] + '</p></a></div>';
+                  var descripDiv = '<div class="nageri_table_text"><p>' + dataRow[docKeterangan] + '</p></div>';
+                  var removDiv = '<td><img onClick="removeFile(' + dataRow['id'] + ', ' + (rowCount + i) + ', ' + {{ Auth::user()->id }} + ')" src="{{ asset('assets/images/Delete.png') }}" alt="" /></td>';
+
+                  cell1.innerHTML = rowCount + i + 1;
+                  cell2.innerHTML = imageDiv;
+                  cell3.innerHTML = descripDiv;
+                  cell4.innerHTML = removDiv;
+
+                  (function (index) {
+                      // Create a new function scope to capture the current value of 'i' (index)
+                      document.getElementById("download_file" + index).value = dataRow['id'];
+
+                      $("#download_file" + index).click(function () {
+                          var id = $("#download_file" + index).val();
+                          console.log(id + 'abel');
+                          downloadDoc(id, dataRow[docNama]);
+                      });
+                  })(i);
+              }
+            }
+
+            $("#dokumen_modal").modal('show')
+
+          },
+          error: function(error) {
+            // handle error
+            $("div.spanner").removeClass("show");
+            $("div.overlay").removeClass("show");
+          }
+        });
+      });
+
+      function myFunction() {
+        var x = document.getElementById("gmbar_pop").classList[2]; console.log(x);
+        if (x === "d-none") { console.log("found");
+          document.getElementById('gmbar_pop').classList.remove("d-none");
+        } else {  console.log(" not found");
+          document.getElementById('gmbar_pop').classList.add("d-none");
+        }
+      }
+
+      
+
+      $('#simpan_doc_sokongan_btn').click( function () { 
+        var fail_dokumen = document.getElementById("Logo_upload"); console.log(fail_dokumen)
+        var image =$('#Logo_upload').prop('files')[0]; console.log(image)
+        var gambar = document.getElementById("Logo_upload").value;  console.log(gambar)
+        var keterangan = document.getElementById("katerangan").value;  console.log(keterangan)
+        var table = document.getElementById("table_body"); 
+
+        document.getElementById('file_size').classList.add("d-none");
+        document.getElementById('file_type').classList.add("d-none");
+
+        var rowCount = table.rows.length;   console.log(rowCount);
+        if(keterangan=='')
+        {
+          document.getElementById("error_katerangan").innerHTML="Sila isi keterangan."; 
+          document.getElementById("katerangan").focus();
+          return false; 
+        }
+        else
+        {
+          document.getElementById("error_katerangan").innerHTML="";
+        }
+        if (fail_dokumen.files.length < 0) {
+          document.getElementById("gambar_image_error").innerHTML="Sila muat naik dokumen."; 
+          document.getElementById("gambar_image_error").focus();
+          return false; 
+        }
+        else if(rowCount>=5)
+        {
+                document.getElementById("gambar_image_error").innerHTML="Anda dibenarkan memuat naik maksimum 5 dokumen sahaja."; 
+                document.getElementById("gambar_image_error").focus();
+                return false; 
+        }
+        else
+        {
+            document.getElementById("gambar_image_error").innerHTML=""; 
+    
+            // var fSExt = new Array('Bytes', 'KB', 'MB', 'GB');
+            // fSize = image.size; i=0;while(fSize>900){fSize/=1024;i++;}
+            // image_size = (Math.round(fSize*100)/100)+' '+fSExt[i];
+            const file = fail_dokumen.files[0]; // Get the selected file
+
+            var formData = new FormData();
+            formData.append('id', document.myform.project_id.value);
+            formData.append('rowCount', rowCount);
+            formData.append('document', image);
+            formData.append('fail_dokumen', file); // Add the file to the FormData object
+            formData.append('keterangan', keterangan);
+            formData.append('user_id', {{Auth::user()->id}})
+
+
+            const api_url = "{{env('API_URL')}}";  console.log(api_url);
+            const api_token = "Bearer "+ window.localStorage.getItem('token');  console.log(api_token);
+
+            $.ajaxSetup({
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": api_token,
+                    }
+              });
+              axios({
+                method: "post",
+                url: api_url+"api/project/add-lain-document",
+                data: formData,
+                headers: { "Content-Type": "multipart/form-data","Authorization": api_token, },
+            })
+            .then(function (response) { 
+                console.log(response.data);	
+                document.getElementById('file_size').classList.add("d-none");
+                document.getElementById('file_type').classList.add("d-none");
+                document.getElementById("upload_logo").style.display = 'block';
+                document.getElementById("image_preview_1").style.display = 'none';
+                document.getElementById("katerangan").value="";
+                document.getElementById("Logo_upload").value='';
+
+                var row = table.insertRow(rowCount);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                cell1.style.textAlign = "center";
+
+
+                var imageDiv = '<div class="nageri_table_img"><a id="download_file" class="text-primary" style="cursor: pointer"><p>'+image.name+'</p></a></div>';
+                var descripDiv = '<div class="nageri_table_text"><p>'+keterangan+'</p></div>';
+                var removDiv = '<td><img onClick="removeFile('+response.data.data.id+','+rowCount+', '+{{Auth::user()->id}}+')" src="{{ asset('assets/images/Delete.png') }}" alt="" /></td>';
+                cell1.innerHTML = rowCount+1;
+                cell2.innerHTML = imageDiv;
+                cell3.innerHTML = descripDiv;
+                cell4.innerHTML = removDiv;
+
+                $("#download_file").click(function(){
+                  console.log(response.data.data.id + image.name + 'Abel');
+                  var id=$("#download_file").val();
+                  downloadDoc(response.data.data.id,image.name)
+                });
+            })
+            .catch(function (response) {
+              //handle error
+              console.log(response);
+            });
+
+        }
+      });
+
       if({{json_encode($viewOnly)}}) {
         disableInputs()
         }
@@ -132,7 +331,7 @@
           }
       
 
-      // document.getElementById("image_preview_1").style.display = 'none';
+      document.getElementById("image_preview_1").style.display = 'none';
 
       const api_url = "{{env('API_URL')}}";  console.log(api_url);
       const api_token = "Bearer "+ window.localStorage.getItem('token');  console.log(api_token);
@@ -161,8 +360,8 @@
               //  document.getElementById("muat_log").style.display = 'none';
               //  document.getElementById("logic_lain").style.display = 'block';
 
-                $("#logical_tarikh").removeClass('d-none')
-                $("#logical_nama").removeClass('d-none')
+                $("#logical_tarikh").removeClass('show')
+                $("#logical_nama").removeClass('show')
                 $("#without_logical").addClass('d-none')
 
                 const extension = getFileExtensionFromURL(result.data.logical_image.original_url); console.log(extension);
@@ -175,8 +374,17 @@
                           +'<img class="" src="{{ asset('assets/images/Union.png') }}" alt="" style="width:39% !important;"/>'
                           +'</div>'
                           +'</button></div>';
-                } else { 
-                  document.getElementById("logical_nama").innerHTML='<div class="d-flex"><img class="" id="logical_nama_previewImage" src="{{ asset('assets/pdf.jpg.png') }}" style="width:10%" id="mini_img" alt="">'
+                } else if (extension === 'pdf') { 
+                  document.getElementById("logical_nama").innerHTML='<div class="d-flex"><div style="width: 70%;"><div><img class="d-flex ml-3 mb-1" id="logical_nama_previewImage" src="{{ asset('assets/pdf.jpg.png') }}" style="width:20%" id="mini_img" alt=""></div>'
+                    +'<div><a id="download_link1" class="text-primary" style="cursor: pointer" ><h6 id="file_link" @if($is_submitted) disabled @endif style="font-size:0.7rem;">'+result.data.logical.lfm_dokumen_nama+'</h6></a></div></div>'
+                          +'<button type="button" class="dokumen_btn dokumen_padam btn btn-light h-25 bg-transparent" id="logic_padam" @if($is_submitted) disabled @endif>'
+                          +'<div class="dokumn" >'
+                          +'<img class="" src="{{ asset('assets/images/Union.png') }}" alt="" style="width:39% !important;"/>'
+                          +'</div>'
+                          +'</button></div>';
+                }else if (extension === 'jpg' || extension === 'png' || extension === 'jpeg') { 
+                  document.getElementById("logical_nama").innerHTML='<div class="d-flex"><div style="width: 70%;"><div><img class="d-flex ml-3 mb-1" id="logical_nama_previewImage" src="{{ asset('assets/images/imgIcon.jpg') }}" style="width:20%" id="mini_img" alt=""></div>'
+                    +'<div><a id="download_link1" class="text-primary" style="cursor: pointer" ><h6 id="file_link" @if($is_submitted) disabled @endif style="font-size:0.7rem;">'+result.data.logical.lfm_dokumen_nama+'</h6></a></div></div>'
                           +'<button type="button" class="dokumen_btn dokumen_padam btn btn-light h-25 bg-transparent" id="logic_padam" @if($is_submitted) disabled @endif>'
                           +'<div class="dokumn" >'
                           +'<img class="" src="{{ asset('assets/images/Union.png') }}" alt="" style="width:39% !important;"/>'
@@ -217,14 +425,14 @@
                 // document.getElementById("muat_log").style.display = 'block';
                 // document.getElementById("logic_lain").style.display = 'none';
 
-                $("#logical_tarikh").addClass('d-none')
-                $("#logical_nama").addClass('d-none')
+                $("#logical_tarikh").removeClass('show')
+                $("#logical_nama").removeClass('show')
                 $("#without_logical").removeClass('d-none')
 
-                document.getElementById("logical_tarikh").innerHTML="-"; 
-                document.getElementById("logical_nama").innerHTML="-";
-                document.getElementById("file_link").innerHTML="-";
-                document.getElementById("download_link").value="-";
+                document.getElementById("logical_tarikh").innerHTML=""; 
+                document.getElementById("logical_nama").innerHTML="";
+                document.getElementById("file_link").innerHTML="";
+                document.getElementById("download_link").value="";
             }
 
             // if(result.data.borang.length>0)
@@ -238,8 +446,8 @@
             // console.log(result.data.other.length);
             if(result.data.other!='')
             {
-                  $("#logical_tarikh_borag").removeClass('d-none')
-                  $("#logical_nama_borag").removeClass('d-none')
+                  $("#logical_tarikh_borag").removeClass('show')
+                  $("#logical_nama_borag").removeClass('show')
                   $("#without_borang").addClass('d-none') 
 
                   const extension = getFileExtensionFromURL(result.data.other_image.original_url); console.log(extension);
@@ -252,11 +460,21 @@
                           +'<img src="{{ asset('assets/images/Union.png') }}" alt="" style="width:39% !important;"/>'
                           +'</div>'
                           +'</button></div>';
-                  } else {
-                    document.getElementById("logical_nama_borag").innerHTML='<div class="d-flex"><img class="" id="logical_nama_previewImage" src="{{ asset('assets/pdf.jpg.png') }}" style="width:10%" id="mini_img" alt="">'
+                  } else if (extension === 'pdf'){
+                    document.getElementById("logical_nama_borag").innerHTML='<div class="d-flex"><div style="width: 70%;"><div><img class="ml-3 mb-1" id="logical_nama_previewImage" src="{{ asset('assets/pdf.jpg.png') }}" style="width:20%" id="mini_img" alt=""></div>'
+                    +'<div><a id="download_lain_link2" class="text-primary" style="cursor: pointer" ><h6 id="file_link" @if($is_submitted) disabled @endif style="font-size:0.7rem;"></h6></a></div></div>'
+                      +'<button type="button" class="dokumen_btn dokumen_padam btn btn-light h-25 bg-transparent" id="lain_padam" @if($is_submitted) disabled @endif>'
+                          +'<div class="dokumn" >'
+                          +'<img src="{{ asset('assets/images/Union.png') }}" alt="" style="width:39% !important;"/>'
+                          +'</div>'
+                          +'</button></div>';
+                  } else if (extension === 'jpg' || extension === 'png' || extension === 'jpeg') {
+                    document.getElementById("logical_nama_borag").innerHTML='<div class="d-flex"><div style="width: 70%;"><div><img class="ml-3 mb-1" id="logical_nama_previewImage" src="{{ asset('assets/images/imgIcon.jpg') }}" style="width:20%" id="mini_img" alt=""></div>'
+                    +'<div><a id="download_lain_link2" class="text-primary" style="cursor: pointer" ><h6 id="file_link" @if($is_submitted) disabled @endif style="font-size:0.7rem;"></h6></a></div></div>'
+                      
                           +'<button type="button" class="dokumen_btn dokumen_padam btn btn-light h-25 bg-transparent" id="lain_padam" @if($is_submitted) disabled @endif>'
                           +'<div class="dokumn" >'
-                          +'<img src="{{ asset('assets/images/pdf_jpeg.png') }}" alt="" style="width:39% !important;"/>'
+                          +'<img src="{{ asset('assets/images/Union.png') }}" alt="" style="width:39% !important;"/>'
                           +'</div>'
                           +'</button></div>';
                   }
@@ -293,16 +511,16 @@
             }
             else
             {
-                  $("#logical_tarikh_borag").addClass('d-none')
-                  $("#logical_nama_borag").addClass('d-none')
-                  $("#without_borang").removeClass('d-none') 
+                  $("#logical_tarikh_borag").removeClass('show')
+                  $("#logical_nama_borag").removeClass('show')
+                  $("#without_borang").addClass('d-none') 
 
-                  document.getElementById("logical_tarikh_borag").innerHTML="-"; 
-                  document.getElementById("logical_nama_borag").innerHTML="-";
+                  document.getElementById("logical_tarikh_borag").innerHTML=""; 
+                  document.getElementById("logical_nama_borag").innerHTML="";
                   // document.getElementById("muat_lain").style.display = 'block';
                   // document.getElementById("padam_lain").style.display = 'none';
-                  document.getElementById("file_lain_link").innerHTML="-";
-                  document.getElementById("download_lain_link").value="-";
+                  document.getElementById("file_lain_link").innerHTML="";
+                  document.getElementById("download_lain_link").value="";
 
             }
 
@@ -354,7 +572,7 @@
             }
 
       function downloadDoc(id,filename){
-
+        
                       const api_url = "{{env('API_URL')}}";  
                       console.log(api_url);
                       const api_token = "Bearer "+ document.getElementById("token").value;  
@@ -363,130 +581,130 @@
                       data_update = {'id':id};
                       var jsonString = JSON.stringify(data_update);
                       console.log(filename)
-                      axios({
-                        url: update_user_api + '?id=' + id,
-                        method: 'GET',
-                        headers: { "Authorization": api_token, },
-                        responseType: 'blob', // important
-                      }).then((response) => {
-                        console.log(response.data.type);
-                        const url = window.URL.createObjectURL(response.data);
-                        const link = document.createElement('a');
-                        link.href = url;
-                        // const contentDisposition = response.headers['content-disposition'];
-                        // console.log(response);
-                        // let fileName = 'unknown';
-                        // if (contentDisposition) {
-                        //     const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
-                        //     if (fileNameMatch.length === 2)
-                        //         fileName = fileNameMatch[1];
-                        // }
-                        // link.setAttribute('download', fileName);
-                        link.setAttribute('download', filename);
-                        document.body.appendChild(link);
-                        link.click();
-                        URL.revokeObjectURL(url);
-                      });
+                      // axios({
+                      //   url: update_user_api + '?id=' + id,
+                      //   method: 'GET',
+                      //   headers: { "Authorization": api_token, },
+                      //   responseType: 'blob', // important
+                      // }).then((response) => {
+                      //   console.log(response.data.type);
+                      //   const url = window.URL.createObjectURL(response.data);
+                      //   const link = document.createElement('a');
+                      //   link.href = url;
+                      //   // const contentDisposition = response.headers['content-disposition'];
+                      //   // console.log(response);
+                      //   // let fileName = 'unknown';
+                      //   // if (contentDisposition) {
+                      //   //     const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
+                      //   //     if (fileNameMatch.length === 2)
+                      //   //         fileName = fileNameMatch[1];
+                      //   // }
+                      //   // link.setAttribute('download', fileName);
+                      //   link.setAttribute('download', filename);
+                      //   document.body.appendChild(link);
+                      //   link.click();
+                      //   URL.revokeObjectURL(url);
+                      // });
 
-                      $.ajaxSetup({
-                        headers: {
-                                    "Content-Type": "application/json",
-                                    "Authorization": api_token,
-                                    }
-                        });
-                      // $.ajax({
-                      //       type: 'GET',
-                      //       url: update_user_api,
-                      //       data: {'id':id} , 
-                      //       //dataType:"json",
-                      //       xhr: function () {
-                      //               var xhr = new XMLHttpRequest();
-                      //               xhr.onreadystatechange = function () {
-                      //                   if (xhr.readyState == 2) {
-                      //                       if (xhr.status == 200) {
-                      //                           xhr.responseType = "blob";
-                      //                       } else {
-                      //                           xhr.responseType = "text";
-                      //                       }
-                      //                   }
-                      //               };
-                      //               return xhr;
-                      //           },
-                      //       //contentType: "application/pdf",
-                      //       success: async function(data) { 
-                      //         console.log('downlaoded')
-                      //         console.log(data)
+                      // $.ajaxSetup({
+                      //   headers: {
+                      //               "Content-Type": "application/json",
+                      //               "Authorization": api_token,
+                      //               }
+                      //   });
+                      $.ajax({
+                            type: 'GET',
+                            url: update_user_api,
+                            data: {'id':id} , 
+                            //dataType:"json",
+                            xhr: function () {
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.onreadystatechange = function () {
+                                        if (xhr.readyState == 2) {
+                                            if (xhr.status == 200) {
+                                                xhr.responseType = "blob";
+                                            } else {
+                                                xhr.responseType = "text";
+                                            }
+                                        }
+                                    };
+                                    return xhr;
+                                },
+                            //contentType: "application/pdf",
+                            success: async function(data) { 
+                              console.log('downlaoded')
+                              console.log(data)
                               
-                      //         const str = data.type; console.log(str)
-                      //         if(str){
-                      //           const parts = str.split('/');
-                      //           const doc_type = parts[1];  console.log(doc_type)  
-                      //           if(doc_type=='vnd.ms-excel') 
-                      //           {
-                      //             var doc_name = 'document.xls';  console.log(doc_name)    
-                      //           }
-                      //           else
-                      //           {
-                      //             var doc_name = 'document.'+doc_type;  console.log(doc_name)    
-                      //           }
-                      //         }
-                      //         else
-                      //         {
-                      //           var doc_name = "document.pdf";    
-                      //         }
+                              const str = data.type; console.log(str)
+                              if(str){
+                                const parts = str.split('/');
+                                const doc_type = parts[1];  console.log(doc_type)  
+                                if(doc_type=='vnd.ms-excel') 
+                                {
+                                  var doc_name = 'document.xls';  console.log(doc_name)    
+                                }
+                                else
+                                {
+                                  var doc_name = 'document.'+doc_type;  console.log(doc_name)    
+                                }
+                              }
+                              else
+                              {
+                                var doc_name = "document.pdf";    
+                              }
 
-                      //         //Convert the Byte Data to BLOB object.
-                      //         var blob = new Blob([data]);
-                      //             var url = window.URL || window.webkitURL;
-                      //             link = url.createObjectURL(blob);
-                      //             var a = $("<a />");
-                      //             a.attr("download", doc_name);
-                      //             a.attr("href", link);
-                      //             $("body").append(a);
-                      //             a[0].click();
-                      //             $("body").remove(a);
-                      //             URL.revokeObjectURL(url);
-                      //       }
-                      //   });      
+                              //Convert the Byte Data to BLOB object.
+                              var blob = new Blob([data]);
+                                  var url = window.URL || window.webkitURL;
+                                  link = url.createObjectURL(blob);
+                                  var a = $("<a />");
+                                  a.attr("download", doc_name);
+                                  a.attr("href", link);
+                                  $("body").append(a);
+                                  a[0].click();
+                                  $("body").remove(a);
+                                  URL.revokeObjectURL(url);
+                            }
+                        });      
       }
 
-      function removeImage(id) { 
-            $("div.spanner").addClass("show");
-            $("div.overlay").addClass("show");
-            const api_url = "{{env('API_URL')}}";  console.log(api_url);
-            const api_token = "Bearer "+ window.localStorage.getItem('token');  console.log(api_token);
-            const project_id = document.getElementById("project_id").value;  console.log(project_id);
+      function removeImage(id) {
+        $("div.spanner").addClass("show");
+        $("div.overlay").addClass("show");
+        const api_url = "{{env('API_URL')}}";  console.log(api_url);
+        const api_token = "Bearer "+ window.localStorage.getItem('token');  console.log(api_token);
+        const project_id = document.getElementById("project_id").value;  console.log(project_id);
 
 
-            $.ajaxSetup({
-                  headers: {
-                      "Content-Type": "application/json",
-                      "Authorization": api_token,
-                      }
-                });
-              axios({
-                          method: "post",
-                          url: api_url+"api/project/delete-lampiran-image",
-                          data: {'id':id , 'user_id':{{$user_id}} , 'project_id':project_id},
-                          headers: { "Content-Type": "multipart/form-data","Authorization": api_token, },
-                      })
-                  .then(function (response) { console.log(response.data);
-                    $("div.spanner").removeClass("show");
-                    $("div.overlay").removeClass("show");
-                    var url = "{{ route('daftar.section',[ ':id',':status',':user_id' , 'dokumen']) }}"
-                        url = url.replace(":id", {{$id}})
-                        url = url.replace(":status", {{$status}})
-                        url = url.replace(":user_id", {{$user_id}})
-                       window.location.href = url
-                     //window.location.href = origin + '/project/section/'+project_id+'/dokumen';   
-                  })
-                  .catch(function (response) {
-                    //handle error
-                    console.log(response);
-                    $("div.spanner").removeClass("show");
-                    $("div.overlay").removeClass("show");
-                  });
-    }
+        $.ajaxSetup({
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": api_token,
+                }
+        });
+        axios({
+            method: "post",
+            url: api_url+"api/project/delete-lampiran-image",
+            data: {'id':id , 'user_id':{{$user_id}} , 'project_id':project_id},
+            headers: { "Content-Type": "multipart/form-data","Authorization": api_token, },
+        })
+        .then(function (response) { console.log(response.data);
+          $("div.spanner").removeClass("show");
+          $("div.overlay").removeClass("show");
+          var url = "{{ route('daftar.section',[ ':id',':status',':user_id' , 'dokumen']) }}"
+              url = url.replace(":id", {{$id}})
+              url = url.replace(":status", {{$status}})
+              url = url.replace(":user_id", {{$user_id}})
+              window.location.href = url
+            //window.location.href = origin + '/project/section/'+project_id+'/dokumen';   
+        })
+        .catch(function (response) {
+          //handle error
+          console.log(response);
+          $("div.spanner").removeClass("show");
+          $("div.overlay").removeClass("show");
+        });
+      }
 
 
       $("#logical_image").on('change', function(){ 
@@ -747,49 +965,49 @@
                 });
       });
 
-    // $("#Logo_upload").on('change', function(){ 
-    //     //console.log($('#pengumuman_image').prop('files'))
-    //     $new_file = $('#Logo_upload').prop('files')[0];  console.log($new_file);
-    //     if($new_file.size>2000000)
-    //     { 
-    //         document.getElementById("Logo_upload").value='';
-    //         document.getElementById('file_type').classList.add("d-none");
-    //         document.getElementById('file_size').classList.remove("d-none");
-    //         document.getElementById("gambar_image_error").innerHTML=""; 
+    $("#Logo_upload").on('change', function(){ 
+        //console.log($('#pengumuman_image').prop('files'))
+        $new_file = $('#Logo_upload').prop('files')[0];  console.log($new_file);
+        if($new_file.size>2000000)
+        { 
+            document.getElementById("Logo_upload").value='';
+            document.getElementById('file_type').classList.add("d-none");
+            document.getElementById('file_size').classList.remove("d-none");
+            document.getElementById("gambar_image_error").innerHTML=""; 
 
-    //         return false;
-    //     }
-    //     var allowedExtensions=["image/jpeg", "image/png", "image/jpg","image/JPG"];
+            return false;
+        }
+        var allowedExtensions=["image/jpeg", "image/png", "image/jpg","image/JPG"];
         
-    //     if(allowedExtensions.indexOf($new_file.type) == -1)  
-    //     {
-    //         document.getElementById("Logo_upload").value=''; 
-    //         document.getElementById('file_size').classList.add("d-none");
-    //         document.getElementById('file_type').classList.remove("d-none");
-    //         document.getElementById("gambar_image_error").innerHTML=""; 
+        if(allowedExtensions.indexOf($new_file.type) == -1)  
+        {
+            document.getElementById("Logo_upload").value=''; 
+            document.getElementById('file_size').classList.add("d-none");
+            document.getElementById('file_type').classList.remove("d-none");
+            document.getElementById("gambar_image_error").innerHTML=""; 
 
-    //         //alert("only jpeg and png extension allowed")
-    //         return false;
-    //     }
-    //     if ($new_file) {
-    //             var reader = new FileReader();
+            //alert("only jpeg and png extension allowed")
+            return false;
+        }
+        if ($new_file) {
+                var reader = new FileReader();
 
-    //             reader.onload = function (e) {
-    //                 $('#Logo_img_1').attr('src', e.target.result);
-    //             };
-    //             reader.readAsDataURL($new_file);
-    //         }
-    //         document.getElementById("gambar_image_error").innerHTML=""; 
-    //         document.getElementById('file_size').classList.add("d-none");
-    //         document.getElementById('file_type').classList.add("d-none");
-    //         document.getElementById("upload_logo").style.display = 'none';
-    //         document.getElementById("image_preview_1").style.display = 'block';
-    //         document.getElementById("header_logo_name_1").innerHTML = $new_file.name;
-    //         var fSExt_2 = new Array('Bytes', 'KB', 'MB', 'GB');
-    //             fSize_2 = $new_file.size; i=0;while(fSize_2>900){fSize_2/=1024;i++;}
-    //             docu_size_2 = (Math.round(fSize_2*100)/100)+' '+fSExt_2[i]; 
-    //         document.getElementById("header_log_size_1").innerHTML = docu_size_2;
-    // });
+                reader.onload = function (e) {
+                    $('#Logo_img_1').attr('src', e.target.result);
+                };
+                reader.readAsDataURL($new_file);
+            }
+            document.getElementById("gambar_image_error").innerHTML=""; 
+            document.getElementById('file_size').classList.add("d-none");
+            document.getElementById('file_type').classList.add("d-none");
+            document.getElementById("upload_logo").style.display = 'none';
+            document.getElementById("image_preview_1").style.display = 'block';
+            document.getElementById("header_logo_name_1").innerHTML = $new_file.name;
+            var fSExt_2 = new Array('Bytes', 'KB', 'MB', 'GB');
+                fSize_2 = $new_file.size; i=0;while(fSize_2>900){fSize_2/=1024;i++;}
+                docu_size_2 = (Math.round(fSize_2*100)/100)+' '+fSExt_2[i]; 
+            document.getElementById("header_log_size_1").innerHTML = docu_size_2;
+    });
 
     $("#remove_logo_1").on('click', function(){ 
       
@@ -890,4 +1108,14 @@
       })
           
     })   
+
+    function myFunction() {
+      var x = document.getElementById("gmbar_pop").classList[2]; console.log(x);
+      if (x === "d-none") { console.log("found");
+        document.getElementById('gmbar_pop').classList.remove("d-none");
+      }
+    }
+    function mouseout(){
+        document.getElementById('gmbar_pop').classList.add("d-none");
+    }
   </script>

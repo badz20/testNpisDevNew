@@ -41,14 +41,122 @@
     $(function() {
         $('#noCheck').click(function() {
             $('.txbx').attr('hidden',false);
-        });           
+            var isJpsChecked = false;
+            var isJpsCheckedEdit = false;
+            // var isJpsCheckedView = false;
+            getJabatanList(isJpsChecked, isJpsCheckedEdit);
+        });    
+
         $('#yesCheck').click(function() {
             $('.txbx').attr('hidden',true);
+            var isJpsChecked = true;
+            var isJpsCheckedEdit = true;
+            // var isJpsCheckedView = true;
+            getJabatanList(isJpsChecked, isJpsCheckedEdit);
         });
     });
+
+    function getJabatanList(isJpsChecked, isJpsCheckedEdit) {
+        var api_url = "{{env('API_URL')}}"
+        var api_token = "Bearer "+ window.localStorage.getItem('token');
+        $.ajaxSetup({
+             headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": api_token,
+                    }
+        });
+        let user_type = {{$user}};  console.log(user_type)
+        var JabatandropDown =  document.getElementById("jabatan");
+
+        if(user_type==4){
+        var JabataneditdropDown =  document.getElementById("jabatan_edit");
+        }else{
+        var JabatanviewdropDown =  document.getElementById("jabatan_view");
+        }
+
+        $.ajax({
+            type: "GET",
+            url: api_url+"api/lookup/jabatan/list",
+            dataType: 'json',
+            success: function (result) {
+            if (result) {
+                    $.each(result.data, function (key, item) {
+                        var opt = item.id;
+                        var el = document.createElement("option");
+                        el.textContent = item.nama_jabatan;
+                        el.value = opt;
+                        JabatandropDown.appendChild(el);
+
+                        if(isJpsChecked) {
+                            if(item.nama_jabatan=='Jabatan Pengairan dan Saliran (JPS)')
+                            {
+                                document.getElementById("jabatan").value=item.id;
+                            }
+                        } else {
+                            if(item.nama_jabatan=='Jabatan Perdana Menteri')
+                            {
+                                document.getElementById("jabatan").value=item.id;
+                            }
+                        }
+                    })
+                    $('#jabatan').attr("disabled", true); 
+
+                    if(user_type==4){
+                        $.each(result.data, function (key, item) {
+                            var opt = item.id;
+                            var el = document.createElement("option");
+                            el.textContent = item.nama_jabatan;
+                            el.value = opt;
+                            JabataneditdropDown.appendChild(el);
+
+                            if(isJpsCheckedEdit) {
+                                if(item.nama_jabatan=='Jabatan Pengairan dan Saliran (JPS)')
+                                {
+                                    document.getElementById("jabatan_edit").value=item.id;
+                                }
+                            } else {
+                                if(item.nama_jabatan=='Jabatan Perdana Menteri')
+                                {
+                                    document.getElementById("jabatan_edit").value=item.id;
+                                }
+                            }
+                        })
+                        $('#jabatan_edit').attr("disabled", true); 
+                    }else{
+                        $.each(result.data, function (key, item) {
+                            var opt = item.id;
+                            var el = document.createElement("option");
+                            el.textContent = item.nama_jabatan;
+                            el.value = opt;
+                            JabatanviewdropDown.appendChild(el);
+                            
+                            if(isJpsChecked) {
+                                if(item.nama_jabatan=='Jabatan Pengairan dan Saliran (JPS)')
+                                {
+                                    document.getElementById("jabatan_view").value=item.id;
+                                }
+                            } else {
+                                if(item.nama_jabatan=='Jabatan Perdana Menteri')
+                                {
+                                    document.getElementById("jabatan_view").value=item.id;
+                                }
+                            }
+                        })
+                        $('#jabatan_view').attr("disabled", true); 
+                    }
+
+            }
+            else {
+                    $.Notification.error(result.Message);
+            }
+            }
+        });
+    }
   </script>
 
 <script>
+
+
   function delbtn() {
     
 
@@ -86,9 +194,11 @@
         // }
         if(document.myform.bahagian.value=='')
         {
-            document.getElementById("error_bahagian").innerHTML="Sila pilih bahagian"; 
-			document.getElementById("bahagian").focus();
-			return false;
+            if(document.myform.inlineRadioOptions.value=='1'){
+                document.getElementById("error_bahagian").innerHTML="Sila pilih bahagian"; 
+                document.getElementById("bahagian").focus();
+                return false;
+            }
         }
         else
         {
@@ -97,6 +207,9 @@
 
         $("div.spanner").addClass("show");
         $("div.overlay").addClass("show");
+
+        console.log(document.myform.inlineRadioOptions.value)
+        console.log('abel')
 
        var bahagian = '';
        if(document.myform.inlineRadioOptions.value=='2')
@@ -265,6 +378,10 @@ $(document).ready(function () {
     $('.txbx').attr('hidden',true);
     $("div.spanner").addClass("show");
     $("div.overlay").addClass("show");
+
+    var isJpsChecked = document.getElementById('yesCheck').checked;
+    var isJpsCheckedEdit = document.getElementById('yesCheckedit').checked;
+    // var isJpsChecked = document.getElementById('yesCheckview').value;
 
     var api_url = "{{env('API_URL')}}";
     var api_token = "Bearer "+ window.localStorage.getItem('token');
@@ -439,9 +556,16 @@ $(document).ready(function () {
                             el.value = opt;
                             JabatandropDown.appendChild(el);
 
-                            if(item.nama_jabatan=='Jabatan Pengairan dan Saliran (JPS)')
-                            {
-                                document.getElementById("jabatan").value=item.id;
+                            if(isJpsChecked) {
+                                if(item.nama_jabatan=='Jabatan Pengairan dan Saliran (JPS)')
+                                {
+                                    document.getElementById("jabatan").value=item.id;
+                                }
+                            } else {
+                                if(item.nama_jabatan=='Jabatan Perdana Menteri')
+                                {
+                                    document.getElementById("jabatan").value=item.id;
+                                }
                             }
                         })
                         $('#jabatan').attr("disabled", true); 
@@ -454,9 +578,16 @@ $(document).ready(function () {
                                 el.value = opt;
                                 JabataneditdropDown.appendChild(el);
 
-                                if(item.nama_jabatan=='Jabatan Pengairan dan Saliran (JPS)')
-                                {
-                                    document.getElementById("jabatan_edit").value=item.id;
+                                if(isJpsCheckedEdit) {
+                                    if(item.nama_jabatan=='Jabatan Pengairan dan Saliran (JPS)')
+                                    {
+                                        document.getElementById("jabatan_edit").value=item.id;
+                                    }
+                                } else {
+                                    if(item.nama_jabatan=='Jabatan Perdana Menteri')
+                                    {
+                                        document.getElementById("jabatan_edit").value=item.id;
+                                    }
                                 }
                             })
                             $('#jabatan_edit').attr("disabled", true); 
@@ -468,9 +599,16 @@ $(document).ready(function () {
                                 el.value = opt;
                                 JabatanviewdropDown.appendChild(el);
 
-                                if(item.nama_jabatan=='Jabatan Pengairan dan Saliran (JPS)')
-                                {
-                                    document.getElementById("jabatan_view").value=item.id;
+                                if(isJpsChecked) {
+                                    if(item.nama_jabatan=='Jabatan Pengairan dan Saliran (JPS)')
+                                    {
+                                        document.getElementById("jabatan_view").value=item.id;
+                                    }
+                                } else {
+                                    if(item.nama_jabatan=='Jabatan Perdana Menteri')
+                                    {
+                                        document.getElementById("jabatan_view").value=item.id;
+                                    }
                                 }
                             })
                             $('#jabatan_view').attr("disabled", true); 
@@ -675,7 +813,7 @@ function disableInputs() {
                     columns: [
                         { data: 'nama_fasilitator'  },
                         { data: 'Fasilitator'  },
-                        { data: 'bahagian.nama_bahagian'  },          
+                        { data: 'bahagian_id'  },          
                         { data: 'jawatan.nama_jawatan'  },
                         { data: 'id'  },
                         { data: 'id'  },

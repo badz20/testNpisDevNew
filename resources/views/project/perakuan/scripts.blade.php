@@ -21,15 +21,6 @@
         let projectUser = {{$user_id}}; console.log(projectUser)
         let projectType = localStorage.getItem("project_type");  console.log("project type ->" + projectType)
 
-        // if(userType==1)
-        // {
-        //     document.getElementById('batal_red').classList.add("d-none");
-        // }
-        // else
-        // {
-        //     document.getElementById('batal_red').classList.remove("d-none");
-        // }
-
         if(workflow==1)
         {
             //document.getElementById('betal_data').classList.remove("d-none");
@@ -568,7 +559,9 @@
                     const api_url = "{{env('API_URL')}}";  console.log(api_url);
                     const api_token = "Bearer "+ window.localStorage.getItem('token');  console.log(api_token);
 
-                    if(workflow==6 || workflow==13 || workflow==14)
+                    let project_type = localStorage.getItem("project_type");
+
+                    if( (workflow==6 && project_type!='bahagian') || workflow==13 || workflow==14)
                     {
                         formData.append('id', {{$id}});
 
@@ -821,17 +814,28 @@
                     headers: { "Content-Type": "multipart/form-data","Authorization": api_token, },
                 })
                     .then(function (response) { console.log(response.data.code);
-                                
-                                $("#reject_application_modal").modal('hide');
+                        var kod_projek = response.data.data.kod_projeck;
+                        var kod_baharu = response.data.data.kod_baharu;
 
-                                if(workflow==14)
-                                {
-                                    window.location.href = origin + '/peraku-project-list';	
-                                }
-                                else
-                                {
-                                    window.location.href = origin + '/project-application-list';	
-                                }
+                        if(kod_projek) {
+                            if(kod_baharu) {
+                                var projectCode = "P"+kod_baharu+' '+kod_projek;
+                            } else {
+                                var projectCode = "P"+kod_projek;
+                            }
+                        }
+                        $("#kod_projeck").text(projectCode);
+                        $("#reject_application_modal").modal('hide');
+
+                        if(workflow==14)
+                        {
+                            $("#cadangan_application_modal").modal('show');
+                            // window.location.href = origin + '/peraku-project-list';	
+                        }
+                        else
+                        {
+                            window.location.href = origin + '/project-application-list';	
+                        }
                     })
                     .catch(function (error) {
                             $("div.spanner").removeClass("show");
@@ -846,6 +850,14 @@
             });
         });
 
+        $("#tutup-modal").click(function() {
+            window.location.href = origin + '/peraku-project-list';
+        });
+
+        $("#close-modal").click(function() {
+            window.location.href = origin + '/peraku-project-list';
+        });
+
         $('#kembali_btn').click(function(){ 
             $("#reject_mode_sucess_modal").modal('show')
             let userType = {{$user}}; 
@@ -854,26 +866,27 @@
             var workflow_update = localStorage.getItem("workflow_status");   
             
             $('#send_update').click( function () { 
+                $("#comment_application_modal").modal('show')
 
-                $("div.spanner").addClass("show");
-                $("div.overlay").addClass("show");
-            
-               // var catatan = document.getElementById("exampleFormControlTextarea1").value;  //console.log(catatan)
+                $('#send_comment').click( function () { 
+                    var comment = document.getElementById("komen").value;  console.log(comment)
 
-               var comment = $('#komen').val(); console.log(comment)
-                    if(comment=='')
+                    if(comment === '')
                     {
-                        document.getElementById("error_komen").innerHTML="Medan komen diperlukan"; 
+                        document.getElementById("error_komen").innerHTML="Sila isikan komen anda.";
                         return false;
                     }
                     else
                     {
-                        document.getElementById("error_komen").innerHTML="";
+                        $("div.spanner").addClass("show");
+                        $("div.overlay").addClass("show");
+                        
                         var formData = new FormData();
                         formData.append('user_id', user_id);
                         formData.append('id',{{$id}});
                         formData.append('comment',comment);
                         formData.append('workflow',workflow_update);
+                        formData.append('usertype', userType);
 
                         const api_url = "{{env('API_URL')}}";  console.log(api_url);
                         const api_token = "Bearer "+ window.localStorage.getItem('token');  console.log(api_token);
@@ -883,10 +896,10 @@
                                 data: formData,
                                 headers: { "Content-Type": "multipart/form-data","Authorization": api_token, },
                         })
-                        .then(function (response) { console.log(response.data.code);
-                                    
-                                    $("#reject_mode_sucess_modal").modal('hide');
-                                    window.location.href = origin + '/project-application-list';	
+                        .then(function (response) { 
+                            $("#reject_mode_sucess_modal").modal('hide');
+                            $("#comment_application_modal").modal('hide');
+                            window.location.href = origin + '/project-application-list';	
                         })
                         .catch(function (error) {
                                 $("div.spanner").removeClass("show");
@@ -894,12 +907,15 @@
                         })
 
                     }
+                });
 
-           });
+                $('#cancel_comment').click( function () { 
+                    location.reload();
+                });
+            });
 
             $('#cancel_updates').click( function () { 
                 location.reload();
-
             });
         });
 

@@ -1651,7 +1651,7 @@ body.white {
   aspect-ratio: 1/1;
 }
 .form-control {
-  font-size: 0.7rem !important;
+  font-size: 0.8rem !important;
 }
 .Mainbody_conatiner .Mainbody_content .project_register_tab_container {
   width: 97%;
@@ -1927,7 +1927,7 @@ body.white {
   background-size: 16px;
   background-repeat: no-repeat;
   position: absolute;
-  right: -10%;
+  right: -15%;
   top: 30%;
   height: 20px;
 }
@@ -7841,7 +7841,7 @@ body.white {
   .add_role_sucess_modal_content {
   padding: 3% 2.5%;
   border-radius: 10px;
-  background-color: #f5f6fa;
+  /* background-color: #f5f6fa; */
   border: none;
 }
 .add_role_sucess_modal_container
@@ -7877,7 +7877,7 @@ body.white {
   background-color: #fff;
   margin: auto;
   padding: 0;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
 }
 .add_role_sucess_modal_container
   #add_role_sucess_modal
@@ -8209,7 +8209,7 @@ body.white {
   background-color: #fff;
   margin: auto;
   padding: 0;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
 }
 .project_register_form_modal_container
   #Make_sure_application_modal
@@ -10849,7 +10849,7 @@ input:checked + .slider:before {
   background-size: 16px;
   background-repeat: no-repeat;
   position: absolute;
-  right: -18%;
+  right: -15%;
   top: 60%;
   height: 20px;
 }
@@ -11130,16 +11130,19 @@ sup {
   background-color: #0acf97;
   font-size: 0.8rem;
   color: #fff;
+  padding: 0.7% 2% 0.7% 2%;
 }
 .KembaliBtnNOC {
   background-color: #fa5c7c;
   font-size: 0.8rem;
   color: #fff;
+  padding: 0.7% 2% 0.7% 2%;
 }
 .SimpanBtnNOC {
   background-color: #5b63c3;
   font-size: 0.8rem;
   color: #fff;
+  padding: 0.7% 2% 0.7% 2%;
 }
 
 .NOCmodalTitle {
@@ -11155,6 +11158,10 @@ sup {
 }
 .NOClblTbl label {
   color: #646c9a;
+  font-size: 0.8rem;
+}
+.NOClblTbl2 label {
+  color: #fff;
   font-size: 0.8rem;
 }
 .pemberat_greenBtn {

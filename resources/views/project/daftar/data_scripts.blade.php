@@ -246,6 +246,7 @@
                 
             let type_of_user = {{$user}}; console.log(type_of_user);
             let bahagian_of_user = {{$bahagian}}; console.log(bahagian_of_user)
+
             if(type_of_user==3 || type_of_user==4)
             {
                 document.getElementById('bahagian_pemilik').value = parseInt(bahagian_of_user)
@@ -254,7 +255,7 @@
             }
             else
             {
-                $("#bahagian_pemilik").prop('disabled', true);
+                $("#bahagian_pemilik").prop('disabled', false);
             }
 
 
@@ -291,6 +292,47 @@
 
         
     })
+
+    function handlePaste(event, olId) {
+    event.preventDefault();
+    const pastedText = (event.originalEvent || event).clipboardData.getData("text/plain");
+    const lines = pastedText.split(/\r\n|\r|\n/);
+    const olElement = document.querySelector(olId);
+    lines.forEach(function (line) {
+        if (line.trim() !== "") {
+            const li = document.createElement("li");
+            li.style.fontFamily = "Poppins_Regular !important";
+            li.style.color = "#495057 !important";
+            li.style.fontSize = "0.8rem !important";
+            li.textContent = line;
+            olElement.appendChild(li);
+        }
+    });
+    const liElements = olElement.getElementsByTagName("li");
+    for (let i = liElements.length - 1; i >= 0; i--) {
+        if (liElements[i].textContent.trim() === "") {
+            olElement.removeChild(liElements[i]);
+        }
+    }
+}
+document.getElementById("objektif").addEventListener("paste", function (e) {
+    handlePaste(e, "#objektif ol");
+});
+document.getElementById("ringkasan_latar").addEventListener("paste", function (e) {
+    handlePaste(e, "#ringkasan_latar ol");
+});
+document.getElementById("rasional_keperluan").addEventListener("paste", function (e) {
+    handlePaste(e, "#rasional_keperluan ol");
+});
+document.getElementById("faedah").addEventListener("paste", function (e) {
+    handlePaste(e, "#faedah ol");
+});
+document.getElementById("implikasi_projeck").addEventListener("paste", function (e) {
+    handlePaste(e, "#implikasi_projeck ol");
+});
+document.getElementById("kelulus_khas").addEventListener("paste", function (e) {
+    handlePaste(e, "#kelulus_khas ol");
+});
 
     // Restrict delete first numbering in ordering list input
     $("#objektif").on('keydown', function (e) {

@@ -263,9 +263,10 @@
                     <div class="input_fill_content row m-0 align-items-center">
                       <label for="SDG" class="col-md-2 col-xs-12 pl-0">SDG <sup>*</sup></label>
                       <div class="form-group input_form_group m-0 col-md-10 col-xs-12 pl-0">
-                      <select class="form-control sdg_1" id="obb_sdg" onchange="getsasaran(1);" @if($is_submitted) disabled @endif>
+                      <select class="form-control sdg_1" id="obb_sdg" onchange="getsasaran(1);" @if($is_submitted) disabled @endif required>
                           <option class="dropdown-item" value="0">--Pilih--</option>                          
                         </select>
+                        <p id="sdg_error" style="color:red; display: none;"></p>
                       </div>
                     </div>
                   </div>
@@ -320,7 +321,7 @@
               <button type="button" id="simpan">Simpan</button>
               @endif
               <button class="green" type="button" style="background-color: #0ACF97">
-                <a class="text-decoration-none text-white" href="{{route('daftar.section',[$id ,$status,$user_id, 'output'])}}">Seterusnya</a>
+                <a class="text-decoration-none text-white" id="seterusnya" href="{{route('daftar.section',[$id ,$status,$user_id, 'output'])}}">Seterusnya</a>
               </button>
               <!-- <button type="button" id="showrmkdetails" class="btn btn-primary">Show</button> -->
             </div>

@@ -1686,7 +1686,7 @@ body.white {
   background-color: #659dd8;
 }
 .form-control {
-  font-size: 0.7rem !important;
+  font-size: 0.8rem !important;
 }
 .Mainbody_conatiner .Mainbody_content .project_register_tab_container {
   width: 100%;
@@ -7734,7 +7734,7 @@ body.white {
   background-color: #fff;
   margin: auto;
   padding: 0;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
 }
 .add_role_sucess_modal_container
   #add_role_sucess_modal

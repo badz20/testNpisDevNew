@@ -292,7 +292,7 @@
               <div class="form-group col-lg-6 col-xs-12 pl-0">
                 <div class="row m-0">
                   <label for="nama" class="col-lg-5 col-xs-12 pl-0">Kuantiti/Bilangan</label>
-                  <input  type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"  class="form-control col-lg-7 col-xs-12" name="kuantity" id="kuantity" value=""/>
+                  <input  type="number" min="0" class="form-control col-lg-7 col-xs-12" name="kuantity" id="kuantity" placeholder="0" value=""/>
                 </div>
                 <p id="kuantity_error" class="error_kpi"></p>
               </div>

@@ -2032,7 +2032,7 @@ function show_addbtn(rdovalue){
                     cell1.style.textAlign = "center";
 
 
-                    var imageDiv = '<div class="nageri_table_img"><p>'+image.name+'</p><p>'+image_size+'</p></div>';
+                    var imageDiv = '<div class="nageri_table_img"><p>'+image+'</p><p>'+image_size+'</p></div>';
                     var descripDiv = '<div class="nageri_table_text"><p>'+keterangan+'</p></div>';
                     var removDiv = '<button type="button" onClick="removeImage('+response.data.id+','+rowCount+')" class="nageri_table_btn"><div class="nageri_union"><img src="{{ asset('assets/images/Union.png') }}" alt="close"/></div>'
                                     +"Padam"+'</button>';

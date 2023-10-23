@@ -54,15 +54,21 @@ class NOC_Controller extends Controller
         return view('noc.mengikut_bilanagan.senerai_projek',compact('user','id'));  
     }
 
-    public function loadProjeck($id)
-    {
+    public function loadProjeck($id,$type)
+    {  
         $user=Session::get('userType'); //print_r($user);exit;
-        return view('noc.tamba_projek.tamba_projek',compact('user','id'));  
+        return view('noc.tamba_projek.tamba_projek',compact('user','id','type'));  
     }
 
     public function loadKementerianSilling($id)
     {
         $user=Session::get('userType'); //print_r($user);exit;
         return view('noc.kementerian_silling.kementerian',compact('user','id'));  
+    }
+
+    public function keperluanPeruntukanJBT()
+    {
+        $user=Session::get('userType'); //print_r($user);exit;
+        return view('noc.keperluan_peruntukan.view',compact('user'));  
     }
 }

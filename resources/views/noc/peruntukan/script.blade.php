@@ -187,7 +187,7 @@
                                     "infoEmpty": "Tiada rekod tersedia",
                                     "infoFiltered": "(filtered from _MAX_ total records)",
                                     "search": "_INPUT_",
-                                    "searchPlaceholder": " Carian",
+                                    "searchPlaceholder": "    Carian",
                                     "paginate": {
                                     "first":      "Awal",
                                     "last":       "Akhir",
@@ -313,6 +313,9 @@
                     var data = jps_table.row(this).data(); console.log(data);
                     var user_type = {{$user}};
 
+                    localStorage.setItem('bilangan_data', data.bilangan);
+
+
                     if(user_type == 4 && data.status>=41)
                     {
                         var url = '{{ route("noc.loadKementerianSilling", [":id"])}}'
@@ -365,7 +368,7 @@
                                     "infoEmpty": "Tiada rekod tersedia",
                                     "infoFiltered": "(filtered from _MAX_ total records)",
                                     "search": "_INPUT_",
-                                    "searchPlaceholder": " Carian",
+                                    "searchPlaceholder": "    Carian",
                                     "paginate": {
                                     "first":      "Awal",
                                     "last":       "Akhir",
@@ -491,6 +494,8 @@
                     var data = agency_table.row(this).data(); console.log(data);
                     var user_type = {{$user}};
 
+                    localStorage.setItem('bilangan_data', data.bilangan);
+
                     if(user_type == 4 && data.status>=41)
                     {
                         var url = '{{ route("noc.loadKementerianSilling", [":id"])}}'
@@ -608,7 +613,7 @@
                         }
                         else 
                         {
-                            document.getElementById('error').innerHTML ='NOc telah pun didaftarkan antara tarikh-tarikh ini. Sila pilih tarikh lain';
+                            document.getElementById('error').innerHTML ='NOC telah pun didaftarkan antara tarikh-tarikh ini. Sila pilih tarikh lain';
                             return false;
                         }    
                     }) 
@@ -623,6 +628,37 @@
 
 
     })
+
+    function printDataTable() {
+        // Clone the DataTable and remove any interactive elements
+
+        var AgencyHasActive= $("#agency_btn").hasClass('active');
+
+        if(AgencyHasActive)
+        {
+            var printableTable = $('#agensi_user').clone();
+        }
+        else
+        {
+            var printableTable = $('#jps_user').clone();
+        }
+        printableTable.find('.view-button').remove(); // Remove view buttons, for example
+
+        // Apply print-specific CSS styles
+        printableTable.addClass('printable-table');
+        
+        // Open the print dialog
+        var printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>Printable DataTable</title></head><body>');
+        printWindow.document.write('<style>@media print {.printable-table { /* your print styles here */ }}</style>');
+        printWindow.document.write(printableTable[0].outerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+        printWindow.close();
+
+        // window.print();
+    }
 
 
         // function addString() {

@@ -105,7 +105,7 @@
                 pagingType: 'full_numbers',
                 "dom": '<"top"lf>rt<"bottom"ip>',
               columnDefs: [
-                {
+                  {
                       targets:0, // Start with the last
                       render: function ( data, type, row, meta ) {
                         ////console.log(data)
@@ -174,7 +174,7 @@
                       render: function ( data, type, row, meta ) {             
 
                         if(row.kewangan.length==0){
-                                data='<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
+                                data='<div class="text-right" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
                                       '<p>' + '-' + '</p>' +
                                     '</div>';
                             }else{
@@ -187,7 +187,7 @@
                                 {
                                   datas=number_format(datas);
                                 }
-                                data= '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
+                                data= '<div class="text-right" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
                                         '<p>' + datas + '</p>' +
                                       '</div>';
                             }
@@ -209,7 +209,7 @@
                                 {
                                   datas=number_format(datas);
                                 }
-                                data='<input type="text" name="siling_bayangan" class="form-control" id="siling_bayangan_'+row.id+'" onfocusout="UpdateBayangan('+row.id+')" value="'+ datas +'">';
+                                data='<input type="text" name="siling_bayangan" class="form-control text-right" id="siling_bayangan_'+row.id+'" onfocusout="UpdateBayangan('+row.id+')" value="'+ datas +'">';
                                 
                             }else{
                                 datas=row.kewangan.Siling_Bayangan;
@@ -278,9 +278,9 @@
                               }
                               else if(row.workflow_status=="5")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                     data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                    '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                    '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                   '</div>';
                                 }
                                else
@@ -319,9 +319,9 @@
                               }
                               else if(row.workflow_status=="8")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                         data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                        '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                        '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                       '</div>';
                                   }
                                 else
@@ -369,9 +369,9 @@
                               }
                               else if(row.workflow_status=="12")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                   data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                          '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                          '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                         '</div>';
                                   }
                                 else
@@ -410,9 +410,9 @@
                               }
                               else if(row.workflow_status=="15")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                       data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                      '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                      '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                     '</div>';
                                   }
                                 else
@@ -448,9 +448,9 @@
                               }
                               else if(row.workflow_status=="18")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                   data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                  '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                  '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                 '</div>';
                                   }
                                 else
@@ -474,9 +474,9 @@
                               }
                               else if(row.workflow_status=="20")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                     data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                              '<p>' + 'Dibatalkan'+'<br>' +row.updatedBy.name + '</p>' +
+                                              '<p>' + 'Dibatalkan'+'<br>' +row.updated_by.name + '</p>' +
                                             '</div>';
                                   }
                                 else
@@ -513,7 +513,7 @@
                           }
                           return data;
                       }
-                  },                        
+                  },                      
               ] , 
               columns: [                
                   { data: 'count'  },
@@ -524,8 +524,8 @@
                         targets:4,
                         render: function ( data, type, row, meta ) {
 
-                            data='<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                  '<p>' + number_format(row.kos_projeck) + '</p>' +
+                            data='<div class="text-right" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
+                                  '<p>' + formatValue(row.kos_projeck) + '</p>' +
                                 '</div>';
                             return data;
                         }
@@ -679,7 +679,7 @@
           project_table.column(6).visible(false);    // To show
 
 
-            var customInput1 = $('<input type="text" class="form-control" style="float:right;width:15%;border:1px solid grey;" id="total_bayangan" onfocusout="addTotalBayangan()">');
+            var customInput1 = $('<input type="text" class="form-control text-right" style="float:right;width:15%;border:1px solid grey;" id="total_bayangan" onfocusout="addTotalBayangan()">');
             $("div.top").append(customInput1);
 
             var customInput = $('<label style="float:right;font-family:inherit;font-size:inherit;margin-right:1%;color:grey;">Jumlah Silling Bayangan(RM) :</label>');
@@ -887,7 +887,6 @@
         const penyemak_2= {{$penyemak_2}}; ////console.log(penyemak_2)
         const pengesah= {{$pengesah}}; ////console.log(pengesah)
 
-
         if(userType==1)
         { //daerah
             if(status==1 || status==5 || status==8 || status==12 || status==15)
@@ -924,6 +923,7 @@
                 }
                 else
                 {
+                  
                   if(user_id==logged_user_id)
                   {
                     redirect_var=1;
@@ -942,7 +942,8 @@
                 }
                 else
                 {
-                  return false;
+                  // return false;
+                  redirect_var=1;
                 }
             }
             else
@@ -952,7 +953,7 @@
         }
         if(userType==3)
         { //bahagian
-          if((project_type=="daerah" || project_type=="negeri") && (status==7 || status==11))
+          if((project_type=="daerah" || project_type=="negeri") && (status >= 7))
           {
               redirect_var=1;
           }
@@ -986,7 +987,7 @@
                   }
                   else
                   {
-                    return false;
+                    redirect_var=1;
                   }
               }
           }
@@ -1346,6 +1347,15 @@
             }
           }      
         }
+
+        // Format number with commas and decimal points
+      function formatValue(number) {
+        if (isNaN(number)) {
+          return '0.00';
+        }
+
+        return parseFloat(number).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
 
       function addTotalBayangan(){ 
         

@@ -1457,7 +1457,7 @@ input:checked + .slider:before {
   background-color: #fff;
   margin: auto;
   padding: 0;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
 }
 .add_role_sucess_modal_container #add_role_sucess_modal .add_role_sucess_modal_dialog .add_role_sucess_modal_content .add_role_sucess_modal_body .add_role_sucess_modal_header,
 .add_role_sucess_modal_container #global_sucess_modal .add_role_sucess_modal_dialog .add_role_sucess_modal_content .add_role_sucess_modal_body .add_role_sucess_modal_header {

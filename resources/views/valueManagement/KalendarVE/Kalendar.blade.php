@@ -300,6 +300,40 @@
         </div>
       </div>
     </section>
+    <section>
+      <div class="add_role_sucess_modal_container">
+        <div
+          class="modal fade vm_modal_box_shadow"
+          id="date_conflict_modal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div
+            class="modal-dialog modal-dialog-centered add_role_sucess_modal_dialog"
+            role="document"
+          >
+            <div class="modal-content add_role_sucess_modal_content">
+              <div class="modal-body add_role_sucess_modal_body">
+                <div class="add_role_sucess_modal_header text-end">
+                  <button class="ml-auto" data-bs-dismiss="modal" id="close" aria-label="Close">
+                    <i class="mdi mdi-window-close"></i>
+                  </button>
+                </div>
+                <div class="add_role_sucess_modal_body_Content" id="user_pop-up">
+                  <h3>Tarikh ini telah dijadualkan untuk sesi makmal yang lain, sila pilih tarikh alternatif.</h3>
+                  <div class="text-center">
+                    <button type="button" data-bs-dismiss="modal" id="tutup" class="tutup">Tutup</button>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
 @include('valueManagement.KalendarVE.script')
 @endsection

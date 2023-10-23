@@ -35,8 +35,35 @@
         var skop_array=result.skop; //console.log(skop_array);
         var agensi = result.agensi; //console.log(agensi);
         var unit_data = result.unit_data; console.log(unit_data);
+        var butiran_data = response.data.butiran; 
+
+
+                if(butiran_data)
+                {
+                    var selectbutiran =  document.getElementById("butiran_name");
+                    $("#butiran_name").empty();
+                    var el = document.createElement("option"); console.log(el)
+                    el.textContent = '--Pilih--';
+                    el.value = '';
+                    selectbutiran.appendChild(el);
+                                    
+                    $.each(butiran_data, function (key, item) {
+                                        console.log(item.id)
+                                        var opt = item.code;
+                                        var element = document.createElement("option");
+                                            element.textContent = item.code +'-'+item.value;
+                                            element.value = opt;
+                                            selectbutiran.appendChild(element);
+                    })
+                }
 
         if(unit_data){
+
+            let unit_options = '';
+            $.each(unit_data, function(key, item_unit) {
+                                unit_options = unit_options + '<option value="' + item_unit.id + '">' + item_unit.nama_unit + '</option>'
+            })
+            localStorage.setItem('unit_drop', unit_options);
 
             var selectunit =  document.getElementById("unit");
             $("#unit").empty();
@@ -132,29 +159,29 @@
 
 
 
-                    $.each(result.data, function (key, item) {
-                        // //console.log(id)
-                        // //console.log(item.id)
-                        if(id==item.id){
-                            ////console.log(item.kod_projeck)
-                            var word=item.kod_projeck.split(/[\W\d]+/).join("")
-                            $("#valueOne").val(word)
-                            var num=item.kod_projeck.split(/[^\d]+/).join("");
-                            $("#valueFour").val(num.substr(-3))
-                            function splitNum(num) {
-                                return String(num).split("").map(Number);
-                            }
-                            var splitedNumber=splitNum(num)
-                            for(i=0;i<splitedNumber.length-7;i++){
-                                value2.push(splitedNumber[i])
-                            }
-                            for(i=7;i<11;i++){
-                                value3.push(splitedNumber[i])
-                            }
-                            $("#valueThree").val(value3.join(''))
-                            $("#valueTwo").val(value2.join(''))
-                        }
-                    })
+                    // $.each(result.data, function (key, item) {
+                    //     // //console.log(id)
+                    //     // //console.log(item.id)
+                    //     if(id==item.id){
+                    //         ////console.log(item.kod_projeck)
+                    //         var word=item.kod_projeck.split(/[\W\d]+/).join("")
+                    //         $("#valueOne").val(word)
+                    //         var num=item.kod_projeck.split(/[^\d]+/).join("");
+                    //         $("#valueFour").val(num.substr(-3))
+                    //         function splitNum(num) {
+                    //             return String(num).split("").map(Number);
+                    //         }
+                    //         var splitedNumber=splitNum(num)
+                    //         for(i=0;i<splitedNumber.length-7;i++){
+                    //             value2.push(splitedNumber[i])
+                    //         }
+                    //         for(i=7;i<11;i++){
+                    //             value3.push(splitedNumber[i])
+                    //         }
+                    //         $("#valueThree").val(value3.join(''))
+                    //         $("#valueTwo").val(value2.join(''))
+                    //     }
+                    // })
 
                     $("#pp_id").val(id)
 
@@ -174,7 +201,7 @@
                             for(i=0;i<=dateDiff;i++){
                                 // ////console.log(i)
                                 $("#table_body").append(
-                                    '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" class="form-control m-1 col-6" type="text" id="yearData'+i+'"></td>'
+                                    '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" onkeypress="return onlyNumberKey(event)" class="form-control m-1 col-6 text-center" type="text" id="yearData'+i+'"></td>'
                                 )
                             }
                             
@@ -211,7 +238,7 @@
 
         $("#tutup-global").click(function(){  
             $('#global_sucess_modal').modal('hide');                  
-            UpdateStatus(43);
+            UpdateStatus(43,1);
         })
 
         $("#close-global").click(function(){                    
@@ -226,7 +253,7 @@
 
     $("#hanter_btn").click(function(){ //first hanter
         FormSubmit();
-        UpdateStatus(32);
+        UpdateStatus(32,2);
     });
 
     $("#save_btn").click(function(){ //first save
@@ -243,15 +270,15 @@
     });
 
     $("#hanter_btn_bkor").click(function(){
-        UpdateStatus(41);
+        UpdateStatus(41,2);
     });
 
     $("#hanter_btn_bahagian").click(function(){
-        UpdateStatus(32);
+        UpdateStatus(32,2);
     });
 
     $("#return_btn").click(function(){
-        UpdateStatus(28);
+        UpdateStatus(28,1);
     });
 
 
@@ -260,7 +287,7 @@
 
         $("#tutup-global").click(function(){  
             $('#global_sucess_modal').modal('hide');                  
-            UpdateStatus(43);
+            UpdateStatus(43,1);
         })
 
         $("#close-global").click(function(){                    
@@ -269,7 +296,7 @@
     });
 
     $("#bkor_hanter_btn").click(function(){
-        UpdateStatus(41);
+        UpdateStatus(41,1);
     });
 
 
@@ -299,9 +326,27 @@
             var sub_skop_data=response.data.noc_sub_skops; //console.log(sub_skop_data);
             var pindan_data=response.data.pindan_data; //console.log(pindan_data);
             var maklumbalas_data=response.data.maklumbalas_data; console.log(maklumbalas_data);
+            var userData=response.data.user_data; //console.log(pageData);
+            var skop_project=response.data.skop_project; //console.log(skop_project);
+
+            if(skop_project)
+            {
+                var skops = loadSkops(skop_project);
+
+                if(skops==1)
+                {
+                    loadSkopData(skop_data,sub_skop_data);
+
+                }
+            }
 
 
-            loadSkopData(skop_data,sub_skop_data);
+            if(userData)
+            {
+                document.getElementById('nama_dikemaskini').innerText = userData.name;
+                document.getElementById('organisi_dikemaskini').innerText = userData.nama_bahagian;
+                document.getElementById('tarik_dikemaskini').innerText = userData.dibuat_pada;
+            }
 
 
             if(project_data)
@@ -371,6 +416,8 @@
                 loadOldata(pageData.pp_id);
                 $("#pp_id").val(pageData.pp_id)
                 loadLampiranFiles(response.data)
+                document.getElementById('penerangan').value = pageData.penerangan;
+                countWords();
             }
             
             if(result2.data2){ 
@@ -516,7 +563,7 @@
                         
             }
 
-            if(pageData){
+            if(pageData){ 
                 var id=pageData.pp_id
                 $("#maklumat_pilih_projek_form").removeClass("d-none");
                 var options = $('#selectProject option');
@@ -526,9 +573,13 @@
                         var check=$('#selectProject')[0].selectedIndex = $('#selectProject option').toArray().map(jQuery.text).indexOf(option.text);
                         
                         $("#selectProject").prop('disabled', true)
-                        document.getElementById("selectProject")[check].setAttribute('selected','selected');
+                        // document.getElementById("selectProject")[check].setAttribute('selected','selected');
                         
-                        document.getElementById("selectNameProjek")[check].setAttribute('selected','selected');
+                        // document.getElementById("selectNameProjek")[check].setAttribute('selected','selected');
+
+                        document.getElementById("selectProject").value=option.value;
+                        document.getElementById("selectNameProjek").value=option.value;
+
 
                         var proId= $("#selectProject option:selected").val();
                         $("#proId").val(proId);
@@ -561,20 +612,20 @@
                         if(pageData.skop!=null){
                             $("#SkopData").text(pageData.skop)
                         }
-                        if(pageData.keterangan){
-                            $("#KeteranganData").text(pageData.keterangan)
-                        }
-                        if(pageData.komponen){
-                            $("#KomponenData").text(pageData.komponen)
-                        }
+                        // if(pageData.keterangan){
+                        //     $("#KeteranganData").text(pageData.keterangan)
+                        // }
+                        // if(pageData.komponen){
+                        //     $("#KomponenData").text(pageData.komponen)
+                        // }
 
 
                     }
                     else{
                         $("#peluasan_skop_form").addClass("d-none");
                         $("#SkopData").val('').text('')
-                        $("#KeteranganData").val('').text('')
-                        $("#KomponenData").val('').text('')
+                        // $("#KeteranganData").val('').text('')
+                        // $("#KomponenData").val('').text('')
                         //$("#ActionDiv").addClass("d-none");
                         // $("#skopOl").removeClass("d-none");
 
@@ -615,51 +666,36 @@
                         //$("#ActionDiv").removeClass("d-none"); 
                         
                         if(pageData.kod_projek!=null){
-                        console.log(pageData);
-                        // $.each(pageData, function (key, item) {
-                            ////console.log(item)
-                        var id_projek=$("#proId").val();
-                                // ////console.log(id)
+                                console.log(pageData);
 
-                                // console.log(item.pp_i)
-                                //if(id_projek==item.pp_id){
-                                    //console.log(item.kod_projeck)
-                                    // return;
-                                    var value2=[];
-                                    var value3=[];
-                                    var value4=[];
-                                    var word=pageData.kod_projek.split(/[\W\d]+/).join("")
-                                    $("#valueOne").val(word)
-                                    var num=pageData.kod_projek.split(/[^\d]+/).join("");
-                                    $("#valueFour").val(num.substr(-3))
-                                    function splitNum(num) {
-                                        return String(num).split("").map(Number);
-                                    }
-                                    var splitedNumber=splitNum(num)
-                                    for(i=0;i<splitedNumber.length-7;i++){
-                                        value2.push(splitedNumber[i])
-                                    }
-                                    for(i=7;i<11;i++){
-                                        value3.push(splitedNumber[i])
-                                    }
-                                    $("#valueThree").val(value3.join(''))
-                                    $("#valueTwo").val(value2.join(''))
-                                //}
-                            //})
+                                    var num=pageData.kod_projek;
+                                    var str=num.toString();
+                                    var numarray=str.split('.');
+                                    var a=new Array();
+                                    a=numarray;
 
-                    }
+                                    $("#valueThree").val(a[0])
+                                    $("#valueFour").val(a[1])
+
+                                    console.log(a[0]);
+                                    console.log(a[1]);
+                        }
 
                     }
                     else{
                         $("#perubahan_kod_projek_form").addClass("d-none");
-                        $("#valueOne").val('').text('');
-                        $("#valueTwo").val('').text('');
+                        // $("#valueOne").val('').text('');
+                        // $("#valueTwo").val('').text('');
                         $("#valueThree").val('').text('');
                         $("#valueFour").val('').text('');
                         //$("#ActionDiv").addClass("d-none");  
 
                     }
 
+                }
+
+                if(pageData.butiran_code!=null ){
+                    document.getElementById("butiran_name").value = pageData.butiran_code;
                 }
 
                 if(pageData.kos_projek!=null){
@@ -673,7 +709,7 @@
                         //$("#ActionDiv").removeClass("d-none"); 
                         if(pageData.kos_projek!=null){
                         // $("#kosValue").val(pageData.kos_projek);
-                            document.getElementById("kosValue").value=pageData.kos_projek;
+                            document.getElementById("kosValue").value=number_format(pageData.kos_projek);
                         } 
 
                     }
@@ -696,9 +732,18 @@
                         $("#wujud_butiran_baharu_form").addClass("d-none"); 
                         //$("#ActionDiv").removeClass("d-none"); 
                         if(pageData.objektif!=null){
-                            // $("#objekifText").text('')
-                            // $("#objekifText").text(pageData.objektif)
-                            $("#objektifVal").text(pageData.objektif)
+                           var obj_data = pageData.objektif.split('<--->'); console.log(obj_data);
+                            for (var i=0; i<obj_data.length; i++)
+                            {
+                                if(i==0)
+                                {
+                                    $("#objektifVal").text(obj_data[i]);
+                                }
+                                else
+                                {
+                                    addObjectif(obj_data[i]);
+                                }
+                            }
 
                         }
                         
@@ -717,6 +762,239 @@
                 $("div.spanner").removeClass("show");
                 $("div.overlay").removeClass("show");
         })
+
+
+        axios({
+                method: "get",
+                url: api_url+"api/noc/nocKpiData/"+noc_id+"",
+                // data: formData,
+                headers: {"Authorization": api_token },
+            })
+
+            .then(function (response) {
+                //console.log(response.data.data)
+                var data=response.data.data
+                //console.log(data)
+                if(data){
+
+                    if(data.yr_1!=null){
+                        $("#yearData0").val(data.yr_1)
+                    }
+                    if(data.yr_2!=null){
+                        $("#yearData1").val(data.yr_2)
+                    }
+                    if(data.yr_3!=null){
+                        $("#yearData2").val(data.yr_3)
+                    }   
+                    if(data.yr_4!=null){
+                        $("#yearData3").val(data.yr_4)
+                    }
+                    if(data.yr_5!=null){
+                        $("#yearData4").val(data.yr_5)
+                    }
+                    if(data.yr_6!=null){
+                        $("#yearData5").val(data.yr_6)
+                    }
+                    if(data.yr_7!=null){
+                        $("#yearData6").val(data.yr_7)
+                    }
+                    if(data.yr_8!=null){
+                        $("#yearData7").val(data.yr_8)
+
+                    }
+                    if(data.yr_9!=null){
+                        $("#yearData8").val(data.yr_9)
+
+                    }
+                    if(data.yr_10!=null){
+                        $("#yearData9").val(data.yr_10)
+
+                    }
+
+                    
+
+                if(data.kuantiti!=null){
+                    $("#kb").text(data.kuantiti).val(data.kuantiti);
+                    checkBox8=$("#inlineCheckbox8").prop( "checked", true );
+                    if(checkBox8){
+                        $("#perubahan_kpi_form").removeClass("d-none");  
+                        //$("#inlineCheckbox10").prop('checked', false);
+                        $("#inlineCheckbox7").prop('checked', false); 
+                        //$("#wujud_semula_form").addClass("d-none");
+                        $("#wujud_butiran_baharu_form").addClass("d-none");
+                        //$("#ActionDiv").removeClass("d-none"); 
+
+                        
+                    }
+                    else{
+                        $("#perubahan_kpi_form").addClass("d-none");
+                        $("#kb").val('').text('');
+                        $("#unit").val('').text('');
+                        $("#PeneranganText").val('').text('');
+                        for(i=0;i<9;i++){
+                            $("#yearData"+i+"").val('');
+                        }
+                        //$("#ActionDiv").addClass("d-none");  
+
+                    }
+                    
+                }
+                if(data.unit!=null){
+                    axios({
+                    method: "get",        
+                    url: api_url+"api/project/unit-details",
+                    // dataType: 'json',
+                    headers: {"Authorization": api_token },
+
+                    }).then(function (response) { 
+                        // //console.log(response.data.data)
+                        var result=response.data;
+                        if (result) {
+                                $.each(result.data, function (key, item) {
+                                    // //console.log(item.id)
+                                    var opt = item.id;
+                                    var element = document.createElement("option");
+                                        element.textContent = item.nama_unit;
+                                        element.value = opt;
+                                        unit.append(element);
+                                        // //console.log(opt)
+                                        if(opt==data.unit){
+                                            $('#unit option[value="'+data.unit+'"]').attr("selected", "selected");
+                                        }
+                                })
+                            }
+                        })
+
+                }
+                if(data.kuantiti!=null){
+                    $("#PeneranganText").text(data.penerangan).val(data.penerangan);
+                }
+                }
+            })
+
+            axios({
+                method: 'get',
+                url: api_url+"api/noc/NocOutputData/"+noc_id, 
+                headers: {"Authorization": api_token },
+
+            })
+            .then(function (response) { 
+                OutPutResult=response.data.data
+                //console.log(OutPutResult)
+                if(OutPutResult.length>0){
+                        checkBox9=$("#inlineCheckbox9").prop( "checked", true );
+                        if(checkBox9){
+                            $("#perubahan_output_form").removeClass("d-none"); 
+                            //$("#inlineCheckbox10").prop('checked', false);
+                            $("#inlineCheckbox7").prop('checked', false); 
+                            //$("#ActionDiv").removeClass("d-none"); 
+
+                        }
+                        else{
+                            $("#perubahan_output_form").addClass("d-none");
+                            $(".countTr").remove()  
+                            //$("#ActionDiv").addClass("d-none");  
+                        }
+                        var idData=[];  
+                        for(i=0;i<OutPutResult.length;i++){
+                            
+                            if(i==0)
+                            {
+                                loadParentOutput(OutPutResult[i]);
+                            }
+                            else
+                            {
+                                loadChildOutput(OutPutResult[i]);
+                            }
+                        }       
+                    }
+                    else
+                    {
+                        loadParentOutput('');
+                    }
+                    function unitData(units,id){
+                                //console.log(id)
+                            axios({
+                                method: "get",        
+                                url: api_url+"api/project/unit-details",
+                                // dataType: 'json',
+                                headers: {"Authorization": api_token },
+
+                            }).then(function (response) { 
+                                // //console.log(response.data.data)
+                                var result=response.data;
+                                if (result) {
+                                        $.each(result.data, function (key, item) {
+                                            //console.log(item)
+                                            var opt = item.id;
+                                            var element = document.createElement("option");
+                                                element.textContent = item.nama_unit;
+                                                element.value = opt;
+                                                $("#"+units+"").append(element);
+                                        })
+                                        for(i=0;i<id.length;i++){
+                                            $('#'+units+' option[value='+id[i]+']').attr("selected", "selected");
+                                        }
+                                    }
+                                })
+                            }
+
+            })
+
+            axios({
+                method: 'get',
+                url: api_url+"api/noc/NocOutcomeData/"+noc_id, 
+                headers: {"Authorization": api_token },
+
+            })
+            .then(function (response) { 
+                OutComeResult=response.data.data
+                //console.log(OutComeResult)
+                
+                if(OutComeResult.length>0){
+                        checkBox11=$("#inlineCheckbox11").prop( "checked", true );
+                        if(checkBox11){
+                            $("#outCome_projek_form").removeClass("d-none");   
+                            //$("#inlineCheckbox10").prop('checked', false);
+                            $("#inlineCheckbox7").prop('checked', false);  
+                            //$("#wujud_semula_form").addClass("d-none");
+                            $("#wujud_butiran_baharu_form").addClass("d-none");
+                            //$("#ActionDiv").removeClass("d-none"); 
+                        }
+                        else{
+                            $("#outCome_projek_form").addClass("d-none");
+                            $(".outcomecountTr").remove()    
+                            //$("#ActionDiv").addClass("d-none");  
+
+                        }
+                        for(j=0;j<OutComeResult.length;j++){
+                            $("#outcomeBody").append(tdData2)   
+                            var trElements1 = document.querySelectorAll('.outcomecountTr');
+                            var outcomeTextAreaElements = document.querySelectorAll('.outcomeTextArea');
+                            var outcomeQuantityElements = document.querySelectorAll('.outcomeQuantity');
+                            var outcomeUnitElements = document.querySelectorAll('.outcomeUnit');
+                            var outcome_minus=document.querySelectorAll('.outcome_minus');
+                            var outcomefirstTd=document.querySelectorAll('.outcomefirstTd');
+
+                                // //console.log(i)
+                                trElements1[j].id="countOutcomeTr-"+j+""
+                                outcomeTextAreaElements[j].id="outcomeTextAreaElements-"+j+""
+                                outcomeQuantityElements[j].id="outcomeQuantityElements-"+j+""
+                                outcomeUnitElements[j].id="outcomeUnitElements-"+j+""
+                                outcome_minus[j].id="outcome_minus-"+j+""
+                                outcomefirstTd[j].id="outcomefirstTd-"+j+"";
+                                $("#outcome_minus-"+j+"").val(j);
+                                if(j>0){
+                                    $("#outcomefirstTd-"+j+"").addClass("d-none")
+                                }
+                                $("#outcomeTextAreaElements-"+j+"").val(OutComeResult[j].Projek_Outcome)
+                                $("#outcomeQuantityElements-"+j+"").val(OutComeResult[j].Kuantiti)
+                                $('#outcomeUnitElements-'+j+' option[value="'+OutComeResult[j].unit_id+'"]').attr("selected", "selected");
+
+                            
+                        }
+                }
+            })    
 
     }
     else
@@ -997,7 +1275,7 @@
                     }
                     if(checkeddata.outcome_status==1)
                     {
-                        $("#inlineCheckbox1").prop( "checked", true );
+                        $("#inlineCheckbox11").prop( "checked", true );
                         $("#outCome_projek_form").removeClass("d-none");  
                     }
                 }
@@ -1024,7 +1302,7 @@
                 var project_outcome = response.data.data.outcome; 
                 var project_outcome_type  = response.data.data.outcome_type;  ////console.log(project_outcome_type);
                 var project_data = response.data.data.project_data; ////console.log(project_data);
-                var project_skop_cmp = response.data.data.skop_cmp; ////console.log(project_data);
+                //var project_skop_cmp = response.data.data.skop_cmp; ////console.log(project_data);
 
 
                 if(project_data)
@@ -1033,17 +1311,23 @@
                     for (var i = 0; i < kod_projeck.length; ++i) {
                         kod_projeck[i].innerText = project_data.kod_projeck;
                     }
-
-                    document.getElementById('kos_projeck').innerText = project_data.kos_projeck;
+                    document.getElementById('kos_projeck').value = number_format(project_data.kos_projeck);
                     document.getElementById('projekAsal').value = project_data.nama_projek;
-                    document.getElementById('kodAsal').value = project_data.kod_projeck;
+                    //document.getElementById('kodAsal').value = project_data.kod_projeck;
                     document.getElementById('tahunAsal').innerText = project_data.tahun;
                     document.getElementById('bahagianAsal').value = project_data.bahagian_pemilik.nama_bahagian;
-                    document.getElementById('rmkAsal').value = project_data.rmk.name;
+                    document.getElementById('rmkAsal').value = 'RMKe -' + project_data.rmk.rmk;
                     document.getElementById('Butiran_Asal').innerText = project_data.butiran_code;
                     $("#kod_projek_new").val(project_data.kod_projeck);
                     document.getElementById("kod_projek_new").disabled = true;
-
+                    document.getElementById('valueOne').value = project_data.kementerian.kod_kementerian;
+                    document.getElementById('valueTwo').value = project_data.butiran_code;
+                    document.getElementById('valueThree').value = '5'+project_data.negeri.kod_negeri;
+                }
+                else
+                {
+                    let date =  new Date().getFullYear();
+                    document.getElementById('tahunAsal').innerText = date;
                 }
 
                 if(project_skope)
@@ -1071,19 +1355,19 @@
                     });
                 }
 
-                if(project_skop_cmp)
-                {
-                    let li_data='';
-                    var list = document.getElementById("KomponenText");
-                    while (list.firstChild) {
-                        list.removeChild(list.firstChild);
-                    }
-                    $.each(project_skop_cmp, function (key, item) { 
-                                li_data= `<li>`+item.nama_componen+`</li>`;
+                // if(project_skop_cmp)
+                // {
+                //     let li_data='';
+                //     var list = document.getElementById("KomponenText");
+                //     while (list.firstChild) {
+                //         list.removeChild(list.firstChild);
+                //     }
+                //     $.each(project_skop_cmp, function (key, item) { 
+                //                 li_data= `<li>`+item.nama_componen+`</li>`;
 
-                                $('#KomponenText').append(li_data);
-                    });
-                }
+                //                 $('#KomponenText').append(li_data);
+                //     });
+                // }
 
                 if(project_objectif)
                 {
@@ -1288,57 +1572,57 @@
     function passProjekId(proId){
 
         axios({
-        method: 'get',
-        url: api_url+"api/noc/projectData/"+proId, 
-        headers: {"Authorization": api_token },
+                method: 'get',
+                url: api_url+"api/noc/projectData/"+proId, 
+                headers: {"Authorization": api_token },
 
-    })
-    .then(function (response) { 
-        // ////console.log(response);
-        $("#table_body").empty();
-        data = response.data.data; 
-        ////console.log(data.tahun_jangka_mula); 
-        ////console.log(data.tahun_jangka_siap);
-        if(data.tahun_jangka_mula != data.tahun_jangka_siap){
-            var dateDiff=data.tahun_jangka_siap-data.tahun_jangka_mula
-            $("#diffCount").val(dateDiff);
-            // ////console.log(parseInt(data.tahun_jangka_mula)+1)
-            // ////console.log(dateDiff)
-            for(i=0;i<=dateDiff;i++){
-                // //console.log(i)
-                $("#table_body").append(
-                    '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" class="form-control m-1 col-6" type="text" id="yearData'+i+'"></td>'
-                )
-            }
-            
-        }else{
-            $("#table_body").append(
-                    ''
-                )
-        }
+            })
+            .then(function (response) { 
+                // ////console.log(response);
+                $("#table_body").empty();
+                data = response.data.data; 
+                ////console.log(data.tahun_jangka_mula); 
+                ////console.log(data.tahun_jangka_siap);
+                if(data.tahun_jangka_mula != data.tahun_jangka_siap){
+                    var dateDiff=data.tahun_jangka_siap-data.tahun_jangka_mula
+                    $("#diffCount").val(dateDiff);
+                    // ////console.log(parseInt(data.tahun_jangka_mula)+1)
+                    // ////console.log(dateDiff)
+                    for(i=0;i<=dateDiff;i++){
+                        // //console.log(i)
+                        $("#table_body").append(
+                            '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" onkeypress="return onlyNumberKey(event)" class="form-control m-1 col-6 text-center" type="text" id="yearData'+i+'"></td>'
+                        )
+                    }
+                    
+                }else{
+                    $("#table_body").append(
+                            ''
+                        )
+                }
 
-        if(data)
-        {
-            document.getElementById('rmk_head').innerText=data.rmk;
-            document.getElementById('tahun_head').innerText=data.tahun;
-            document.getElementById('rujukan_head').innerText=data.no_rujukan;
-            $("#kod_projek_new").val(data.kod_projeck);
-            document.getElementById("selectNameProjek").disabled = true;
-            document.getElementById("kod_projek_new").disabled = true;
-            $("#kodProjek").val(data.kod_projeck);
-            document.getElementById("kodProjek").disabled = true;
-            $("#kosProjek").val(data.kos_projeck);
-            document.getElementById("kosProjek").disabled = true;
-            $("#sKeperluan").val('0.00');
-            document.getElementById("sKeperluan").disabled = true;
-            loadOldata(proId);
-        }
-        
-    })
-    .catch(function (error) {
-        $("div.spanner").removeClass("show");
-        $("div.overlay").removeClass("show");
-    })
+                if(data)
+                {
+                    document.getElementById('rmk_head').innerText=data.rmk;
+                    document.getElementById('tahun_head').innerText=data.tahun;
+                    document.getElementById('rujukan_head').innerText=data.no_rujukan;
+                    $("#kod_projek_new").val(data.kod_projeck);
+                    document.getElementById("selectNameProjek").disabled = true;
+                    document.getElementById("kod_projek_new").disabled = true;
+                    $("#kodProjek").val(data.kod_projeck);
+                    document.getElementById("kodProjek").disabled = true;
+                    $("#kosProjek").val(number_format(data.kos_projeck));
+                    document.getElementById("kosProjek").disabled = true;
+                    $("#sKeperluan").val('0.00');
+                    document.getElementById("sKeperluan").disabled = true;
+                    loadOldata(proId);
+                }
+                
+            })
+            .catch(function (error) {
+                $("div.spanner").removeClass("show");
+                $("div.overlay").removeClass("show");
+            })
 
             axios({
                 method: "get",
@@ -1448,143 +1732,133 @@
                 }
             })
 
-            axios({
-                method: 'get',
-                url: api_url+"api/noc/NocOutputData/"+proId+"/"+noc_id, 
-                headers: {"Authorization": api_token },
+            // axios({
+            //     method: 'get',
+            //     url: api_url+"api/noc/NocOutputData/"+noc_id, 
+            //     headers: {"Authorization": api_token },
 
-            })
-            .then(function (response) { 
-                OutPutResult=response.data.data
-                //console.log(OutPutResult)
-                if(OutPutResult.length>0){
-                        checkBox9=$("#inlineCheckbox9").prop( "checked", true );
-                        if(checkBox9){
-                            $("#perubahan_output_form").removeClass("d-none"); 
-                            //$("#inlineCheckbox10").prop('checked', false);
-                            $("#inlineCheckbox7").prop('checked', false); 
-                            //$("#ActionDiv").removeClass("d-none"); 
+            // })
+            // .then(function (response) { 
+            //     OutPutResult=response.data.data
+            //     //console.log(OutPutResult)
+            //     if(OutPutResult.length>0){
+            //             checkBox9=$("#inlineCheckbox9").prop( "checked", true );
+            //             if(checkBox9){
+            //                 $("#perubahan_output_form").removeClass("d-none"); 
+            //                 //$("#inlineCheckbox10").prop('checked', false);
+            //                 $("#inlineCheckbox7").prop('checked', false); 
+            //                 //$("#ActionDiv").removeClass("d-none"); 
 
-                        }
-                        else{
-                            $("#perubahan_output_form").addClass("d-none");
-                            $(".countTr").remove()  
-                            //$("#ActionDiv").addClass("d-none");  
-                        }
-                        var idData=[];  
-                        for(i=0;i<OutPutResult.length;i++){
-                            // //console.log(i)
-                            $("#outputBody").append(tdData)  
-                            var trElements = document.querySelectorAll('.countTr');
-                            var outputTextAreaElements = document.querySelectorAll('.outputTextArea');
-                            var outputQuantityElements = document.querySelectorAll('.outputQuantity');
-                            var outputUnitElements = document.querySelectorAll('.outputUnit');
-                            var output_minus=document.querySelectorAll('.output_minus');
-                            var firstTd=document.querySelectorAll('.firstTd');
+            //             }
+            //             else{
+            //                 $("#perubahan_output_form").addClass("d-none");
+            //                 $(".countTr").remove()  
+            //                 //$("#ActionDiv").addClass("d-none");  
+            //             }
+            //             var idData=[];  
+            //             for(i=0;i<OutPutResult.length;i++){
+            //                 // //console.log(i)
+            //                 if(i==0)
+            //                 {
+            //                     loadParentOutput(OutPutResult[i]);
+            //                 }
+            //                 else
+            //                 {
+            //                     loadChildOutput(OutPutResult[i]);
+            //                 }
+            //             }       
+            //         }
+            //         else
+            //         {
+            //             loadParentOutput('');
+            //         }
+            //         function unitData(units,id){
+            //                     //console.log(id)
+            //                 axios({
+            //                     method: "get",        
+            //                     url: api_url+"api/project/unit-details",
+            //                     // dataType: 'json',
+            //                     headers: {"Authorization": api_token },
 
-                                // //console.log(i)
-                                trElements[i].id="countTr-"+i+""
-                                outputTextAreaElements[i].id="outputTextAreaElements-"+i+""
-                                outputQuantityElements[i].id="outputQuantityElements-"+i+""
-                                outputUnitElements[i].id="outputUnitElements-"+i+""
-                                output_minus[i].id="output_minus-"+i+""
-                                firstTd[i].id="firstTd-"+i+"";
-                                $("#output_minus-"+i+"").val(i);
-                                if(i>0){
-                                    $("#firstTd-"+i+"").addClass("d-none")
-                                }
-                                // updateid.push(OutPutResult[i].id);
+            //                 }).then(function (response) { 
+            //                     // //console.log(response.data.data)
+            //                     var result=response.data;
+            //                     if (result) {
+            //                             $.each(result.data, function (key, item) {
+            //                                 //console.log(item)
+            //                                 var opt = item.id;
+            //                                 var element = document.createElement("option");
+            //                                     element.textContent = item.nama_unit;
+            //                                     element.value = opt;
+            //                                     $("#"+units+"").append(element);
+            //                             })
+            //                             for(i=0;i<id.length;i++){
+            //                                 $('#'+units+' option[value='+id[i]+']').attr("selected", "selected");
+            //                             }
+            //                         }
+            //                     })
+            //                 }
 
-                                $("#outputTextAreaElements-"+i+"").val(OutPutResult[i].output_proj)
-                                $("#outputQuantityElements-"+i+"").val(OutPutResult[i].Kuantiti)
-                                idData.push(OutPutResult[i].unit_id)
-                                
-                                unitData("outputUnitElements-"+i+"",idData)
-                            }       
-                    }
-                    function unitData(units,id){
-                                //console.log(id)
-                            axios({
-                                method: "get",        
-                                url: api_url+"api/project/unit-details",
-                                // dataType: 'json',
-                                headers: {"Authorization": api_token },
+            // })
 
-                            }).then(function (response) { 
-                                // //console.log(response.data.data)
-                                var result=response.data;
-                                if (result) {
-                                        $.each(result.data, function (key, item) {
-                                            //console.log(item)
-                                            var opt = item.id;
-                                            var element = document.createElement("option");
-                                                element.textContent = item.nama_unit;
-                                                element.value = opt;
-                                                $("#"+units+"").append(element);
-                                        })
-                                        for(i=0;i<id.length;i++){
-                                            $('#'+units+' option[value='+id[i]+']').attr("selected", "selected");
-                                        }
-                                    }
-                                })
-                            }
+            // axios({
+            //     method: 'get',
+            //     url: api_url+"api/noc/NocOutcomeData/"+noc_id, 
+            //     headers: {"Authorization": api_token },
 
-            })
-
-            axios({
-                method: 'get',
-                url: api_url+"api/noc/NocOutcomeData/"+proId+"/"+noc_id, 
-                headers: {"Authorization": api_token },
-
-            })
-            .then(function (response) { 
-                OutComeResult=response.data.data
-                //console.log(OutComeResult)
+            // })
+            // .then(function (response) { 
+            //     OutComeResult=response.data.data
+            //     //console.log(OutComeResult)
                 
-                if(OutComeResult.length>0){
-                        checkBox11=$("#inlineCheckbox11").prop( "checked", true );
-                        if(checkBox11){
-                            $("#outCome_projek_form").removeClass("d-none");   
-                            //$("#inlineCheckbox10").prop('checked', false);
-                            $("#inlineCheckbox7").prop('checked', false);  
-                            //$("#wujud_semula_form").addClass("d-none");
-                            $("#wujud_butiran_baharu_form").addClass("d-none");
-                            //$("#ActionDiv").removeClass("d-none"); 
-                        }
-                        else{
-                            $("#outCome_projek_form").addClass("d-none");
-                            $(".outcomecountTr").remove()    
-                            //$("#ActionDiv").addClass("d-none");  
+            //     if(OutComeResult.length>0){
+            //             checkBox11=$("#inlineCheckbox11").prop( "checked", true );
+            //             if(checkBox11){
+            //                 $("#outCome_projek_form").removeClass("d-none");   
+            //                 //$("#inlineCheckbox10").prop('checked', false);
+            //                 $("#inlineCheckbox7").prop('checked', false);  
+            //                 //$("#wujud_semula_form").addClass("d-none");
+            //                 $("#wujud_butiran_baharu_form").addClass("d-none");
+            //                 //$("#ActionDiv").removeClass("d-none"); 
+            //             }
+            //             else{
+            //                 $("#outCome_projek_form").addClass("d-none");
+            //                 $(".outcomecountTr").remove()    
+            //                 //$("#ActionDiv").addClass("d-none");  
 
-                        }
-                        for(j=0;j<OutComeResult.length;j++){
-                            $("#outcomeBody").append(tdData2)   
-                            var trElements1 = document.querySelectorAll('.outcomecountTr');
-                            var outcomeTextAreaElements = document.querySelectorAll('.outcomeTextArea');
-                            var outcomeQuantityElements = document.querySelectorAll('.outcomeQuantity');
-                            var outcomeUnitElements = document.querySelectorAll('.outcomeUnit');
-                            var outcome_minus=document.querySelectorAll('.outcome_minus');
-                            var outcomefirstTd=document.querySelectorAll('.outcomefirstTd');
+            //             }
+            //             for(j=0;j<OutComeResult.length;j++){
+            //                 $("#outcomeBody").append(tdData2)   
+            //                 var trElements1 = document.querySelectorAll('.outcomecountTr');
+            //                 var outcomeTextAreaElements = document.querySelectorAll('.outcomeTextArea');
+            //                 var outcomeQuantityElements = document.querySelectorAll('.outcomeQuantity');
+            //                 var outcomeUnitElements = document.querySelectorAll('.outcomeUnit');
+            //                 var outcome_minus=document.querySelectorAll('.outcome_minus');
+            //                 var outcomefirstTd=document.querySelectorAll('.outcomefirstTd');
 
-                                // //console.log(i)
-                                trElements1[j].id="countOutcomeTr-"+j+""
-                                outcomeTextAreaElements[j].id="outcomeTextAreaElements-"+j+""
-                                outcomeQuantityElements[j].id="outcomeQuantityElements-"+j+""
-                                outcomeUnitElements[j].id="outcomeUnitElements-"+j+""
-                                outcome_minus[j].id="outcome_minus-"+j+""
-                                outcomefirstTd[j].id="outcomefirstTd-"+j+"";
-                                $("#outcome_minus-"+j+"").val(j);
-                                if(j>0){
-                                    $("#outcomefirstTd-"+j+"").addClass("d-none")
-                                }
-                                $("#outcomeTextAreaElements-"+j+"").val(OutComeResult[j].Projek_Outcome)
-                                $("#outcomeQuantityElements-"+j+"").val(OutComeResult[j].Kuantiti)
-                                $('#outcomeUnitElements-'+j+' option[value="'+OutComeResult[j].unit_id+'"]').attr("selected", "selected");
+            //                     // //console.log(i)
+            //                     trElements1[j].id="countOutcomeTr-"+j+""
+            //                     outcomeTextAreaElements[j].id="outcomeTextAreaElements-"+j+""
+            //                     outcomeQuantityElements[j].id="outcomeQuantityElements-"+j+""
+            //                     outcomeUnitElements[j].id="outcomeUnitElements-"+j+""
+            //                     outcome_minus[j].id="outcome_minus-"+j+""
+            //                     outcomefirstTd[j].id="outcomefirstTd-"+j+"";
+            //                     $("#outcome_minus-"+j+"").val(j);
+            //                     if(j>0){
+            //                         $("#outcomefirstTd-"+j+"").addClass("d-none")
+            //                     }
+            //                     $("#outcomeTextAreaElements-"+j+"").val(OutComeResult[j].Projek_Outcome)
+            //                     $("#outcomeQuantityElements-"+j+"").val(OutComeResult[j].Kuantiti)
+            //                     $('#outcomeUnitElements-'+j+' option[value="'+OutComeResult[j].unit_id+'"]').attr("selected", "selected");
 
                             
-                        }
-                }
-            })    
+            //             }
+            //     }
+            //     else
+            //     {
+            //         $("#outcomeBody").append(tdData2New)  
+            //     }
+            // })    
 
     }
 
@@ -1629,8 +1903,8 @@
             else{
                 $("#peluasan_skop_form").addClass("d-none");
                 $("#SkopData").val('').text('')
-            $("#KeteranganData").val('').text('')
-            $("#KomponenData").val('').text('')
+            //$("#KeteranganData").val('').text('')
+            //$("#KomponenData").val('').text('')
             }
         }
         if(checkbox.id=='inlineCheckbox2'){
@@ -1660,8 +1934,8 @@
             }
             else{
                 $("#perubahan_kod_projek_form").addClass("d-none");
-                $("#valueOne").val('').text('');
-                $("#valueTwo").val('').text('');
+                // $("#valueOne").val('').text('');
+                // $("#valueTwo").val('').text('');
                 $("#valueThree").val('').text('');
                 $("#valueFour").val('').text('');
             }
@@ -1709,9 +1983,6 @@
             }
         }
         if(checkbox.id=='inlineCheckbox7'){
-            $("#butiran_text").removeClass('d-none');
-            $("#semasa_text").addClass('d-none');
-
             $('#popup_sucess_modal').modal('show');
                     if(checkbox.checked == true){
                         $("#wujud_butiran_baharu_form").removeClass("d-none");  
@@ -1831,7 +2102,7 @@
                 $("#perkera_section").removeClass("d-none");
 
 
-                $("#outputBody").append(tdData)  
+                //$("#outputBody").append(tdData)  
                 axios({
                     method: "get",        
                     url: api_url+"api/project/unit-details",
@@ -1856,14 +2127,10 @@
             }
             else{
                 $("#perubahan_output_form").addClass("d-none");
-                $(".countTr").remove()  
-
             }
         }
         if(checkbox.id=='inlineCheckbox10'){
 
-            $("#butiran_text").addClass('d-none');
-            $("#semasa_text").removeClass('d-none');
             $("#perkera_section").removeClass("d-none");
             $("#maklumat_pilih_projek_form").addClass('d-none');
 
@@ -2010,7 +2277,7 @@ if(radio1){
     
     }
 
-    function UpdateStatus(status)
+    function UpdateStatus(status,type)
     {
          var id=$("#noc_id").val();
          var formData = new FormData();
@@ -2033,6 +2300,16 @@ if(radio1){
                     $("div.overlay").removeClass("show");
 
                     $('#add_role_sucess_modal').modal('show');
+                    if(type==1)
+                    {
+                       $('#saveText').removeClass('d-none');
+                       $('#hanterText').addClass('d-none');
+                    }
+                    else
+                    {
+                        $('#saveText').addClass('d-none');
+                        $('#hanterText').removeClass('d-none');
+                    }
                         $("#tutup").click(function(){                    
                                 window.location.href = "/Kertas_Permohonan_NOC";
                         })
@@ -2249,15 +2526,15 @@ if(radio1){
         // alert(unit)
         var PeneranganText=$("#PeneranganText").val()
         var SkopData=$("#SkopData").val()
-        var KeteranganData=$("#KeteranganData").val()
-        var KomponenData=$("#KomponenData").val()
+        //var KeteranganData=$("#KeteranganData").val()
+        //var KomponenData=$("#KomponenData").val()
         var nameBaharu=$("#nameBaharu").val()
-        var valueOne=$("#valueOne").val()
-        var valueTwo=$("#valueTwo").val()
+        // var valueOne=$("#valueOne").val()
+        // var valueTwo=$("#valueTwo").val()
         var valueThree=$("#valueThree").val()
         var valueFour=$("#valueFour").val()
         var kosValue=$("#kosValue").val()
-        var objektifVal=$("#objektifVal").val()
+        //var objektifVal=$("#objektifVal").val()
         var pId= $("#proId").val();
         var noc_id=$("#noc_id").val()  
             if(noc_id==undefined){
@@ -2265,6 +2542,23 @@ if(radio1){
             }else{
                 noc_id;
             }   
+
+
+            var objektif_array = document.querySelectorAll('#objektifVal');
+            let obj = '';
+            for(var i=0;i<objektif_array.length;i++){
+
+                if(objektif_array[i].value!=''){
+                    if(i==(objektif_array.length-1))
+                    {
+                        obj=obj+objektif_array[i].value;
+                    }
+                    else
+                    {
+                        obj=obj+objektif_array[i].value+'<--->';
+                    }
+                }
+            }
 
 
             // formData.append('noc_id', noc_id);
@@ -2293,25 +2587,32 @@ if(radio1){
                 formData.append('sub_skop_list_data[]', item);
             });
 
+            var penerangan=document.getElementById("penerangan").value; //alert(justification);
+
+
 
             formData.append('noc_id', noc_id);
             formData.append('SkopData', document.formData.SkopData.value);
-            formData.append('KeteranganData', document.formData.KeteranganData.value);
-            formData.append('KomponenData', document.formData.KomponenData.value);
+            formData.append('KeteranganData', '');
+            formData.append('KomponenData', '');
             // formData.append('status_id', document.formData.status_id.value);
             formData.append('nameBaharu', document.formData.nameBaharu.value);
             var checkbox3=$('#inlineCheckbox3').is(":checked")
             if(checkbox3){
-                formData.append('valueOne', document.formData.valueOne.value);
-                formData.append('valueTwo', document.formData.valueTwo.value);
+                // formData.append('valueOne', document.formData.valueOne.value);
+                // formData.append('valueTwo', document.formData.valueTwo.value);
                 formData.append('valueThree', document.formData.valueThree.value);
                 formData.append('valueFour', document.formData.valueFour.value);
             }
-            formData.append('kosValue', document.formData.kosValue.value);
-            formData.append('objektifVal', document.formData.objektifVal.value);
+            formData.append('kosValue', removecomma(document.formData.kosValue.value));
+            formData.append('objektifVal', obj);
+            formData.append('butiran_code', document.formData.butiran_name.value);
+
 
             formData.append('lampiran_file_name',file1);
             formData.append('memo_file_name',file2);
+            formData.append('penerangan', penerangan);
+
         
         //if(SkopData || KeteranganData|| KomponenData||nameBaharu||kosValue||objektifVal){ 
 
@@ -2338,7 +2639,8 @@ if(radio1){
 
                             $('#add_role_sucess_modal').modal('show');
                             $("#tutup").click(function(){                    
-                                    window.location.href = "/Kertas_Permohonan_NOC";
+                                    //window.location.href = "/Kertas_Permohonan_NOC";
+                                    location.reload();
                             })
                 })
                 .catch(function (response) {
@@ -2390,21 +2692,22 @@ if(radio1){
                     var pp_id=$("#pp_id").val();
                     var rowCount = $('#editOutputTable >tbody >tr').length;
                     var formData = new FormData();
-                    if(pId!=''){
-                        formData.append('project_id', pId);
-                    }
-                    else{
-                        formData.append('project_id', pp_id);
-                    }
+                    formData.append('project_id', pp_id);
                     formData.append('noc_id', noc_id);
+                    formData.append('user_id', {{Auth::user()->id}})
 
+
+
+                    let outputQuantity = document.querySelectorAll(".outputQuantity");
+                    let outputTextArea = document.querySelectorAll(".outputTextArea");
+                    let outputUnit = document.querySelectorAll(".outputUnit");
 
                     output = []  
-                    for (var i = 0;i < rowCount; i++) {                         
+                    for (var i = 0;i < outputUnit.length; i++) {                         
                         data= {};
-                        data.output_proj = $("#outputTextAreaElements-"+i+"").val()
-                        data.Kuantiti= $("#outputQuantityElements-"+i+"").val()
-                        data.unit_id = $("#outputUnitElements-"+i+"").val()
+                        data.output_proj = outputTextArea[i].value;
+                        data.Kuantiti= outputQuantity[i].value;
+                        data.unit_id = outputUnit[i].value;
                         output.push(JSON.stringify(data))
                     }
                     output.forEach((item) => {
@@ -2579,38 +2882,8 @@ if(radio1){
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function AddNewTd(){
-                $("#outputBody").append(tdData)
-                // $("#firstTd").addClass('d-none')
-                // $(".countTr")
-                var rowCount = $('#editOutputTable >tbody >tr').length;
-                var realCount=rowCount-1
-                $(".output_minus").attr('onClick', 'remove(this);');
-                var trElements = document.querySelectorAll('.countTr');
-                var outputTextAreaElements = document.querySelectorAll('.outputTextArea');
-                var outputQuantityElements = document.querySelectorAll('.outputQuantity');
-                var outputUnitElements = document.querySelectorAll('.outputUnit');
-                var output_minus=document.querySelectorAll('.output_minus');
-                var firstTd=document.querySelectorAll('.firstTd');
 
-                for (var i = 0; i < trElements.length; i++){
-                    // //console.log(i)
-                    trElements[i].id="countTr-"+i+""
-                    outputTextAreaElements[i].id="outputTextAreaElements-"+i+""
-                    outputQuantityElements[i].id="outputQuantityElements-"+i+""
-                    outputUnitElements[i].id="outputUnitElements-"+i+""
-                    output_minus[i].id="output_minus-"+i+""
-                    firstTd[i].id="firstTd-"+i+"";
-                    $("#output_minus-"+i+"").val(i);
-                    if(i>0){
-                        $("#firstTd-"+i+"").addClass("d-none")
-                    }
-
-                    loadUnit("outputUnitElements-"+i+"")
-                }
-
-            }
-            function loadUnit(units){
+function loadUnit(units){
                     //console.log(units)
                     //console.log($("#"+units+" option").length)
                     if($("#"+units+" option").length==1){
@@ -2635,42 +2908,114 @@ function AddNewTd(){
                         }
                     })
                 }
-                }
- 
-var tdData=`<tr class="countTr">
-            <td class="NOCtblKodprojek">
-                <div  class="firstTd">
-                    <label for="">Output Projek <img onclick="AddNewTd()"
-                    src="{{ asset('assets/images/Add_box1.png') }}"
-                    alt=""
-                    /></label>
-                </div>
-            </td>
-            <td class="NOCtblKodprojek">
-                <textarea class="form-control outputTextArea" name="outputText" id="outputTextAreaElements-0"></textarea>
-            </td>
-            <td class="NOCtblKodprojek">
-                <label for="">Kuantiti/Bilangan</label>
-            </td>
-            <td class="NOCtblKodprojek">
-                <input class="form-control outputQuantity" type="text" name="outputKuantiti" id="outputQuantityElements-0" value="">
-            </td>
-            <td class="NOCtblKodprojek">
-                <label for="">Unit</label>
-            </td>
-            <td class="NOCtblKodprojek d-flex">
-                <select class="form-control outputUnit" name="outputUnit" id="outputUnitElements-0" style="width: 100%">
-                    <option value="">--Pilih--</option>
+}
                 
-                </select>
-                <button type="button" class="output_minus" onclick="remove(this);" style="border:none !important;background: transparent !important; float: right;">
-                <i class="ri-checkbox-indeterminate-line ri-xl"></i>
-                </button>
-            </td></tr>`
+var unit_ouput_drop= window.localStorage.getItem('unit_drop');
 
+function loadChildOutput(data){
+    let output_proj='';
+    let Kuantiti='0.00';
+    let unit=1;
 
-            
+    if(data.unit_id)
+    {
+        unit=data.unit_id;
+    }
+    if(data.output_proj)
+    {
+        output_proj=data.output_proj;
+    }
+    if(data.Kuantiti)
+    {
+        Kuantiti=data.Kuantiti;
+    }
 
+    const table = document.getElementById("editOutputTable");
+    const rowId = "" + (table.rows.length); // Generate a unique ID
+
+    var tdData=`<tr id="`+rowId+`">
+                <td class="NOCtblKodprojek">
+                    <div  class="firstTd">
+                    </div>
+                </td>
+                <td class="NOCtblKodprojek">
+                    <textarea class="form-control outputTextArea" name="outputText" `+output_proj+` id="outputTextAreaElements-0">`+output_proj+`</textarea>
+                </td>
+                <td class="NOCtblKodprojek">
+                    <label for="">Kuantiti/Bilangan</label>
+                </td>
+                <td class="NOCtblKodprojek">
+                    <input class="form-control outputQuantity" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');" name="outputKuantiti" id="outputQuantityElements-0" value="`+Kuantiti+`">
+                </td>
+                <td class="NOCtblKodprojek">
+                    <label for="">Unit</label>
+                </td>
+                <td class="NOCtblKodprojek d-flex">
+                    <select class="form-control outputUnit" name="outputUnit" id="outputUnitElements-`+rowId+`" style="width: 100%">
+                    `+unit_ouput_drop+`                
+                    </select>
+                    <button type="button" class="output_minus" onclick="removeNewOutput(`+rowId+`);" style="border:none !important;background: transparent !important; float: right;">
+                    <i class="ri-checkbox-indeterminate-line ri-xl"></i>
+                    </button>
+                </td></tr>`;
+    $('#outputBody').append(tdData);
+
+    document.getElementById('outputUnitElements-'+rowId).value = unit;
+
+}
+
+function loadParentOutput(data){
+
+    const table = document.getElementById("editOutputTable");
+    const rowId = "" + (table.rows.length); // Generate a unique ID
+        
+    let output_proj='';
+    let Kuantiti='0.00';
+    let unit=1;
+
+    if(data.unit_id)
+    {
+        unit=data.unit_id;
+    }
+    if(data.output_proj)
+    {
+        output_proj=data.output_proj;
+    }
+    if(data.Kuantiti)
+    {
+        Kuantiti=data.Kuantiti;
+    }        
+    var tdDataOne=`<tr id="`+rowId+`">
+                    <td class="NOCtblKodprojek">
+                        <div  class="firstTd">
+                            <label for="">Output Projek 
+                            <i class="ri-add-box-line" onclick="AddNewOutput()" style="font-size: 1.5rem; vertical-align: middle; color: #595d6e;"></i>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="NOCtblKodprojek">
+                        <textarea class="form-control outputTextArea" name="outputText" value="`+Kuantiti+`" id="outputTextAreaElements-0">`+output_proj+`</textarea>
+                    </td>
+                    <td class="NOCtblKodprojek">
+                        <label for="">Kuantiti/Bilangan</label>
+                    </td>
+                    <td class="NOCtblKodprojek">
+                        <input class="form-control outputQuantity" oninput="this.value = this.value.replace(/[^0-9]/g, '');" type="text" name="outputKuantiti" id="outputQuantityElements-0" value="`+Kuantiti+`">
+                    </td>
+                    <td class="NOCtblKodprojek">
+                        <label for="">Unit</label>
+                    </td>
+                    <td class="NOCtblKodprojek d-flex">
+                        <select class="form-control outputUnit" name="outputUnit" id="outputUnitElements-`+rowId+`" style="width: 100%">
+                        `+unit_ouput_drop+`                
+                        </select>
+            </td></tr>`;
+
+            $('#outputBody').append(tdDataOne);
+
+            document.getElementById('outputUnitElements-'+rowId).value = unit;
+
+}
 
            
 
@@ -2739,13 +3084,11 @@ var tdData=`<tr class="countTr">
                 }
             }
  
-var tdData2=`<tr class="outcomecountTr">
+var tdData2New=`<tr class="outcomecountTr">
             <td class="NOCtblKodprojek">
                 <div  class="outcomefirstTd">
-                    <label for="">OutCome Projek <img onclick="AddNewOutComeTd()"
-                    src="{{ asset('assets/images/Add_box1.png') }}"
-                    alt=""
-                    /></label>
+                    <label for="">Outcome Projek  <i class="ri-add-box-line" onclick="AddNewOutComeTd()" style="font-size: 1.5rem; vertical-align: middle; color: #595d6e;"></i>
+                    </label>
                 </div>
             </td>
             <td class="NOCtblKodprojek">
@@ -2755,15 +3098,39 @@ var tdData2=`<tr class="outcomecountTr">
                 <label for="">Kuantiti/Bilangan</label>
             </td>
             <td class="NOCtblKodprojek">
-                <input class="form-control outcomeQuantity" type="text" name="outcomeKuantiti" id="outcomeQuantityElements-0" value="">
+                <input class="form-control outcomeQuantity" oninput="this.value = this.value.replace(/[^0-9]/g, '');" type="text" name="outcomeKuantiti" id="outcomeQuantityElements-0" value="">
             </td>
             <td class="NOCtblKodprojek">
                 <label for="">Unit</label>
             </td>
             <td class="NOCtblKodprojek d-flex">
                 <select class="form-control outcomeUnit" name="outcomeUnit" id="outcomeUnitElements-0" style="width: 100%">
-                    <option value="">--Pilih--</option>
-                
+                `+unit_ouput_drop+`                
+                </select>
+            </td></tr>`;
+
+    var tdData2=`<tr class="outcomecountTr">
+            <td class="NOCtblKodprojek">
+                <div  class="outcomefirstTd">
+                    <label for="">Outcome Projek</i>
+                    </label>
+                </div>
+            </td>
+            <td class="NOCtblKodprojek">
+                <textarea class="form-control outcomeTextArea" name="outcomeText" id="outcomeTextAreaElements-0"></textarea>
+            </td>
+            <td class="NOCtblKodprojek">
+                <label for="">Kuantiti/Bilangan</label>
+            </td>
+            <td class="NOCtblKodprojek">
+                <input class="form-control outcomeQuantity" oninput="this.value = this.value.replace(/[^0-9]/g, '');" type="text" name="outcomeKuantiti" id="outcomeQuantityElements-0" value="">
+            </td>
+            <td class="NOCtblKodprojek">
+                <label for="">Unit</label>
+            </td>
+            <td class="NOCtblKodprojek d-flex">
+                <select class="form-control outcomeUnit" name="outcomeUnit" id="outcomeUnitElements-0" style="width: 100%">
+                `+unit_ouput_drop+`                
                 </select>
                 <button type="button" class="outcome_minus" onclick="removeoutcome(this);" style="border:none !important;background: transparent !important; float: right;">
                 <i class="ri-checkbox-indeterminate-line ri-xl"></i>
@@ -3554,6 +3921,10 @@ $("#savenegeri").click(function(){
         savenegeridetails();
 });
 
+$("#negeri_btn_close").click(function(){
+    $("#exampleModal2").modal('hide');
+});
+
 function savenegeridetails(){
 
     var formDatanegeri = new FormData();
@@ -3645,6 +4016,8 @@ function savenegeridetails(){
                     </select>`;
         
         $('#skop_child').append(html_child);
+
+        return 1;
     }
 
     function loadSkopData(skop,sub_skop)
@@ -3690,10 +4063,10 @@ function savenegeridetails(){
         let data = 
             ` <tr class="row m-0 mainrow " id="parent_row">
                 <td class="col-md-7 col-xs-12 d-flex ">
-                    <div class="col-1 mainNumbering" id="mainNumbering" style="position: relative !important;padding-top: 20px !important;padding-left: 5% !important;  font-size: 13px !important; font-weight: bold !important; width:10%;">
+                    <div class="col-1 mainNumbering" id="mainNumbering" style="position: relative !important;padding-top: 20px !important;padding-left: 5% !important;  font-size: 0.8rem !important; font-weight: bold !important; width:10%;">
                     </div>
                     <div class="p-2 align-items-center" style="width:100%;" id="parentDiv">
-                        <select class="py-2 col-md-12 col-12 form-control skop_parent_list" onchange="changeSkop(this)" id="skop_parent_list">
+                        <select class="py-2 col-md-12 col-12 form-control skop_parent_list" font-size: 0.8rem !important; onchange="changeSkop(this)" id="skop_parent_list">
                         ` + output + `
                         </select>
                     </div>
@@ -3702,15 +4075,15 @@ function savenegeridetails(){
                     <div class="p-2 align-items-center" style="width:72%;">
                         <input
                         type="text" id="skop_kos"
-                        class="py-2 col-md-11 col-xs-12 form-control skop_kos" onchange="calculateKos()"
+                        class="text-right py-2 col-md-11 col-xs-12 form-control skop_kos" onkeyup="calculateKos(this)"
                         value="`+kos_value+`" 
                         />
                     </div>
                     <button type="button" class="ml-2 addsubrow" onclick="addSubRow(this)">
-                        <i class="ri-add-box-line ri-xl"></i>
+                        <i class="ri-add-box-line ri-2x"></i>
                     </button>
                     <button type="button" class="subminusbutton" style="" onclick="minusRow(this)">
-                        <i class="ri-checkbox-indeterminate-line ri-xl"></i>
+                        <i class="ri-checkbox-indeterminate-line ri-2x"></i>
                     </button> 
                 </td>
             </tr>
@@ -3730,7 +4103,7 @@ function savenegeridetails(){
         num.setAttribute("data-value" , abc)
         })
 
-        calculateKos();
+        calculateKosData();
     }
 
     function addSubSkop(subskop,count)
@@ -3755,7 +4128,7 @@ function savenegeridetails(){
             let html = 
                 ` <tr class="row m-0 mainrow" id="child_row_`+maincount+`">
                     <td class="col-md-12 col-xs-12 d-flex " style="padding-left:10%;">
-                        <div class="col-1 subNumbering_`+maincount+`" id="subNumbering" style="position: relative !important;padding-top: 20px !important;padding-left: 5% !important;  font-size: 13px !important; font-weight: bold !important;">
+                        <div class="col-1 subNumbering_`+maincount+`" id="subNumbering" style="position: relative !important;padding-top: 20px !important;  font-size: 13px !important; font-weight: bold !important;">
                         </div>
                         <div class="p-2 align-items-center" style="width:45%;">
                         <input type="hidden" id="parent_skop_id" name="parent_skop_id" value="`+parentID+`">
@@ -3785,7 +4158,7 @@ function savenegeridetails(){
     function minusRow(element) {
         var delete_row = element.parentNode.parentNode; //console.log(delete_row);
             delete_row.parentNode.removeChild(delete_row);
-            calculateKos();
+            calculateKosData();
     }
 
     function changeSkop(element)
@@ -3799,34 +4172,58 @@ function savenegeridetails(){
         });
     }
 
-    function removecomma(num){
+    function removecomma(num){console.log(num);
         
         num=num.replace(/\,/g,''); // 1125, but a string, so convert it to number
-        num=parseFloat(num,10);
+        console.log(num);
+        // num=parseFloat(num,10);  console.log(num);
         return num;
     }
 
     function number_format($num)
-    { //console.log($num)
+    {   console.log('num'); console.log($num)
           if(isNaN($num))
-          {
+          {  console.log('not a number'); 
             return '0.00';
           }
           else
           {
             if($num!=null && $num!='.00')
-            {
+            { console.log('a number'); 
               $abc=$num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
               return $abc;
             }
             else
-            {
+            { console.log('1 a number'); 
               return '0.00';
             }
           }      
     }
 
-    function calculateKos()
+    function calculateKos(element)
+    {
+    //    console.log(number_format(element.value));
+    //    console.log(removecomma(element.value));
+
+       element.value = number_format(removecomma(element.value));
+        let all_kos = document.querySelectorAll("[id^='skop_kos']");
+        let jumlah = 0;
+
+        for(let i=0; i<all_kos.length; i++)
+        { 
+            if(removecomma(all_kos[i].value) > 0){
+                jumlah=jumlah+parseFloat(removecomma(all_kos[i].value));
+            }
+            else
+            {
+                jumlah=jumlah;
+            } 
+        }
+
+        document.getElementById('jumlah_kos').value=number_format(jumlah.toFixed(2));
+    }
+
+    function calculateKosData()
     {
         let all_kos = document.querySelectorAll("[id^='skop_kos']");
         let jumlah = 0;
@@ -3842,7 +4239,7 @@ function savenegeridetails(){
             } 
         }
 
-        document.getElementById('jumlah_kos').value=number_format(jumlah);
+        document.getElementById('jumlah_kos').value=number_format(jumlah.toFixed(2));
     }
     
 
@@ -3861,7 +4258,7 @@ function savenegeridetails(){
             let html = 
                 ` <tr class="row m-0 mainrow" id="child_row_`+maincount+`">
                     <td class="col-md-12 col-xs-12 d-flex " style="padding-left:10%;">
-                        <div class="col-1 subNumbering_`+maincount+`" id="subNumbering" style="position: relative !important;padding-top: 20px !important;padding-left: 5% !important;  font-size: 13px !important; font-weight: bold !important;">
+                        <div class="col-1 subNumbering_`+maincount+`" id="subNumbering" style="position: relative !important;padding-top: 20px !important; font-size: 13px !important; font-weight: bold !important;">
                         </div>
                         <div class="p-2 align-items-center" style="width:45%;">
                         <input type="hidden" id="parent_skop_id" name="parent_skop_id" value="`+parentID+`">
@@ -3891,7 +4288,14 @@ function savenegeridetails(){
         }
 
         $("#lampiran_file_name").on( "change", function() {
-            var file_name=$("#lampiran_file_name").val().replace(/C:\\fakepath\\/i, '')
+            var file_name=$("#lampiran_file_name").val().replace(/C:\\fakepath\\/i, ''); console.log(file_name);
+
+                var allowedExtensionslampiran = /(\.doc|\.docx)$/i;
+                if(file_name && !allowedExtensionslampiran.exec(file_name)){
+                        $("#lampiran_file_name_error").text('gunakan fail doc atau docx sahaja')
+                        return false;
+                }
+                $("#lampiran_file_name_error").text('')
                 $("#filePreview").attr('src','{{ asset('assets/pdf.jpg.png') }}');
                 $("#fileName").text(file_name);
                 $("#Uploadfile").addClass('d-none')
@@ -3909,6 +4313,12 @@ function savenegeridetails(){
 
         $("#memo_file_name").on( "change", function() {
             var file_name=$("#memo_file_name").val().replace(/C:\\fakepath\\/i, '')
+            var allowedExtensionsmemo = /(\.pdf|\.pdf)$/i;
+                if(file_name && !allowedExtensionsmemo.exec(file_name)){
+                        $("#memo_file_name_error").text('gunakan fail doc atau docx sahaja')
+                        return false;
+                }
+                $("#memo_file_name_error").text('')
                 $("#filePreview1").attr('src','{{ asset('assets/pdf.jpg.png') }}');
                 $("#fileName1").text(file_name);
                 $("#Uploadfile1").addClass('d-none')
@@ -3927,6 +4337,12 @@ function savenegeridetails(){
 
         $("#lampiran_pindan_file_name").on( "change", function() {
             var file_name=$("#lampiran_pindan_file_name").val().replace(/C:\\fakepath\\/i, '')
+            var allowedExtensionslampiran = /(\.doc|\.docx)$/i;
+                if(file_name && !allowedExtensionslampiran.exec(file_name)){
+                        $("#lampiran_file_name_error").text('gunakan fail doc atau docx sahaja')
+                        return false;
+                }
+                $("#lampiran_file_name_error").text('')
                 $("#filePreview2").attr('src','{{ asset('assets/pdf.jpg.png') }}');
                 $("#fileName2").text(file_name);
                 $("#Uploadfile2").addClass('d-none')
@@ -3956,4 +4372,119 @@ function savenegeridetails(){
             $("#Uploadfile3").removeClass('d-none')
             $("#fileUploaded3").addClass('d-none')
         })
+
+        function countWords() {
+            var str= document.getElementById('penerangan').value; console.log(str);
+            const arr = str.split(' ');
+            var count=  arr.filter(word => word !== '').length;
+            document.getElementById('l_count').innerText = count;
+        }
+
+        function KosChange()
+        {
+            var kos=document.getElementById('kosValue').value; console.log(kos);
+            console.log(removecomma(kos));
+            var newValue= number_format(removecomma(kos)); console.log(newValue);
+
+            document.getElementById('kosValue').value=newValue;
+        }
+
+        function onlyNumberKey(evt) {
+             
+             // Only ASCII character in that range allowed
+             var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+             if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                 return false;
+             return true;
+         }
+</script>
+
+<script>
+
+    function addObjectif(data)
+    {
+            const table = document.getElementById("ObjectifTable");
+            const row = table.insertRow();
+            const rowId = "" + (table.rows.length - 1); // Generate a unique ID
+            row.id = rowId; // Set the ID of the row
+
+            const row_length = table.rows.length;
+
+            // Add cells to the new row
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+
+
+            // Insert content into cells
+            cell1.innerHTML =  `<td class="NOCtblKodprojek col-12">  
+                                    <textarea class="w-70 form-control" name="objektifVal" id="objektifVal" cols="30" rows="3" value="`+data+`">`+data+`</textarea>
+                                </td>`; 
+            cell2.innerHTML = `<td class="text-left" style="vertical-align: middle;">  
+                                                <i class="ri-checkbox-indeterminate-line ri-2x" onclick="removeObjectif(`+rowId+`)"></i>
+                                              </td> 
+                                </tr>`;
+    }
+
+    function removeObjectif(rowid)
+    {
+        var row = document.getElementById(rowid);
+            row.parentNode.removeChild(row);
+    }
+
+</script>
+
+<script>
+
+    function AddNewOutput(data)
+    {
+            const table = document.getElementById("editOutputTable");
+            const row = table.insertRow();
+            const rowId = "" + (table.rows.length - 1); // Generate a unique ID
+            row.id = rowId; // Set the ID of the row
+
+            const row_length = table.rows.length;
+
+            // Add cells to the new row
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell4 = row.insertCell(3);
+            const cell5 = row.insertCell(4);
+            const cell6 = row.insertCell(5);
+
+            var unit_ouput_drop= window.localStorage.getItem('unit_drop');
+
+            // Insert content into cells
+            cell1.innerHTML =  `<td class="NOCtblKodprojek">
+                                    <div  class="firstTd">
+                                    </div>
+                                </td>`; 
+            cell2.innerHTML = `<td class="NOCtblKodprojek">
+                                    <textarea class="form-control outputTextArea" name="outputText" id="outputTextAreaElements-1"></textarea>
+                                </td>`;
+            cell3.innerHTML = `<td class="NOCtblKodprojek">
+                                    <label for="">Kuantiti/Bilangan</label>
+                                </td>`;
+            cell4.innerHTML = `<td class="NOCtblKodprojek">
+                                    <input class="form-control outputQuantity" type="text" name="outputKuantiti" oninput="this.value = this.value.replace(/[^0-9]/g, '');" id="outputQuantityElements-1" value="">
+                                </td>`;
+            cell5.innerHTML = `<td class="NOCtblKodprojek">
+                                    <label for="">Unit</label>
+                                </td>`;
+            cell6.innerHTML = `<td class="NOCtblKodprojek d-flex">
+                                    <select class="form-control outputUnit" name="outputUnit" id="outputUnitElements-0" style="width: 100%">
+                                    `+unit_ouput_drop+`                
+                                    </select>
+                                    <button type="button" class="output_minus" onclick="removeNewOutput(`+rowId+`);" style="border:none !important;background: transparent !important; float: right;">
+                                    <i class="ri-checkbox-indeterminate-line ri-xl"></i>
+                                    </button>
+                                </td`;
+    }
+
+    function removeNewOutput(rowid)
+    {
+        var row = document.getElementById(rowid);
+            row.parentNode.removeChild(row);
+    }
+
 </script>

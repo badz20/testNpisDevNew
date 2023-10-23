@@ -50,6 +50,16 @@ $penyemak=Session::get('penyemak');
   $semak_access=0;
 
 
+  if($userType==2 || $userType==3 || $userType==4)
+  {
+      $noc_kerpulan_access=1;
+  }
+  else
+  {
+     $noc_kerpulan_access=0;
+  }
+
+
   if($userType==1)
   {
     $semak_access=0;
@@ -452,9 +462,16 @@ $penyemak=Session::get('penyemak');
                     data-parent="#accordionParent"
                   >
                     <ul class="">
-                      <li><a href="/Kertas_Permohonan_NOC">Kertas Permohonan NOC</a></li>
-                      <li><a href="/peruntukan_siling_tahunan">Pindah Peruntukan Siling Tahunan</a></li>
-                      <li><a href="#">Contoh</a></li>
+                      <li><a href="#">Dashboards</a></li>
+                      <li><a href="#">JPS</a></li>
+                        <ul><a href="/Kertas_Permohonan_NOC" class="senarai">Kertas Permohonan NOC</a></ul>
+                        <ul><a href="/peruntukan_siling_tahunan" class="senarai">Pindah Peruntukan Siling Tahunan</a></ul>
+                        <ul><a href="#" class="senarai">Contoh</a></ul>
+                      @if($noc_kerpulan_access==1)
+                      <li><a href="#">JABATAN BUKAN TEKNIK</a></li>
+                        <ul><a href="/keperluan_peruntukan_JBT" class="senarai">Keperluan Peruntukan JBT</a></ul>
+                      <li><a href="#">Janaan Laporan</a></li>
+                      @endif
                     </ul>
                   </div>
                 </div>

@@ -83,7 +83,9 @@ $userType=Session::get('userType');
                       <div class="modal-content">
                         <div class="modal-header vmmodal_header">
                           <h5 class="modal-title" id="exampleModalLabel"><i class="ri-user-add-line" style="font size:1rem; vertical-align: middle; color:#fff;"></i> Maklumat Penglibatan Fasilitator</h5>
-                          <img class="mr-3" src="{{ asset('assets/images/close_img.png') }}" id="minus_pop" style="height: 20px;margin-top: 6px;cursor: pointer;">
+                          <button type="button" class="ml-auto" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="mdi mdi-window-close icon_white" style="font-size: 2em;" id="close_modal"></i>
+                          </button>
                         </div>
                         <div class="modal-body">
                         <x-form.spinner>
@@ -95,12 +97,12 @@ $userType=Session::get('userType');
                               <input style="font-size:0.8rem;" type="hidden" name="edit_id" id="edit_id" value="">
                               <label class="col-2 required" for="">Fasilitator</label>
                               <div class="form-check form-check-inline">
-                                <input checked class="form-check-input" type="radio" name="inlineRadioOptions" id="yesCheckedit" value="1" onclick="javascript:yesnoCheckEdit();">
+                                <input checked class="form-check-input" type="radio" name="inlineRadioOptions" id="yesCheckedit" value="1" disabled onclick="javascript:yesnoCheckEdit();">
                                 <label class="form-check-label" for="inlineRadio1">JPS</label>
                               </div>
                               <div class="form-check form-check-inline">
-                                <input style="font-size:0.8rem;" class="form-check-input" type="radio" name="inlineRadioOptions" id="noCheckedit" value="2"  onclick="javascript:yesnoCheckEdit();">
-                                <label class="form-check-label" for="inlineRadio2">Bahagian Pengurusan Nilai,Unit Perancang Ekonomi</label>
+                                <input style="font-size:0.8rem;" class="form-check-input" type="radio" name="inlineRadioOptions" id="noCheckedit" value="2" disabled onclick="javascript:yesnoCheckEdit();">
+                                <label class="form-check-label" for="inlineRadio2">Bahagian Pengurusan Nilai, Kementerian Ekonomi</label>
                               </div>
                               <div class="input-group mt-3 mb-3">
                                 <label class="col-2 required" for="">Nama Fasilitator</label>
@@ -123,21 +125,21 @@ $userType=Session::get('userType');
                               </div>
                               <div class="input-group mt-3 mb-3">
                                 <label class="col-2 required" for="">Bahagian</label>
-                                <input style="font-size:0.8rem;" name="bahagian_disabled" id="bahagian_edit_disabled" type="text" class="txbx1 form-control col-4" value="Bahagian Pengurusan Nilai, Unit Perancang Ekonomi" disabled="">
-                                <select name="bahagian" class="form-control col-4" id="bahagian_edit">
+                                <input style="font-size:0.8rem;" name="bahagian_disabled" id="bahagian_edit_disabled" type="text" class="txbx1 form-control col-4" value="Bahagian Pengurusan Nilai, Kementerian Ekonomi" disabled="">
+                                <select name="bahagian" style="font-size:0.8rem;" class="form-control col-4" id="bahagian_edit">
                                   <option value="">--Pilih--</option>
                                 </select>
                                 <span class="error" id="error_edit_bahagian" style="color:red;"></span>
                               </div>
                               <div class="input-group mt-3 mb-5">
                                 <label class="col-2 required" for="">Jabatan</label>
-                                <select name="jabatan" class="form-control col-4" id="jabatan_edit">
+                                <select name="jabatan" class="form-control col-4" id="jabatan_edit" style="font-size: 0.8rem;">
                                   <option value="">--Pilih--</option>
                                 </select>
                               </div>
                               <div class="input-group mt-3 mb-3">
                                 <label class="col-2 " for="">Jumlah Makmal</label>
-                                <input disabled class="form-control" value="-" type="text" name="" id="jumlah">
+                                <input disabled style="font-size:0.8rem;" class="form-control" value="-" type="text" name="" id="jumlah">
                               </div>
                               <div class="input-group mt-3 mb-3">
                                 <label class="col-2 " for="">Kekerapan Menjadi Ketua Fasilitator</label>
@@ -199,7 +201,7 @@ $userType=Session::get('userType');
                           </div>
                           <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="noCheckview" value="option2">
-                            <label class="form-check-label" for="inlineRadio2">Bahagian Pengurusan Nilai,Unit Perancang Ekonomi</label>
+                            <label class="form-check-label" for="inlineRadio2">Bahagian Pengurusan Nilai, Kementerian Ekonomi</label>
                           </div>
                           <div class="input-group mt-3 mb-3">
                             <label class="col-2" for="">Nama Fasilitator</label>
@@ -216,7 +218,7 @@ $userType=Session::get('userType');
                             </select>                          </div>
                           <div class="input-group mt-3 mb-3">
                             <label class="col-2 " for="">Bahagian</label>
-                            <input style="font-size:0.8rem;" name="bahagian_view_disabled" id="bahagian_view_disabled" type="text" class="txbx1 form-control col-4" value="Bahagian Pengurusan Nilai, Unit Perancang Ekonomi" disabled="">
+                            <input style="font-size:0.8rem;" name="bahagian_view_disabled" id="bahagian_view_disabled" type="text" class="txbx1 form-control col-4" value="Bahagian Pengurusan Nilai, Kementerian Ekonomi" disabled="">
                             <select style="font-size:0.8rem;" name="bahagian" class="form-control col-4" id="bahagian_view">
                                   <option value="">--Pilih--</option>
                             </select>
@@ -306,7 +308,7 @@ $userType=Session::get('userType');
                               </div>
                               <div class="form-check form-check-inline">
                                 <input style="font-size:0.8rem!important;" class="form-check-input" type="radio" name="inlineRadioOptions" id="noCheck" value="2"  onclick="javascript:yesnoCheck();">
-                                <label class="form-check-label" for="inlineRadio2">Bahagian Pengurusan Nilai,Unit Perancang Ekonomi</label>
+                                <label class="form-check-label" for="inlineRadio2">Bahagian Pengurusan Nilai, Kementerian Ekonomi</label>
                               </div>
                               <div class="input-group mt-3 mb-3">
                                 <label class="col-2 required" for="">Nama Fasilitator</label>
@@ -329,7 +331,7 @@ $userType=Session::get('userType');
                               </div>
                               <div class="input-group mt-3 mb-3">
                                 <label class="col-2 required" for="">Bahagian</label>
-                                <input style="font-size:0.8rem !important;" name="bahagian_disabled" type="text" class="txbx form-control col-4" value="Bahagian Pengurusan Nilai, Unit Perancang Ekonomi" disabled="">
+                                <input style="font-size:0.8rem !important;" name="bahagian_disabled" type="text" class="txbx form-control col-4" value="Bahagian Pengurusan Nilai, Kementerian Ekonomi" disabled="">
                                 <select style="font-size:0.8rem !important;" name="bahagian" class="form-control col-4" id="bahagian">
                                   <option value="">--Pilih--</option>
                                 </select>

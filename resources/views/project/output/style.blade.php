@@ -3278,7 +3278,7 @@ input:checked + .slider:before {
   background-color: #f9f8fd;
   color: #8c8e9b;
   font-size: 0.8rem;
-  padding: 4% 6%;
+  padding: 2% 6%;
 }
 .Tambah_modal_container #Tambah_data_modal .Tambah_modal_dialog .Tambah_modal_content .Tambah_modal_body form label,
 .Tambah_modal_container #Tambah_data_modal_edit .Tambah_modal_dialog .Tambah_modal_content .Tambah_modal_body form label {

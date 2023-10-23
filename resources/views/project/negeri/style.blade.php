@@ -4221,5 +4221,51 @@ button.remove_image {
   pointer-events: none;
  } */
 
+ .slider-container {
+      width: auto;
+      position: relative;
+    }
 
+    .slider-layer {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 3px;
+      background: #ccc;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+      border-radius: 5px;
+    }
+
+    .slider-layer::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 10px;
+      height: 10px;
+      background: #4CAF50;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    .slider-layer::-moz-range-thumb {
+      width: 10px;
+      height: 10px;
+      background: #4CAF50;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    .layer-list-content{
+      width: 80%;
+    /* left: 20%; */
+    position: relative;
+    /* left: 20%; */
+    padding-left: 15px;
+    }
+    /*Hide feature menu option which disable close action in popup  */
+    .esri-popup__feature-menu{
+      display: None;
+    }
 </style>

@@ -53,13 +53,14 @@
                   <div class="ml-auto userlist_content_header_right KON_downloadImg d-flex" type="" id="dropdownMenuButton" >
                     <div class="pemberat_content_header_right text-center col-xs-12" id="addpopbtn">
                       <button class="pemberat_greenBtn mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                        <i class="ri-add-circle-fill" style="font-size: 1.5em; vertical-align: middle;color:white"></i>
+                        <i class="ri-add-circle-fill" style="font-size: 1.5rem; vertical-align: middle;color:white"></i>
                         <lable id="pemberat_greenBtn">NOC</lable>
                       </button>
                     </div>
-                    <div class="userlist_content_header_righttext-center col-xs-12" style="margin-top:25px;">
-                      <i alt="printing" class="ri-printer-fill ri-2x printerIco" style="color: #fff; background-color: #39afd1;padding:5px;"></i>
-                      <!-- //<x-form.print></x-form.print> -->
+                    <div class="userlist_content_header_right text-center" style="margin-top:25px !important;magin-left:1% !important;">
+                      <button class="printing col-xs-12">
+                        <img src="{{ asset('assets/images/printing (1) 2.png') }}" alt="printing" onclick="printDataTable()"/>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -199,19 +200,19 @@
                                 color: #fff;
                                 ">
                                 <th scope="col" class="text-center NOCtblKodprojek">
-                                Bil
+                                <p class="mt-3" style="color: #fff;">Bil</p>
                                 </th>
                                 <th scope="col" class="text-center NOCtblKodprojek">
-                                Bilangan NOC
+                                <p class="mt-3" style="color: #fff;">Bilangan NOC</p>
                                 </th>
                                 <th scope="col" class="text-center NOCtblKodprojek">
-                                Tahun
+                                <p class="mt-3" style="color: #fff;">Tahun</p>
                                 </th>
                                 <th scope="col" class="text-center NOCtblKodprojek">
-                                Tarikh Buka
+                                <p class="mt-3" style="color: #fff;">Tarikh Buka</p>
                                 </th>
                                 <th scope="col" class="text-center NOCtblKodprojek">
-                                Tarikh Tutup
+                                <p class="mt-3" style="color: #fff;">Tarikh Tutup</p>
                                 </th>
                             </tr>
                             </thead>
@@ -248,7 +249,7 @@
                             style="border: transparent; background-color: transparent; color: #fff; text-align: right;"
                             ><i class="ri-close-fill" style="font-size: 1rem;"></i></button>
                         </div>
-                        <label class="modal_header_prestasi mt-2 mb-2" id="save_text">Maklumat anda berjaya di simpan<br></label>
+                        <label class="modal_header_prestasi mt-2 mb-2" style="font-size: 0.9rem;" id="save_text">Maklumat anda berjaya di simpan<br></label>
                             <div class="text-center">
                                 <button data-dismiss="modal" class="tutup" id="tutup">Tutup</button>
                             </div>

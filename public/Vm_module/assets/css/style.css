@@ -3645,7 +3645,7 @@ body.white {
   background-color: #fff;
   margin: auto;
   padding: 0;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px; */
 }
 .project_register_form_modal_container #Make_sure_application_modal .project_register_form_modal_dialog .project_register_form_modal_content .project_register_form_modal_body .project_register_form_modal_header,
 .project_register_form_modal_container #Reference_no_modal .project_register_form_modal_dialog .project_register_form_modal_content .project_register_form_modal_body .project_register_form_modal_header,
@@ -4183,12 +4183,12 @@ input:checked + .slider:before {
 .dataTables_length label {
   color: #818390;
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.7rem !important;
 }
 .dataTables_length label select {
   border-radius: 0.4rem;
   padding: 0.375rem 0.75rem;
-  font-size: 1rem;
+  font-size: 0.8rem !important;
   line-height: 1.5;
   color: #495057;
   background-color: #fff;

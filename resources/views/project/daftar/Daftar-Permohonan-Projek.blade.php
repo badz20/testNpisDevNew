@@ -648,7 +648,7 @@
                                   <option value="">
                                       15200-Memperbaiki,Mengindah,Membersih dan
                                       Merawat Air Sungai-sungai dan Infrastruktur
-                                      MASMA
+                                      MSMA
                                   </option>
                                   <option value="">
                                       15300-Mengorek Kuala-kuala Sungai
@@ -861,7 +861,7 @@
                                                   </td>
                                                   <td class="col-6 d-flex align-items-center">
                                                       <input type="text"
-                                                              class="py-1 col-8 form-control"
+                                                              class="py-1 col-8 form-control text-right"
                                                               name="total_cost"
                                                               id="total_cost"
                                                               value=""
@@ -899,7 +899,7 @@
                         <div class="input_fill_content col-lg-7 col-xs-12 row">
                           <div class="col-lg-5 col-xs-12 mr-3">
                             <label for="Bahagian">
-                                Bahagian (EPU JPM) <sup>*</sup>
+                                Bahagian (KE JPM) <sup>*</sup>
                             </label>
                           </div>
                           <div class="form-group input_form_group col-lg-6 col-xs-12">
@@ -1131,6 +1131,7 @@
                                     <label for="Tahun Jangka Mula" class="col-7 p-0 mr-2">Tahun Jangka Mula <sup>*</sup></label>
                                     <div class="form-group col-lg-3 col-xs-6 p-0 m-0">
                                         <input type="text"
+                                               style="width: 85px !important"
                                                class="form-control"
                                                name="tahun_jangka_mula"
                                                id="tahun_jangka_mula"
@@ -1146,6 +1147,7 @@
                                     <div class="form-group col-lg-3 col-xs-6 p-0 m-0">
                                         <input type="text"
                                                class="form-control"
+                                               style="width: 85px !important"
                                                name="tahun_jangka_siap"
                                                id="tahun_jangka_siap"
                                                value="" 
@@ -1162,6 +1164,7 @@
                                                class="form-control"
                                                name="tempoh_pelaksanaan"
                                                id="tempoh_pelaksanaan"
+                                               style="width: 85px !important"
                                                value="" required readonly/>
                                                <p id="tempoh_pelaksanaan_error" style="color:red"></p>
                                     </div>

@@ -3733,7 +3733,7 @@ p.gam {
 }
 div#gmbar_pop {
   position: absolute !important;
-    left: 26.5%;
+    left: 35%;
     width: 10%;
     z-index: 1;
 }
@@ -3883,10 +3883,7 @@ button.remove_image {
   width: 100%;
   height: 100%;
 }
-.dokumen_modal_content .modal .modal-dialog {
-  left: 8.5%;
-  width: 85% !important;
-  height: 100%;
+.dokumen_modal_content #dokumen_modal {
   background-color: rgba(0, 0, 0, 0.3);
 }
 .dokumen_modal_content .modal .modal-dialog .modal-content {
@@ -3959,11 +3956,13 @@ button.remove_image {
   font-size: 0.75rem;
 }
 .dokumen_modal_content .modal .modal-dialog .modal-content .modal-body .dokumen_file_select .img_input_container .upload_img {
-  padding: 2% 0;
+  padding: 2% 5%;
   text-align: center;
   color: #6c757c;
   border: 1px dashed #8c979d;
   cursor: pointer;
+  margin: 2% 0 2% 5%;
+  width: 100%!important;
 }
 .dokumen_modal_content .modal .modal-dialog .modal-content .modal-body .dokumen_file_select .img_input_container .upload_img img {
   width: 8%;
@@ -3978,7 +3977,7 @@ button.remove_image {
   margin-bottom: 0.2rem;
 }
 .dokumen_modal_content .modal .modal-dialog .modal-content .modal-body .inputs {
-  padding: 2% 8%;
+  padding: 2% 10%;
 }
 .dokumen_modal_content .modal .modal-dialog .modal-content .modal-body .inputs label {
   margin: 0px;
@@ -3989,6 +3988,7 @@ button.remove_image {
   border-radius: 0;
   border: 1px solid #878787;
   padding: 0.5rem 0.8rem;
+  margin: 0.5rem 0 0 -0.1rem
 }
 .dokumen_modal_content .modal .modal-dialog .modal-content .modal-body .dokumen_body_table {
   margin-top: 5%;
@@ -4000,11 +4000,18 @@ button.remove_image {
   overflow: hidden;
 }
 .dokumen_modal_content .modal .modal-dialog .modal-content .modal-body .dokumen_body_table table th {
-  background-color: #245ea4;
+  background-color: #39AFD1;
   border: none;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  vertical-align: middle;
 }
 .dokumen_modal_content .modal .modal-dialog .modal-content .modal-body .dokumen_body_table table td {
   border: none;
+  color: #000;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 .dokumen_modal_content .modal .modal-dialog .modal-content .modal-body .dokumen_body_table table td img {
   cursor: pointer;
@@ -4017,6 +4024,7 @@ button.remove_image {
   background-color: #5b63c3;
   color: #fff;
   padding: 0.3rem 1rem;
+  font-size: 0.8rem;
 }
 @media (min-width: 576px) {
   .dokumen_modal_content .modal-dialog {
@@ -4039,9 +4047,10 @@ div#langing_header_1 {
     -webkit-box-align: center;
     align-items: center;
     padding: 2.7% 5.6%;
-    gap: 5%;
+    /* gap: 5%; */
     border: 1px dashed #8c979d;
-    margin-bottom: 2.5%;
+    margin: 2% 0 2.5% 2.8%;
+    width: 100%!important;
 }
 button#remove_logo_1 {
     top: 5%;
@@ -4405,4 +4414,28 @@ button.ml-auto {
       right: 20%;
       font-size: 50px;
   }
+
+  p.gam {
+    margin-bottom: 0 !important;
+    padding-left: 6% !important;
+    margin: 0;
+    font-size: 0.88rem;
+    color: #646c9a;
+    font-weight: 600;
+}
+div#gmbar_pop {
+  position: absolute !important;
+  left: 15%;
+  width: 30%;
+  z-index: 1;
+  text-justify: center;
+}
+p#pop{
+    margin: 0;
+    background-color: #eeeded;
+    color: #000000;
+    padding: 5% 0.6rem;
+    font-size: 0.8rem;
+    border-radius: 7px
+}
 </style>

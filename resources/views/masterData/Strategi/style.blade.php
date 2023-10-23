@@ -101,10 +101,10 @@
     }
     td{
         color: #8b8c96 !important;
-        font-size: 0.85rem !important;
+        font-size: 0.8rem !important;
     }
     tr{
-        font-size: 0.85rem !important; 
+        font-size: 0.8rem !important; 
     }
     table.dataTable thead th, table.dataTable thead td {
         border-bottom: none !important;

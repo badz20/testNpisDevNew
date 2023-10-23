@@ -20,6 +20,58 @@ var numnegeri=1;
 var options="";
 var intialclick=true;
 var Negeri_ID="";
+const globalLayerConatiner = {};
+//Comon popup field template
+const fieldTemplate =  [
+  {
+    fieldName: "OBJECTID", 
+    label: "Object Id"
+  },
+  {
+    fieldName: "namaProjek", 
+    label: "Nama Projek"
+  },
+  {
+    fieldName: "No_Rujukan_Permohonan", 
+    label: "No Rujukan Permohonan"
+  },
+  {
+    fieldName: "Bahagian", 
+    label: "Bahagian"
+  },
+  {
+    fieldName: "Jenis_Perm", 
+    label: "Jenis Permohonan"
+  },
+  {
+    fieldName: "Negeri", 
+    label: "Negeri"
+  },
+  {
+    fieldName: "Daerah", 
+    label: "Daerah"
+  },
+  {
+    fieldName: "Parlimen", 
+    label: "Parlimen"
+  },
+  {
+    fieldName: "Dun", 
+    label: "DUN"
+  },
+  {
+    fieldName: "Tahun_Perm", 
+    label: "Tahun Permohonan"
+  },
+  {
+    fieldName: "Komponen_Kerja", 
+    label: "Komponen Kerja"
+  },
+  {
+    fieldName: "Nama_Komponen", 
+    label: "Nama Komponen"
+  }
+];
     $(document).ready(function() {
         if({{json_encode($viewOnly)}}) {
         disableInputs()
@@ -483,8 +535,8 @@ var negeriData =  document.getElementById("negeriData");
 
     $(".negeri_"+numnegeri).val(negeriid)
     //$(".daerah_"+numnegeri).val(daerahid)
-    // $(".parlimen_"+numnegeri).val(parlimenid)
-    // $(".dun_"+numnegeri).val(dunid)
+    $(".parlimen_"+numnegeri).val(parlimenid)
+    $(".dun_"+numnegeri).val(dunid)
 
     let all_negeri_btn = document.querySelectorAll(
                     "[id='minus_button']"                    
@@ -733,9 +785,11 @@ var negeriData =  document.getElementById("negeriData");
 
                 for(let i=0;i<result.data.documents.length;i++)
                 {
-                    console.log(result.data.documents[i])
+                    console.log()
+                    data = result.data.documents[i]; console.log(data);
+                    var file_url = data['media'][0]['original_url'];
                     var document_1 = result.data.documents[i].projek_negeri_dokumen_name;
-                    var spilted=document_1.split("/"); console.log(spilted)
+                    var spilted=document_1.split("/"); console.log(spilted);
                     var row = table.insertRow(i);
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);
@@ -744,8 +798,7 @@ var negeriData =  document.getElementById("negeriData");
                     cell1.style.textAlign = "center";
 
 
-                    var imageDiv = '<div class="nageri_table_img"><p>'+spilted[0]+
-                                    '</p><p>'+spilted[1]+'</p></div>';
+                    var imageDiv = '<div class="nageri_table_img"><a id="download_link'+[i]+'" class="text-primary" style="cursor: pointer"><p id="file_link" @if($is_submitted) disabled @endif style="font-size:0.7rem;">'+spilted[0]+'</p><p>'+spilted[1]+'</p></a></div>';
                     var descripDiv = '<div class="nageri_table_text"><p>'+result.data.documents[i].keterangan+'</p></div>';
                     var removDiv = '<button type="button" @if($is_submitted) disabled @endif onClick="removeImage('+result.data.documents[i].id+','+i+')" class="nageri_table_btn"><div class="nageri_union"><img src="{{ asset('assets/images/Union.png') }}" alt="close"/></div>'
                                     +"Padam"+'</button>';
@@ -753,6 +806,13 @@ var negeriData =  document.getElementById("negeriData");
                     cell2.innerHTML = imageDiv;
                     cell3.innerHTML = descripDiv;
                     cell4.innerHTML = removDiv;
+
+                    document.getElementById("download_link" + i).value=result.data.documents[i].id;
+
+                    $("#download_link"+ i).click(function(){
+                      var id=$("#download_link" + i).val();
+                      downloadDoc(id,spilted[0])
+                    });
                     
                 }
             }
@@ -765,6 +825,72 @@ var negeriData =  document.getElementById("negeriData");
     
         
   });
+
+  function downloadDoc(id,filename){
+        
+        const api_url = "{{env('API_URL')}}";  
+        console.log(api_url);
+        const api_token = "Bearer "+ document.getElementById("token").value;  
+        console.log(api_token);
+        update_user_api = api_url+"api/project/negeri_dokumen_download";
+        data_update = {'id':id};
+        var jsonString = JSON.stringify(data_update);
+        console.log(filename)
+        $.ajax({
+              type: 'GET',
+              url: update_user_api,
+              data: {'id':id} , 
+              //dataType:"json",
+              xhr: function () {
+                      var xhr = new XMLHttpRequest();
+                      xhr.onreadystatechange = function () {
+                          if (xhr.readyState == 2) {
+                              if (xhr.status == 200) {
+                                  xhr.responseType = "blob";
+                              } else {
+                                  xhr.responseType = "text";
+                              }
+                          }
+                      };
+                      return xhr;
+                  },
+              //contentType: "application/pdf",
+              success: async function(data) { 
+                console.log('downlaoded')
+                console.log(data)
+                
+                const str = data.type; console.log(str)
+                if(str){
+                  const parts = str.split('/');
+                  const doc_type = parts[1];  console.log(doc_type)  
+                  if(doc_type=='vnd.ms-excel') 
+                  {
+                    var doc_name = 'negeri_document.xls';  console.log(doc_name)    
+                  }
+                  else
+                  {
+                    var doc_name = 'negeri_document.'+doc_type;  console.log(doc_name)    
+                  }
+                }
+                else
+                {
+                  var doc_name = "negeri_document.pdf";    
+                }
+
+                //Convert the Byte Data to BLOB object.
+                var blob = new Blob([data]);
+                    var url = window.URL || window.webkitURL;
+                    link = url.createObjectURL(blob);
+                    var a = $("<a />");
+                    a.attr("download", doc_name);
+                    a.attr("href", link);
+                    $("body").append(a);
+                    a[0].click();
+                    $("body").remove(a);
+                    URL.revokeObjectURL(url);
+              }
+          });      
+  }
 
 
 
@@ -1008,8 +1134,8 @@ var dunopt="";
 
 var negeriid=  $(".negeri_"+i).val()
 //var daerahid= $(".daerah_"+i).val()
-// var parlimenid= $(".parlimen_"+i).val()
-// var dunid= $(".dun_"+i).val()
+var parlimenid= $(".parlimen_"+i).val()
+var dunid= $(".dun_"+i).val()
 
 
 $(".daerah_"+i+" option").each(function()
@@ -1030,8 +1156,7 @@ $(".dun_"+i+" option").each(function()
     
 });
 
-console.log(parlimenopt);
-console.log(dunopt);
+
 
 console.log( $(".negeri_"+i).val())
 
@@ -1115,8 +1240,8 @@ $(negerilokasi).insertAfter(closestrow);
 
 $(".negeri_"+numnegeri).val(negeriid)
 //$(".daerah_"+numnegeri).val(daerahid)
-// $(".parlimen_"+numnegeri).val(parlimenid)
-// $(".dun_"+numnegeri).val(dunid)
+$(".parlimen_"+numnegeri).val(parlimenid)
+$(".dun_"+numnegeri).val(dunid)
 
 let all_negeri_btn = document.querySelectorAll(
             "[id='minus_button']"                    
@@ -1753,8 +1878,8 @@ function loadDaerahData(id,daerah,parlimen,dun,rowno)
 
     $(".negeri_"+numnegeri).val(negeriid)
     //$(".daerah_"+numnegeri).val(daerahid)
-    // $(".parlimen_"+numnegeri).val(parlimenid)
-    // $(".dun_"+numnegeri).val(dunid)
+    $(".parlimen_"+numnegeri).val(parlimenid)
+    $(".dun_"+numnegeri).val(dunid)
 
     let all_negeri_btn = document.querySelectorAll(
                     "[id='minus_button']"                    
@@ -1916,66 +2041,6 @@ function show_addbtn(rdovalue){
                 
     }
 }
-
-// function show_addbtn(rdovalue){
-//   let all_negeri_div = document.querySelectorAll(".negerirow");
-//     if(rdovalue == 0 && all_negeri_div.length>=1){
-//         document.getElementById("addbtndiv").style="display: none";
-//     }
-//     else{
-//         document.getElementById("addbtndiv").style="display: block";
-        
-                
-//     }
-// }
-
-const addBtn = document.getElementById("addbtndiv");
-    const removeBtn = document.getElementById("minus_button");
-
-    const radioButtons = document.querySelectorAll('input[name="negeriselection"]');
-
-    // Initialize the selectedValue variable with the default value (0)
-    let selectedValue = "0";
-
-    // Function to update the selectedValue
-    function updateSelectedValue(value) {
-        selectedValue = value;
-        
-        // Check if there are multiple "negerirow" elements and hide/show "addbtndiv" accordingly
-        const all_negeri_div = document.querySelectorAll(".negerirow");
-        if (selectedValue === "0" && all_negeri_div.length < 1) {
-            addBtn.style.display = "block";
-        } 
-    }
-
-    radioButtons.forEach(radio => {
-        radio.addEventListener('click', () => {
-            const value = radio.value;
-            updateSelectedValue(value);
-        });
-    });
-
-    removeBtn.addEventListener("click", () => {
-      const all_negeri_div = document.querySelectorAll(".negerirow");
-      if (selectedValue === "0" || all_negeri_div.length >= 1) {
-            document.getElementById("addbtndiv").style.display ="block";
-          
-          
-        }
-    });
-
-    addBtn.addEventListener("click", () => {
-        // Generate more "negerirow" elements here
-        
-        // Check if there are multiple "negerirow" elements and hide/show "addbtndiv" accordingly
-        const all_negeri_div = document.querySelectorAll(".negerirow");
-        if (selectedValue === "0" && all_negeri_div.length >= 1) {
-            addBtn.style.display = "none";
-          
-        }
-    });
-
-    
 
       function myFunction() {
           var x = document.getElementById("gmbar_pop").classList[2]; console.log(x);
@@ -2176,8 +2241,12 @@ const addBtn = document.getElementById("addbtndiv");
       "esri/widgets/AreaMeasurement2D",
       "esri/widgets/Sketch",
       "esri/widgets/Sketch/SketchViewModel",
-      "esri/geometry/geometryEngine"
-
+      "esri/layers/MapImageLayer", // MapImageLayer
+      "esri/geometry/geometryEngine",
+      "esri/widgets/FeatureTable",
+      "esri/core/reactiveUtils",
+      "esri/widgets/Slider", // Slider
+      "esri/geometry/Extent",
     ], function(
         esriConfig,
         locator,
@@ -2210,8 +2279,12 @@ const addBtn = document.getElementById("addbtndiv");
         AreaMeasurement2D,
         Sketch,
         SketchViewModel,
-        geometryEngine
-
+        MapImageLayer,
+        geometryEngine,
+        FeatureTable,
+        reactiveUtils,
+        Slider,
+        Extent
     ) {
 
       //***********************Jey's Code******************************************************************
@@ -2443,10 +2516,10 @@ const addBtn = document.getElementById("addbtndiv");
 
 
       const map = new Map({
-        basemap: "arcgis-imagery",
+        basemap: "arcgis-streets",
         layers: [graphicsLayer, graphicsLayerpoly]
       });
-
+      // myTabContent
       const view = new MapView({
         container: "ArcgisSatellite",
         map: map,
@@ -2543,9 +2616,22 @@ const addBtn = document.getElementById("addbtndiv");
         }
         //pop add
         const popupPolygon = {
-                  "title": "Lakaran Polygon layer",
-                  "content": "<b>Komponen Kerja:</b> {Komponen_K}<br><b>Nama Komponen:</b> {Nama_Komponen}<br><b> <b>Nama Projek:</b> {namaProjek}<br><b>No Rujukan Permohonan:</b>{NoRujukanP}<br><b>Bahagian:</b> {Bahagian}<br>Negeri :</b> {Negeri }<br><b>Daerah:</b> {Daerah}<br><b>Parlimen:</b> {Parlimen}<br><b>Dun:</b> {DUN}<br><b>Tahun Permohonan:</b>{Tahun_Permohonan}<br><b>Jenis Permohonan:</b>{Jenis_Permohonan}<br><b>Luas_(sqm):</b> {Luas}<br>"
-                }
+          "title": "Lakaran Polygon layer",
+          "content": [{
+                      type: "fields",
+                      fieldInfos:[
+                        ...fieldTemplate, 
+                        {
+                          fieldName: "Shape__Area", 
+                          label: "Shape Area"
+                        },
+                        {
+                          fieldName: "Luas", 
+                          label: "Luas(sqm)"
+                        }
+                      ]
+              }]
+          };
 
         
         // const PolygonFeature = new FeatureLayer({
@@ -2558,13 +2644,14 @@ const addBtn = document.getElementById("addbtndiv");
 
         const url_featurepolygon = "https://npisgis.water.gov.my/arcgis/rest/services/Permohonan/Lakaran_Permohonan_Polygon/FeatureServer/0";
 		    const PolygonFeature = new FeatureLayer({
+          title: "Lakaran Permohonan Polygon",
           url: url_featurepolygon,
           outFields: ["*"],
           id: "auidd",
           renderer:polygonSimpleRenderer,
           popupTemplate: popupPolygon,
         });
-
+    globalLayerConatiner['Polygon Layer'] = PolygonFeature;
 
         esriConfig.request.interceptors.push({
         // set the `urls` property to the URL of the FeatureLayer so that this
@@ -2576,7 +2663,7 @@ const addBtn = document.getElementById("addbtndiv");
           params.requestOptions.query.token = "<?=$token?>";
         },
       });
-        map.add(PolygonFeature);
+
 
         const simpleFillSymbolpoly = {
               type: "simple-fill",
@@ -3558,12 +3645,28 @@ const addBtn = document.getElementById("addbtndiv");
                 //pop add
                 const popupLine = {
                   "title": "Lakaran Line layer",
-                  "content": "<b>Komponen Kerja:</b> {Komponen_K}<br><b>Nama Komponen:</b> {Nama_Komponen}<br><b> <b>Nama Projek:</b> {NamaProje}<br><b>No Rujukan Permohonan:</b>{NoRujukanP}<br><b>Bahagian:</b> {Bahagian}<br>Negeri :</b> {Negeri }<br><b>Daerah:</b> {Daerah}<br><b>Parlimen:</b>{Parlimen}<br><b>Dun:</b>{DUN}<br><b>Tahun Permohonan:</b>{Tahun_Perm}<br><b>Jenis Permohonan:</b>{Jenis_Perm}<br><b>Panjang:</b> {Panjang}<br>"
-                }
+                  "content": [{
+                              type: "fields",
+                              fieldInfos:[
+                                ...fieldTemplate, 
+                                {
+                                  fieldName: "Shape__Length", 
+                                  label: "Shape Length"
+                                },
+                                {
+                                  fieldName: "Panjang", 
+                                  label: "Panjang(m)"
+                                }
+                              ]
+                            }]
+                };
+
+                
 
   const url_featureline = "https://npisgis.water.gov.my/arcgis/rest/services/Permohonan/Lakaran_Permohonan_Polyline/FeatureServer";
 
   const LineFeature = new FeatureLayer({
+          title: "Lakaran Permohonan Polyline",
           //url: "https://services1.arcgis.com/5CTUlM2boWa13ftf/arcgis/rest/services/lakaran_line_feature/FeatureServer/0",
           url: url_featureline,
           outFields: ["*"],
@@ -3572,7 +3675,7 @@ const addBtn = document.getElementById("addbtndiv");
           popupTemplate: popupLine,
 
         });
-        map.add(LineFeature);
+        globalLayerConatiner['Line Layer'] = LineFeature;
 
         esriConfig.request.interceptors.push({
         // set the `urls` property to the URL of the FeatureLayer so that this
@@ -3603,17 +3706,24 @@ const addBtn = document.getElementById("addbtndiv");
           // console.log("Feature count: " + results.features.length)
           // console.log("Coded Values: " + results.features[0].layer.fields[11].domain.codedValues[0].code);
           // console.log("Coded Values: " + results.features[0].layer.fields[11].domain.codedValues[0].name)
-
-          for(i=0;i<results.features[0].layer.fields.length;i++){
-            if(results.features[0].layer.fields[i].name==="Komponen_Kerja"){
-              for(j=0;j<results.features[0].layer.fields[i].domain.codedValues.length;j++){
-                let option = document.createElement("option");
-                option.innerHTML = results.features[0].layer.fields[i].domain.codedValues[j].name;
-                option.value = results.features[0].layer.fields[i].domain.codedValues[j].code;
-                linekomponenkerja.appendChild(option);
-              }
+          result.features.forEach((feature) =>{
+            const val = results.features[5].getAttribute('Komponen_Kerja')
+            if (val){
+              let option = document.createElement("option");
+              option.innerHTML = val;
+              option.value = val;
             }
-          }
+          })
+          // for(i=0;i<results.features[0].layer.fields.length;i++){
+          //   if(results.features[0].layer.fields[i].name==="Komponen_Kerja"){
+          //     for(j=0;j<results.features[0].layer.fields[i].domain.codedValues.length;j++){
+          //       let option = document.createElement("option");
+          //       option.innerHTML = results.features[0].layer.fields[i].domain.codedValues[j].name;
+          //       option.value = results.features[0].layer.fields[i].domain.codedValues[j].code;
+          //       linekomponenkerja.appendChild(option);
+          //     }
+          //   }
+          // }
 
         }).catch((error) => {
           console.log(error.error);
@@ -4395,23 +4505,35 @@ const addBtn = document.getElementById("addbtndiv");
           }]
         }
 
-        //pop add
         const popupPoint = {
                   "title": "Lakaran point layer",
-                  "content": "<b>Komponen Kerja:</b> {Komponen_Kerja}<br><b>Nama Komponen:</b> {Nama_Komponen}<br><b> <b>Nama Projek:</b> {namaProjek}<br><b>No Rujukan Permohonan:</b>{No_Rujukan_Permohonan}<br><b>Bahagian:</b> {Bahagian}<br>Negeri :</b> {Negeri }<br><b>Daerah:</b> {Daerah}<br><b>Parlimen:</b>{Parlimen}<br><b>Dun:</b>{DUN}<br><b>Tahun Permohonan:</b>{Tahun_Perm}<br><b>Jenis Permohonan:</b>{Jenis_Perm}<br><b>Latitud:</b> {Latitud}<br><b>Longitud:</b> {Longitud}<br>"
-                }
+                  "content": [{
+                              type: "fields",
+                              fieldInfos:[
+                                ...fieldTemplate, 
+                                {
+                                  fieldName: "Latitud", 
+                                  label: "Latitude"
+                                },
+                                {
+                                  fieldName: "Longitud", 
+                                  label: "Longitude"
+                                }
+                              ]
+                            }]
+        };
     const url_featurepoint = "https://npisgis.water.gov.my/arcgis/rest/services/Permohonan/Lakaran_Permohonan_Point/FeatureServer/0";
 		
   const pointFeature = new FeatureLayer({
-          //url: "https://services1.arcgis.com/5CTUlM2boWa13ftf/arcgis/rest/services/lakaran_point_feature/FeatureServer/0",
-          //url: "https://npisgis.water.gov.my/arcgis/rest/services/Permohonan/Lakaran_Permohonan_Point/FeatureServer/0",
+         url: "https://npisgis.water.gov.my/arcgis/rest/services/Permohonan/Lakaran_Permohonan_Point/FeatureServer/0",
           url: url_featurepoint,
           outFields: ["*"],
           id: "auid",
           popupTemplate: popupPoint,
           renderer: pointSimpleRenderer,
+          title: "Lakaran Permohonan Point",
         });
-
+        globalLayerConatiner['Point Layer'] = pointFeature;
         esriConfig.request.interceptors.push({
         // set the `urls` property to the URL of the FeatureLayer so that this
         // interceptor only applies to requests made to the FeatureLayer URL
@@ -4421,10 +4543,12 @@ const addBtn = document.getElementById("addbtndiv");
           params.requestOptions.query = params.requestOptions.query || {};
           params.requestOptions.query.token = "<?=$token?>";
         },
+        createPopupTemplate: function(data){
+          console.log(data);
+        }
       });
         
-        
-        map.add(pointFeature);
+
         // console.log(pointFeature)
         //-----------------------------------------------------------------------------------------------------------------
 
@@ -4678,23 +4802,6 @@ const addBtn = document.getElementById("addbtndiv");
                 editFeature = new Graphic({
                   geometry: event.graphic.geometry,
                   attributes: graphicsLayer.graphics.attributes,
-                  // attributes: {
-                  //   auid : "auid",
-                  //   OBJECTID: 21,
-                  //   Nama_Projek : name_projek,
-                  //   No_Rujukan_Permohonan : NoRujukan_P,
-                  //   Komponen_Kerja: 1,
-                  //   Nama_Komponen: "",
-                  //   Negeri:NegeriData.toString(),
-                  //   Bahagian:Bahagian,
-                  //   Daerah:DaerahData.toString(),
-                  //   Parlimen:parlimenData.toString(),
-                  //   DUN:dunData.toString(),
-                  //   Tahun_Permohonan:tahun,
-                  //   Jenis_Permohonan:Jenis,
-                  //   Latitud:lat,
-                  //   Longitud:lon
-                  // }
                 });
 
                 // if (addFeatureDiv.style.display === "block") {
@@ -5314,9 +5421,7 @@ const addBtn = document.getElementById("addbtndiv");
           attributeEditingline.style.display = "none";
           attributeEditing.style.display = "none";
         };
-
-       
-  
+      
 
   //###########################################################################################################
 
@@ -5410,13 +5515,107 @@ const addBtn = document.getElementById("addbtndiv");
       useHeadingEnabled: false
     });
     view.ui.add(track, "top-left");
+    
+    async function defineActions(event){
+      const item = event.item;
 
-    let layerList = new LayerList({
+      // Create a container div to hold multiple elements
+      const container = document.createElement("div");
+      container.className = 'layer-list-content';
+      // Add multiple elements to the container
+      const opacitySlider = document.createElement("input");
+      opacitySlider.type = "range";
+      opacitySlider.min = 0;
+      opacitySlider.max = 1;
+      opacitySlider.step = 0.1;
+      opacitySlider.className = "slider-layer";
+      opacitySlider.addEventListener("input", function (evt) {
+        this.opacity = parseFloat(evt.target.value);
+      }.bind(item.layer));
+
+      // opacityCalcite = '<calcite-label>\
+      //                   Transparency (%)\
+      //                   <calcite-slider value="30" label-handles label-ticks max-label="100" min-label="0" ticks="100"></calcite-slider>\
+      //               </calcite-label>'
+      // const opacityCalcite = document.createElement("Transparency (%)");
+      // label.textContent = "This is a Calcite label.";
+      const attributeTableButton = document.createElement("div");
+      attributeTableButton.innerHTML= '<calcite-label>Attribute Table</calcite-label>';
+      // attributeTableButton.textContent = "Attribute Table";
+
+      // Add attribute Window
+      attributeTableButton.addEventListener("click", function () {
+        const tableDiv = document.getElementById("tableDiv");
+        tableDiv.innerHTML = '';
+        const featureTable = new FeatureTable({
+          view: view,
+          layer: this.layer,
+          container: tableDiv
+        });
+        view.ui.add(featureTable, {
+          position: "bottom"
+        });
+      }.bind(item));
+      // slider div
+      const sliderDiv = document.createElement("div")
+      sliderDiv.className = "slider-container"
+      sliderDiv.appendChild(opacitySlider);
+
+      const breakDiv = document.createElement("br");
+      // Append the elements to the container
+      container.appendChild(sliderDiv);
+      container.appendChild(breakDiv);
+      container.appendChild(attributeTableButton);
+      const customPanel = {
+        content: container,
+        className: "esri-icon-sliders-horizontal",
+        open: false, // Optionally, set it to true to have the panel open by default.
+      };
+      // Append the container to the panel
+      item.panel = customPanel;
+    }
+    view.when(() => {
+      let layerList = new LayerList({
             view: view,
-            container: document.getElementById("LayerContent")
-
+            container: document.getElementById("LayerContent"),
+            // listItemCreatedFunction: defineActions,
           });
 
+      const basin_mgmt_unit = new MapImageLayer({ 
+        url: "https://portalgis.water.gov.my/server/rest/services/DATA_ASAS/Lembangan_Sungai_Sabah/MapServer",
+        title: 'RIVER BASIN MANAGEMENT UNIT (RBMU)',
+        opacity: 0.3,
+
+      });
+      map.add(basin_mgmt_unit); 
+      const layerDun = new MapImageLayer({ url: "https://portalgis.water.gov.my/server/rest/services/DATA_ASAS/SEMPADAN_DUN/MapServer",
+        title: 'DUN' ,
+        opacity: 0.3,
+      });    
+      map.add(layerDun);
+      const layerParlimen = new MapImageLayer({ 
+        url: "https://portalgis.water.gov.my/server/rest/services/DATA_ASAS/SEMPADAN_PARLIMEN/MapServer",
+         title: 'Parlimen' ,
+        opacity: 0.3,
+      });
+      map.add(layerParlimen);
+      const layerDAERAH = new MapImageLayer({ 
+        url: "https://portalgis.water.gov.my/server/rest/services/DATA_ASAS/SEMPADAN_DAERAH/MapServer",
+         title: 'Daerah' ,
+        opacity: 0.3,
+      });
+      map.add(layerDAERAH);
+      const layerNEGERI = new MapImageLayer({ 
+        url: "https://portalgis.water.gov.my/server/rest/services/DATA_ASAS/SEMPADAN_NEGERI/MapServer",
+        title: 'Negeri' ,
+        opacity: 0.3,
+      });  
+      map.add(layerNEGERI);
+      map.add(PolygonFeature);
+      map.add(LineFeature);
+      map.add(pointFeature);
+      
+    });
 
     //Add Scalebar
 let scaleBar = new ScaleBar({
@@ -5531,10 +5730,10 @@ var popup='';
 var symbology='';
 let qry="";
 $("#layerQueryData").on('change', function(){
-  selectedLayer = $("#layerQueryData option:selected").val();
   selectedLayerText = $("#layerQueryData option:selected").text();
+  selectedLayer = globalLayerConatiner[selectedLayerText];
   if(selectedLayerText=='Point Layer'){
-    popup=popupPoint;
+    // popup=popupPoint;
     symbology=pointSimpleRenderer;
   }
   else if(selectedLayerText=='Line Layer'){
@@ -5649,32 +5848,21 @@ $("#layerQueryData").on('change', function(){
       qry += "DUN LIKE '%" + dunSelected + "%'";
     }
     
-    var seletedData=[selectedLayer,noRujukValue,bahagianValue,negeriValue,daerahValue,parlimenValue,dunValue];
-    queryResult(qry, seletedData);
+    queryResult(qry, selectedLayer);
   })
 
-  function queryResult(qry, seletedData){
-    map.removeAll();
-    const Layer = new FeatureLayer({
-      url: seletedData[0],
-      popupTemplate: popup,
-      renderer:symbology,
-    });
-    view.map.add(Layer); 
-
     //******************Query Highlight Code******************************** */
+  function queryResult(qry, Layer){
 
-    const pointQuery = {
-      where: qry,  // Set by select element
-      outFields: ["*"], // Attributes to return
-      returnGeometry: true
-    };
-
-    Layer.queryFeatures(pointQuery)
+    let query = Layer.createQuery();
+    query.where = qry;
+    query.outFields =  ["*"];
+    query.returnGeometry = true;
+    Layer.queryFeatures(query)
     .then((results) => {
       if (results.features.length > 0) {
-        //view.whenLayerView(editFeature.layer).then(layerView);
-        highlightfeature(Layer, results.features);            
+        highlightfeature(Layer, results.features);
+        view.goTo(results.features);
       }
     }).catch((error) => {
       console.log(error.error);
@@ -5682,31 +5870,21 @@ $("#layerQueryData").on('change', function(){
       //******************Query Highlight Code Ends********************************** */
   }
 
+  // highlight he feature selected
+  let highlightSelect;
   function highlightfeature(flayer, res){
-    let j=0;
-    for(j=0; j < res.length; j++){
-      editFeature = res[j];
-      objectId = editFeature.attributes["FID"];
-      
-      flayer
-      .queryFeatures({
-        objectIds: [objectId],
-        outFields: ["*"],
-        returnGeometry: true
-      })
-      .then((results) => {
-        if (results.features.length > 0) {
-          editFeature = results.features[0];
-          
-          //highlight the feature on the view
-          view.whenLayerView(editFeature.layer).then((layerView) => {
-            highlight = layerView.highlight(editFeature);
-          });
-        }
-      });
-    }
-  }
+    view.whenLayerView(flayer).then((layerView) => {
+      if (highlightSelect) {
+        highlightSelect.remove();
+      }
+      // the feature to be highlighted
+      const feature = res[0];
+      const objectIds = res.map(feature => feature.attributes.OBJECTID);
 
+      // use the objectID to highlight the feature
+      highlightSelect = layerView.highlight(objectIds);
+    });
+  }
 
     $("#clear-query").click(function(){
       clearAndCancel() 
@@ -5769,29 +5947,11 @@ $("#layerQueryData").on('change', function(){
     unselectFeatureline();
     unselectFeaturepoly();
     unselectFeaturepoint();
-    // highlight.remove();
-
-
-    map.removeAll();
-    map.add(pointFeature);
-    map.add(LineFeature);
-    map.add(PolygonFeature);
-
-        // filter(NoRujukan_P);
+    if (highlightSelect) {
+        highlightSelect.remove();
+      }
   }
-
-
-
-
-
-
-  
 });
-
-  
-
-  
-  
 
   $("#negeriData").on('change', function(){ 
 
@@ -5799,10 +5959,10 @@ negeri = document.getElementById("negeriData").value;
 var daerahdropDown =  document.getElementById("daerahData");
 $("#daerahData").empty();
 var el = document.createElement("option"); console.log(el)
-   el.textContent = 'All';
-   el.value = '0';
-   daerahdropDown.appendChild(el);
-   api_url = "{{env('API_URL')}}"; 
+  el.textContent = 'All';
+  el.value = '0';
+  daerahdropDown.appendChild(el);
+  api_url = "{{env('API_URL')}}"; 
 $.ajax({
    type: "GET",
    url: api_url+"api/lookup/daerah/list?id="+negeri,
@@ -5925,6 +6085,7 @@ $("#negeriData").prop("disabled", true);
         $("#clear-query").prop("disabled", true);
     }
 
+    
   })
 
 </script>

@@ -776,7 +776,7 @@ $(document).ready(function() {
 
             if(result.jumlah_count)
             {
-                document.getElementById("jumlah_permohonan").innerHTML = result.jumlah_count;
+                //document.getElementById("jumlah_permohonan").innerHTML = result.jumlah_count;
             }
             var jenis_count=[result.jenis_count,result.jenis_sambungan_count]; console.log(jenis_count)
 

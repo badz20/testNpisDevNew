@@ -361,9 +361,13 @@ if (pop_btn_all) {
         var reka_bantuk_siap=$(this).val();
       })
     }
-    else{
+    else if(selected_val==2){
       $(".reka_bentuk_siap").addClass("d-none")
-        var reka_bantuk_siap=$(this).val('');
+        var reka_bantuk_siap=$(this).val(2);
+    }
+    else if(selected_val==0){
+      $(".reka_bentuk_siap").addClass("d-none")
+        var reka_bantuk_siap=$(this).val(0);
 
     }
   })

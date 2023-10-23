@@ -1,6 +1,8 @@
 <script src="{{ asset('dashboard/assets/js/jquery.min.js') }}"></script>
 <script>
      $('#agensi_card').hide();
+     $('#type').val(1);
+
      
       function agensi_user(){ 
           $('#jps_card').hide();
@@ -9,6 +11,7 @@
           document.getElementById("jps_btn").classList.remove("active");  
           //document.getElementById("pemberat_greenBtn").innerText = "SEKATAN";
           localStorage.setItem("noc_type", "0");
+          var togle_status = localStorage.getItem("toggle_button_status");
           $('#bilangan_noc_table').addClass('d-none');
           $('#bilangan_sekatan_table').removeClass('d-none');
 
@@ -20,14 +23,26 @@
             document.getElementById("btn_projeck").classList.remove("d-none");
             document.getElementById("btn_kelulusan").classList.remove("d-none"); 
             document.getElementById("btn_togle").classList.remove("d-none"); 
-            $('#agensy_sec').addClass('d-none');
+            $('#agensy_sec').removeClass('d-none');
             $('#jps_sec').addClass('d-none');
           }   
           else
           {
             $('#agensy_sec').removeClass('d-none');
             $('#jps_sec').addClass('d-none');
-          }     
+          } 
+          
+            if(togle_status==1)
+            {
+                EnableButtons();
+            }
+            else
+            {
+                DisableButtons();
+            }
+          
+          $('#type').val(0);
+
       }
       function jps_user(){
           $('#jps_card').show();
@@ -36,6 +51,7 @@
           document.getElementById("agency_btn").classList.remove("active"); 
           //document.getElementById("pemberat_greenBtn").innerText = "NOC";
           localStorage.setItem("noc_type", "1");
+          var togle_status = localStorage.getItem("toggle_button_status");
           $('#bilangan_noc_table').removeClass('d-none');
           $('#bilangan_sekatan_table').addClass('d-none');
 
@@ -49,27 +65,23 @@
             document.getElementById("btn_togle").classList.add("d-none"); 
             $('#agensy_sec').addClass('d-none');
             $('#jps_sec').addClass('d-none');
+            DisableButtons();
           }
           else
           {
             $('#agensy_sec').addClass('d-none');
             $('#jps_sec').removeClass('d-none');
+            if(togle_status==1)
+            {
+                EnableButtons();
+            }
+            else
+            {
+                DisableButtons();
+            }
           }
       }
 
-      function DisableButtons()
-        {
-            var input_field = document.querySelectorAll('input[type="text"]'); console.log(input_field);
-            for (var k = 0; k < input_field.length; k++) {
-                input_field[k].disabled = true;
-            }
-
-            var textarea = document.querySelectorAll('textarea'); 
-            for (var n = 0; n < textarea.length; n++) {
-                textarea[n].disabled = true;
-            }
-
-        }
 
         var api_url = "{{env('API_URL')}}";
         var api_token = "Bearer "+ window.localStorage.getItem('token');
@@ -88,6 +100,9 @@
         $("div.overlay").addClass("show");
         var api_url = "{{env('API_URL')}}";
         var api_token = "Bearer "+ window.localStorage.getItem('token');
+
+
+        document.getElementById("kelulusan_text").innerHTML = localStorage.getItem('bilangan_data');
         
         $.ajaxSetup({
              headers: {
@@ -98,7 +113,7 @@
         
         $.ajax({
           type: "GET",
-          url: api_url+"api/noc/list_projects/"+{{$id}},
+          url: api_url+"api/noc/list_projects/"+{{$id}}+"/1",
           dataType:"json",
           contentType: "application/json",
           header:{
@@ -106,20 +121,67 @@
             'Authorization':api_token
           },
           success: function(response) {  
-              //console.log(response)      
+              console.log(response.noc_data)  
+
               loadDatatableJps(response);
               loadDatatableAgensi_user(response);
 
+
+              var AgencyHasActive= $("#agency_btn").hasClass('active');
+
+              localStorage.setItem('toggle_button_status', response.noc_data.active_status);
+
+
                 if({{$user}}==4)
                 { 
-                    DisableButtons();
-                    $('#agensy_sec').addClass('d-none');
-                    $('#jps_sec').addClass('d-none');
+                    if(AgencyHasActive)
+                    {
+                        $('#agensy_sec').removeClass('d-none');
+                        $('#jps_sec').addClass('d-none');
+                        if(response.noc_data.active_status==1)
+                        {
+                            EnableButtons();
+                        }
+                        else
+                        {
+                            Disablebuttons();
+                        }
+                    }
+                    else
+                    {
+                        $('#agensy_sec').addClass('d-none');
+                        $('#jps_sec').addClass('d-none');
+                        DisableButtons();
+                    }
                 }   
                 else
                 {
-                    $('#agensy_sec').removeClass('d-none');
-                    $('#jps_sec').addClass('d-none');
+                    $('#agensy_sec').addClass('d-none');
+                    $('#jps_sec').removeClass('d-none');
+                    if(response.noc_data.active_status==1)
+                    {
+                        var input_field = document.querySelectorAll('input[type="text"]'); console.log(input_field);
+                        for (var k = 0; k < input_field.length; k++) {
+                            input_field[k].disabled = false;
+                        }
+
+                        var textarea = document.querySelectorAll('textarea'); 
+                        for (var n = 0; n < textarea.length; n++) {
+                            textarea[n].disabled = false;
+                        }
+                    }
+                    else
+                    {
+                        var input_field = document.querySelectorAll('input[type="text"]'); console.log(input_field);
+                        for (var k = 0; k < input_field.length; k++) {
+                            input_field[k].disabled = true;
+                        }
+
+                        var textarea = document.querySelectorAll('textarea'); 
+                        for (var n = 0; n < textarea.length; n++) {
+                            textarea[n].disabled = true;
+                        }
+                    }
                 }  
 
             $("div.spanner").removeClass("show");
@@ -130,6 +192,33 @@
           }
           }); 
     });
+
+    function DisableButtons()
+        {
+            var input_field = document.querySelectorAll('input[type="text"]'); console.log(input_field);
+            for (var k = 0; k < input_field.length; k++) {
+                input_field[k].disabled = true;
+            }
+
+            var textarea = document.querySelectorAll('textarea'); 
+            for (var n = 0; n < textarea.length; n++) {
+                textarea[n].disabled = true;
+            }
+
+        }
+        function EnableButtons()
+        {
+            var input_field = document.querySelectorAll('input[type="text"]'); console.log(input_field);
+            for (var k = 0; k < input_field.length; k++) {
+                input_field[k].disabled = false;
+            }
+
+            var textarea = document.querySelectorAll('textarea'); 
+            for (var n = 0; n < textarea.length; n++) {
+                textarea[n].disabled = false;
+            }
+
+        }
 
     function number_format($num)
     { 
@@ -155,7 +244,7 @@
     { 
         var count=0;
         var jps_table =$('#jps_user').DataTable({     
-                  data: response.noc_data,
+                  data: response.noc_data_jps,
                   dom: "Blfrtip",
                   "aaSorting": [],
                   "language": {
@@ -165,7 +254,7 @@
                                     "infoEmpty": "Tiada rekod tersedia",
                                     "infoFiltered": "(filtered from _MAX_ total records)",
                                     "search": "_INPUT_",
-                                    "searchPlaceholder": " Carian",
+                                    "searchPlaceholder": "    Carian",
                                     "paginate": {
                                     "first":      "Awal",
                                     "last":       "Akhir",
@@ -282,7 +371,7 @@
                                     $kos_tamba='0.00';
                                 }
                               if(type === 'display'){
-                                    tamba='<input type="text" class="form-control pemberat_title text-center" onchange="calculatekos(this,1)" value="'+$kos_tamba+'" name="tamba" id="jps_tamba">';
+                                    tamba='<input type="text" class="form-control pemberat_title text-center" onkeyup="calculatekos(this,1)" value="'+$kos_tamba+'" name="tamba" id="jps_tamba">';
                               }
                               return tamba;
                           }
@@ -300,7 +389,7 @@
                                 }
 
                               if(type === 'display'){
-                                    kurang='<input type="text" class="form-control pemberat_title text-center" onchange="calculatekos(this,2)" value="'+$kos_kurang+'" name="kurang" id="jps_kurang">';
+                                    kurang='<input type="text" class="form-control pemberat_title text-center" onkeyup="calculatekos(this,2)" value="'+$kos_kurang+'" name="kurang" id="jps_kurang">';
                               }
                               return kurang;
                           }
@@ -311,23 +400,26 @@
                             let html_Tamba='';
                             if(row.kurang>0)
                             {
-                                if(row.kurang>0)
+                                let jps_kurang='0.00';
+                                if(row.kurang!=null)
                                 {
-                                    html_Tamba = '<span style="color:red;" id="t_k_kos">'+'-'+row.kurang+'</span>';
+                                    jps_kurang=row.kurang;
                                 }
+                                html_Tamba = '<span style="color:red;" id="t_k_kos">'+'-'+jps_kurang+'</span>';
                             }
                             else
                             {
-                                if(row.tambah>0)
+                                let jps_tambah='0.00';
+                                if(row.tambah!=null)
                                 {
-                                    html_Tamba = '<span id="t_k_kos">'+row.tambah+'</span>'; 
+                                    jps_tambah=row.tambah;
                                 }
+                                html_Tamba = '<span id="t_k_kos">'+jps_tambah+'</span>'; 
                             }
-
-                              if(type === 'display'){
-                                    tamba_kurang=html_Tamba;
-                              }
-                              return tamba_kurang;
+                                    
+                            tamba_kurang=html_Tamba;
+                              
+                            return tamba_kurang;
                           }
                       },
                       {
@@ -351,7 +443,12 @@
                         "targets": 12,
                         render: function ( data, type, row, meta ) {
                               if(type === 'display'){
-                                justifikasi='<textarea col="3" class="form-control pemberat_title text-center" name="jps_justifikasi" id="jps_justifikasi">'+row.justifikasi+'</textarea>';
+                                var data_justifikasi ='';
+                                if(row.justifikasi!=null)
+                                {
+                                    data_justifikasi=row.justifikasi;
+                                }
+                                justifikasi='<textarea col="3" class="form-control pemberat_title text-center" name="jps_justifikasi" id="jps_justifikasi">'+data_justifikasi+'</textarea>';
                               }
                               return justifikasi;
                           }
@@ -407,32 +504,40 @@
                 //custome buttons to datatables
                 if({{$user}}==4)
                 {
-                    var toggleButton = $('<div id="btn_togle_jps">').addClass('toggle-button');
+                    if(response.noc_data.active_status==1)
+                    {  
+                        var toggleButton = $('<div id="btn_togle_jps">').addClass('toggle-button active');
+                    }
+                    else
+                    {
+                        var toggleButton = $('<div id="btn_togle_jps">').addClass('toggle-button');
+                    }  
                     var slider = $('<div>').addClass('slider-data');
                     toggleButton.append(slider);
                     toggleButton.on('click', function() {
                         $(this).toggleClass('active');
                         if ($(this).hasClass('active')) {
-                            console.log('Button toggled ON');
+                            updateToggleStatus(1);
                         } else {
+                            updateToggleStatus(0)
                             console.log('Button toggled OFF');
                         }
                     });
                     $('.dataTables_filter').after(toggleButton);
                     
                     var customButton = $('<button type="button" disabled id="btn_projeck_jps" onclick="confirmModel('+{{$id}}+')">')
-                                        .html('<i class="ri-checkbox-circle-fill" style="font-size: 1.5em;color:#ffffff; vertical-align: middle;"></i> Kelulusan')
+                                        .html('<i class="ri-checkbox-circle-fill" style="font-size: 1.5em; color:#ffffff; vertical-align: middle;"></i> Kelulusan')
                                         .addClass('susun_pemberat mt-2');
                     // Insert the button between the search and filter elements
                     $('.dataTables_filter').after(customButton);
 
-                    var customButton2 = $('<button type="button" id="btn_kelulusan_jps" onclick="loadProjeck('+{{$id}}+')">')
-                                        .html('<i class="ri-add-circle-fill" style="font-size: 1.5em;color:#ffffff; vertical-align: middle;"></i> Projek')
+                    var customButton2 = $('<button type="button" id="btn_kelulusan_jps" onclick="loadProjeck('+{{$id}}+',1)">')
+                                        .html('<i class="ri-add-circle-fill" style="font-size: 1.5em; color:#ffffff; vertical-align: middle;"></i> Projek')
                                         .addClass('pemberat_greenBtn_new mt-2');
                     // Insert the button between the search and filter elements
                     $('.dataTables_filter').after(customButton2);
 
-                    if(response.noc_data.length > 0) {
+                    if(response.noc_data_jps.length > 0) {
                         document.getElementById('btn_projeck_jps').disabled = false;
                     }
                     else
@@ -473,9 +578,6 @@
                     document.getElementById('jps_dipinda_sum').innerHTML = number_format(sum7);
                     
                     //end
-
-                    
-
     }
 
     function findTotalText(type, value)
@@ -531,7 +633,7 @@
             {
                 jumlah_kelulusan = removecomma(tamba_value) + removecomma(asal_value);
             }
-            html_Tamba = tamba_value; 
+            html_Tamba = '<span id="t_k_kos">'+number_format(tamba_value)+'</span>'; 
             listItemId. find('td:eq(9) input[type="text"]').val('0.00')
         }
         else
@@ -540,13 +642,24 @@
             {
                 jumlah_kelulusan = removecomma(asal_value) - removecomma(kurang_value);
             }
-            html_Tamba = '<span style="color:red;">'+'-'+kurang_value+'</span>';
+            html_Tamba = '<span id="t_k_kos" style="color:red;">'+'-'+number_format(kurang_value)+'</span>';
             listItemId. find('td:eq(8) input[type="text"]').val('0.00')
         }
 
         tamba_kurang.innerHTML = html_Tamba;
-        peruntukan_dipanda.innerText = jumlah_kelulusan;
+        peruntukan_dipanda.innerText = number_format(jumlah_kelulusan);
 
+        
+            let tamba_tot = document.querySelectorAll("[id='jps_tamba']"); 
+            findTotalValue('jps_tambah_sum',tamba_tot);
+            let kurang_tot = document.querySelectorAll("[id='jps_kurang']");
+            findTotalValue('jps_kurang_sum',kurang_tot);
+            let baki_tot = document.querySelectorAll("[id='jps_baki']"); 
+            findTotalText('jps_baki_sum',baki_tot);
+            let t_k_kos = document.querySelectorAll("[id='t_k_kos']"); //console.log(t_k_kos);
+            findTotalText('jps_tamba_kurang_sum',t_k_kos);
+            let jps_dipinda = document.querySelectorAll("[id='jps_dipinda']"); //console.log(t_k_kos);
+            findTotalText('jps_dipinda_sum',jps_dipinda);
     }
 
     function removecomma(num){ //alert(num)
@@ -568,10 +681,11 @@
         return startDate <= currentDate && currentDate <= endDate;
     }
 
-    function loadProjeck(id)
-    {
-            var url = '{{ route("noc.loadProjeck", [":id"])}}'
+    function loadProjeck(id,type)
+    {   
+            var url = '{{ route("noc.loadProjeck", [":id"  , ":type"])}}'
             url = url.replace(':id', id);
+            url = url.replace(':type', type);
             window.location.href = url;
     }
 
@@ -585,7 +699,7 @@
     {
         var count=0;
         var agency_table =$('#agensi_user').DataTable({
-                  data: response.noc_data,
+                  data: response.noc_data_agensy,
                   dom: "Blfrtip",
                   "aaSorting": [],
                   "language": {
@@ -595,7 +709,7 @@
                                     "infoEmpty": "Tiada rekod tersedia",
                                     "infoFiltered": "(filtered from _MAX_ total records)",
                                     "search": "_INPUT_",
-                                    "searchPlaceholder": " Carian",
+                                    "searchPlaceholder": "    Carian",
                                     "paginate": {
                                     "first":      "Awal",
                                     "last":       "Akhir",
@@ -721,7 +835,7 @@
                                 }
 
                                 if(type === 'display'){
-                                        kurang='<input type="text" class="form-control pemberat_title text-center" onchange="calculatekos(this,2)" value="'+$kos_kurang+'" name="kurang" id="agensy_kurang">';
+                                        kurang='<input type="text" style="width:150px !Important;" class="form-control pemberat_title text-center" onkeyup="calculateAgensykos(this,2)" value="'+$kos_kurang+'" name="kurang" id="agensy_kurang">';
                                 }
                                 return kurang;
                           }
@@ -733,17 +847,16 @@
 
                                 if(row.kurang>0)
                                 {
-                                        html_Tamba = '<span style="color:red;" id="t_k_kos">'+'-'+row.kurang+'</span>';
+                                        html_Tamba = '<span style="color:red;" id="agensy_k_kos">'+'-'+row.kurang+'</span>';
                                 }
                                 else
                                 {
-                                        html_Tamba = '<span style="color:red;" id="t_k_kos">'+'0.00'+'</span>';
+                                        html_Tamba = '<span style="color:red;" id="agensy_k_kos">'+'0.00'+'</span>';
                                 }
                                 
 
-                                if(type === 'display'){
-                                        tamba_kurang=html_Tamba;
-                                }
+                                tamba_kurang=html_Tamba;
+                                
                                 return tamba_kurang;
                           }
                       },
@@ -767,8 +880,13 @@
                       {
                         "targets": 12,
                         render: function ( data, type, row, meta ) {
-                             if(type === 'display'){
-                                justifikasi='<textarea col="3" class="form-control pemberat_title text-center" name="agensy_justifikasi" id="agensy_justifikasi">'+row.justifikasi+'</textarea>';
+                                if(type === 'display'){
+                                var data_justifikasi ='';
+                                if(row.justifikasi!=null)
+                                {
+                                    data_justifikasi=row.justifikasi;
+                                }
+                                justifikasi='<textarea col="3"  style="width:150px !Important;" class="form-control pemberat_title text-center" name="agensy_justifikasi" id="agensy_justifikasi">'+data_justifikasi+'</textarea>';
                               }
                               return justifikasi;
                           }
@@ -822,15 +940,24 @@
                 if({{$user}}==4)
                 {
 
-                    var toggleButton = $('<div id="btn_togle">').addClass('toggle-button');
+                    if(response.noc_data.active_status==1)
+                    {  
+                        var toggleButton = $('<div id="btn_togle">').addClass('toggle-button active');
+                    }
+                    else
+                    {
+                        var toggleButton = $('<div id="btn_togle">').addClass('toggle-button');
+                    }  
                     var slider = $('<div>').addClass('slider-data');
                     toggleButton.append(slider);
                     toggleButton.on('click', function() {
                         $(this).toggleClass('active');
                         if ($(this).hasClass('active')) {
                             console.log('Button toggled ON');
+                            updateToggleStatus(1);
                         } else {
                             console.log('Button toggled OFF');
+                            updateToggleStatus(0);
                         }
                     });
                     $('.dataTables_filter').after(toggleButton);
@@ -841,7 +968,7 @@
                     // Insert the button between the search and filter elements
                     $('.dataTables_filter').after(customButton);
 
-                    var customButton2 = $('<button type="button" id="btn_projeck" onclick="loadProjeck('+{{$id}}+')">')
+                    var customButton2 = $('<button type="button" id="btn_projeck" onclick="loadProjeck('+{{$id}}+',2)">')
                                         .html('<i class="ri-add-circle-fill" style="font-size: 1.5em;color:#ffffff; vertical-align: middle;"></i> Projek')
                                         .addClass('pemberat_greenBtn_new mt-2');
                     // Insert the button between the search and filter elements
@@ -851,7 +978,8 @@
                     document.getElementById("btn_kelulusan").classList.add("d-none");
                     document.getElementById("btn_togle").classList.add("d-none"); 
                     $('#bkor_btn').addClass('d-none');
-                    
+                    $('#agensy_sec').removeClass('d-none');
+
                 }
 
                     let sum = agency_table.column(5).data().reduce(function (a, b) {
@@ -863,10 +991,20 @@
                                 }, 0);
                     document.getElementById('agensi_keseluruhan_sum').innerHTML = number_format(sum1);
 
-                    
+                    let peruntukan_asl_total = 0;
+                    let peruntukan_asal_tot = document.querySelectorAll("[id='agensi_peruntukan_asal']");
+                    findTotalText('agensi_peruntukan_sum',peruntukan_asal_tot);
+                    let kurang_tot = document.querySelectorAll("[id='agensy_kurang']");
+                    findTotalValue('agensi_kurang_sum',kurang_tot);
+                    let agensy_baki_tot = document.querySelectorAll("[id='agensy_baki']"); 
+                    findTotalText('agensi_baki_sum',agensy_baki_tot);
+                    let agensy_k_kos = document.querySelectorAll("[id='agensy_k_kos']"); 
+                    findTotalText('agensi_tamba_kurang_sum',agensy_k_kos);
 
-                    
-
+                    let sum7 = agency_table.column(11).data().reduce(function (a, b) {
+                                    return parseFloat(a) + parseFloat(b);
+                                }, 0);
+                    document.getElementById('agensi_dipinda_sum').innerHTML = number_format(sum7);           
     }
 
     $("#tidak_btn").click(function(){
@@ -919,6 +1057,37 @@
     $("#reset").click(function(){
         location.reload();
     })
+
+    function calculateAgensykos(textid,type){ 
+        var listItemId = $(textid).closest('tr'); //console.log(listItemId)
+        var jumlah_tamba = 0;
+        var jumlah_kurang = 0;
+        var jumlah_kelulusan= 0;
+        let html_Tamba = '';
+
+        var kurang_value = listItemId. find('td:eq(9) input[type="text"]').val();  //console.log(kurang_value);
+        var asal_value = listItemId. find('td:eq(7) label')[0].innerText; //console.log(asal_value);
+        var tamba_kurang = listItemId. find('td:eq(10)')[0]; //console.log(tamba_kurang);
+        var peruntukan_dipanda = listItemId. find('td:eq(11) label')[0]; //console.log(tamba_kurang);
+
+        if(removecomma(kurang_value)>0 && removecomma(asal_value)>0)
+        {
+                jumlah_kelulusan = removecomma(asal_value) - removecomma(kurang_value);
+        }
+        html_Tamba = '<span id="agensy_k_kos" style="color:red;">'+'-'+number_format(kurang_value)+'</span>';
+        tamba_kurang.innerHTML = html_Tamba;
+        peruntukan_dipanda.innerText = number_format(jumlah_kelulusan);
+
+        let kurang_tot = document.querySelectorAll("[id='agensy_kurang']");
+            findTotalValue('agensi_kurang_sum',kurang_tot);
+        let baki_tot = document.querySelectorAll("[id='agensy_baki']"); 
+            findTotalText('agensi_baki_sum',baki_tot);
+        let agensy_k_kos = document.querySelectorAll("[id='agensy_k_kos']"); //console.log(t_k_kos);
+            findTotalText('agensi_tamba_kurang_sum',agensy_k_kos);
+        let agensy_dipinda = document.querySelectorAll("[id='agensy_dipinda']"); //console.log(t_k_kos);
+            findTotalText('agensi_dipinda_sum',agensy_dipinda);
+    }
+
 
     function removeRow(element,id)
     {
@@ -1032,7 +1201,7 @@
                         }
                         else 
                         {
-                            document.getElementById('error').innerHTML ='NOc telah pun didaftarkan antara tarikh-tarikh ini. Sila pilih tarikh lain';
+                            document.getElementById('error').innerHTML ='NOC telah pun didaftarkan antara tarikh-tarikh ini. Sila pilih tarikh lain';
                             return false;
                         }    
                     }) 
@@ -1054,7 +1223,7 @@
         let dipinda = document.querySelectorAll("[id='jps_dipinda']"); //console.log(dipinda);
         let jps_justifikasi = document.querySelectorAll("[id='jps_justifikasi']"); //console.log(jps_justifikasi);
 
-        noc_jps_data = []  
+        let noc_jps_data = []  
         for (var i = 0;i < txt_id.length; i++) {                         
             data= {};
 
@@ -1101,6 +1270,7 @@
         });
 
         formData.append('user_id', {{Auth::user()->id}})
+        formData.append('type', 1);
 
         $("div.spanner").addClass("show");
         $("div.overlay").addClass("show");
@@ -1143,7 +1313,7 @@
         let dipinda = document.querySelectorAll("[id='agensy_dipinda']"); //console.log(dipinda);
         let jps_justifikasi = document.querySelectorAll("[id='agensy_justifikasi']"); //console.log(jps_justifikasi);
 
-        noc_agensy_data = []  
+        let noc_agensy_data = []  
         for (var i = 0;i < txt_id.length; i++) {                         
             data= {};
 
@@ -1171,18 +1341,20 @@
                 data.dipinda = removecomma(dipinda[i].innerText)
             }
             
-            //data.jumlahkos = removecomma(alljumlahkos[i].value);
+            data.tamba = 0;
             data.jps_justifikasi = jps_justifikasi[i].value;
-            noc_jps_data.push(JSON.stringify(data))
+            noc_agensy_data.push(JSON.stringify(data))
         }
 
         //console.log(noc_jps_data);
 
-        noc_jps_data.forEach((item) => {
+        noc_agensy_data.forEach((item) => {
             formData.append('noc_jps_data[]', item);
         });
 
         formData.append('user_id', {{Auth::user()->id}})
+        formData.append('type', 2);
+
 
         $("div.spanner").addClass("show");
         $("div.overlay").addClass("show");
@@ -1191,31 +1363,96 @@
               
         axios.defaults.headers.common["Authorization"] = api_token
 
-        //  axios({
-        //             method: 'post',
-        //             url: api_url+"api/noc/updateBilanganData",
-        //             responseType: 'json',
-        //             data: formData
-        //         })
-        //         .then(function (response) { 
-        //                 console.log(response)
-        //                 $("div.spanner").removeClass("show");
-        //                 $("div.overlay").removeClass("show");
+         axios({
+                    method: 'post',
+                    url: api_url+"api/noc/updateBilanganData",
+                    responseType: 'json',
+                    data: formData
+                })
+                .then(function (response) { 
+                        console.log(response)
+                        $("div.spanner").removeClass("show");
+                        $("div.overlay").removeClass("show");
 
 
-        //                     $('#add_role_sucess_modal').modal('show');
+                            $('#add_role_sucess_modal').modal('show');
 
-        //                     $("#tutup").click(function(){
-        //                         location.reload();
-        //                     }); 
-        //         }) 
-        //         .catch(function (error) {
-        //                 $("div.spanner").removeClass("show");
-        //                 $("div.overlay").removeClass("show");
-        //         })
+                            $("#tutup").click(function(){
+                                location.reload();
+                            }); 
+                }) 
+                .catch(function (error) {
+                        $("div.spanner").removeClass("show");
+                        $("div.overlay").removeClass("show");
+                })
 
         })
+
+        function updateToggleStatus(status){
+
+            var formData = new FormData();
+            formData.append('user_id', {{Auth::user()->id}})
+            formData.append('noc_id', {{$id}});
+            formData.append('status', status);
+
+
+
+            $("div.spanner").addClass("show");
+            $("div.overlay").addClass("show");
+            var api_url = "{{env('API_URL')}}";
+            var api_token = "Bearer "+ window.localStorage.getItem('token');
+                
+            axios.defaults.headers.common["Authorization"] = api_token
+
+            axios({
+                    method: 'post',
+                    url: api_url+"api/noc/update_bilangan_toggle_status",
+                    responseType: 'json',
+                    data: formData
+                })
+                .then(function (response) { 
+                        console.log(response)
+                        $("div.spanner").removeClass("show");
+                        $("div.overlay").removeClass("show");
+                        location.reload();
+                }) 
+                .catch(function (error) {
+                        $("div.spanner").removeClass("show");
+                        $("div.overlay").removeClass("show");
+                })
+        }
         
+
+        function printDataTable() {
+        // Clone the DataTable and remove any interactive elements
+
+            var AgencyHasActive= $("#agency_btn").hasClass('active');
+
+            if(AgencyHasActive)
+            {
+                var printableTable = $('#agensi_user').clone();
+            }
+            else
+            {
+                var printableTable = $('#jps_user').clone();
+            }
+            printableTable.find('.view-button').remove(); // Remove view buttons, for example
+
+            // Apply print-specific CSS styles
+            printableTable.addClass('printable-table');
+            
+            // Open the print dialog
+            var printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Printable DataTable</title></head><body>');
+            printWindow.document.write('<style>@media print {.printable-table { /* your print styles here */ }}</style>');
+            printWindow.document.write(printableTable[0].outerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+            printWindow.close();
+
+            // window.print();
+        }
 
     
 </script>

@@ -124,7 +124,7 @@
                             for(i=0;i<=dateDiff;i++){
                                 // ////console.log(i)
                                 $("#table_body").append(
-                                    '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" class="form-control m-1 col-6" type="text" id="yearData'+i+'"></td>'
+                                    '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" style="width: 85px !important" class="form-control m-1 col-6 text-center" type="text" id="yearData'+i+'"></td>'
                                 )
                             }
                             
@@ -714,7 +714,7 @@ else
                     }
                     if(checkeddata.outcome_status==1)
                     {
-                        $("#inlineCheckbox1").prop( "checked", true );
+                        $("#inlineCheckbox11").prop( "checked", true );
                     }
                 }
 
@@ -1046,7 +1046,7 @@ else
             for(i=0;i<=dateDiff;i++){
                 // //console.log(i)
                 $("#table_body").append(
-                    '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" class="form-control m-1 col-6" type="text" id="yearData'+i+'"></td>'
+                    '<td class="border-0"><label class=" m-1 col-6 text-white" style="background-color:#39Afd1;">'+(parseInt(data.tahun_jangka_mula)+i)+'</label><input name="yearVal" style="width: 85px !important" class="form-control m-1 col-6 text-center" type="text" id="yearData'+i+'"></td>'
                 )
             }
             
@@ -2218,10 +2218,9 @@ function AddNewTd(){
 var tdData=`<tr class="countTr">
             <td class="NOCtblKodprojek">
                 <div  class="firstTd">
-                    <label for="">Output Projek <img onclick="AddNewTd()"
-                    src="{{ asset('assets/images/Add_box1.png') }}"
-                    alt=""
-                    /></label>
+                    <label for="">Output Projek
+                    <i class="ri-add-box-line" onclick="AddNewTd()" style="font-size: 1.5rem; vertical-align: middle; color: #595d6e;"></i>
+                    </label>
                 </div>
             </td>
             <td class="NOCtblKodprojek">
@@ -2320,10 +2319,9 @@ var tdData=`<tr class="countTr">
 var tdData2=`<tr class="outcomecountTr">
             <td class="NOCtblKodprojek">
                 <div  class="outcomefirstTd">
-                    <label for="">OutCome Projek <img onclick="AddNewOutComeTd()"
-                    src="{{ asset('assets/images/Add_box1.png') }}"
-                    alt=""
-                    /></label>
+                    <label for="">OutCome Projek
+                    <i class="ri-add-box-line" onclick="AddNewOutComeTd()" style="font-size: 1.5rem; vertical-align: middle; color: #595d6e;"></i>
+                    </label>
                 </div>
             </td>
             <td class="NOCtblKodprojek">

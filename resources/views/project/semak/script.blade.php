@@ -48,7 +48,7 @@
                     "previous":   "Sebelum"
                     },       
                 },
-                "order": [ 16, 'desc' ],
+                "order": [ 22, 'asc' ],
                 pagingType: 'full_numbers',
               columnDefs: [
                 {
@@ -215,9 +215,9 @@
                               }
                               else if(row.workflow_status=="5")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                     data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                    '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                    '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                   '</div>';
                                 }
                                else
@@ -256,9 +256,9 @@
                               }
                               else if(row.workflow_status=="8")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                         data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                        '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                        '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                       '</div>';
                                   }
                                 else
@@ -306,9 +306,9 @@
                               }
                               else if(row.workflow_status=="12")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                   data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                          '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                          '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                         '</div>';
                                   }
                                 else
@@ -347,9 +347,9 @@
                               }
                               else if(row.workflow_status=="15")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                       data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                      '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                      '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                     '</div>';
                                   }
                                 else
@@ -385,9 +385,9 @@
                               }
                               else if(row.workflow_status=="18")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                   data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                  '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                  '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                 '</div>';
                                   }
                                 else
@@ -411,9 +411,9 @@
                               }
                               else if(row.workflow_status=="20")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                     data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                              '<p>' + 'Dibatalkan'+'<br>' +row.updatedBy.name + '</p>' +
+                                              '<p>' + 'Dibatalkan'+'<br>' +row.updated_by.name + '</p>' +
                                             '</div>';
                                   }
                                 else
@@ -435,13 +435,19 @@
                       targets:12, // Start with the last
                       render: function ( data, type, row, meta ) {       console.log(row.workflow_status)            
                         if(type === 'display'){  
-                          
+                            var projectType = 'other than bahagian';
+                            if(row.negeri_id==null && row.daerah_id ==null)
+                            {
+                              projectType='bahagian';
+                            }
+
                           if(row.pemberat==null)   
                           {
                                 data = '<td class="d-flex align-items-center ">' +    
                                 `<input disabled type="text" class="pemberat_input" size="2" placeholder="0">` +
                                 `<input type="hidden" id="semak_status" value="`+row.workflow_status+`">`+
-                                `<input type="hidden" id="project_id" value="`+row.id+`">`+                          
+                                `<input type="hidden" id="project_id" value="`+row.id+`">`+  
+                                `<input type="hidden" id="project_type" value="`+projectType+`">`+                          
                                 '</td>'
                           } 
                           else
@@ -449,7 +455,8 @@
                                 data = '<td class="d-flex align-items-center">' +    
                                 `<input disabled type="text" class="pemberat_input" size="2" placeholder="`+row.pemberat+`">`+
                                 `<input type="hidden" id="semak_status" value="`+row.workflow_status+`">`+
-                                `<input type="hidden" id="project_id" value="`+row.id+`">`+                            
+                                `<input type="hidden" id="project_id" value="`+row.id+`">`+     
+                                `<input type="hidden" id="project_type" value="`+projectType+`">`+                         
                                 '</td>'  
                           } 
                                                    
@@ -462,8 +469,32 @@
                       render: function ( data, type, row, meta ) {                  
                         if(type === 'display'){  
                            
+                            var project_type = 'other than bahagian';
+                            if(row.negeri_id==null && row.daerah_id ==null)
+                            {
+                              project_type='bahagian';
+                            }
+
                             if(row.workflow_status==6 && row.susunan_status==1)
-                            {    
+                            {  
+                              if(project_type=='bahagian' && row.workflow_status==6)
+                              {
+                                if(row.penyemak1_priority_order!=null)
+                                {
+                                  data = '<td class="d-flex align-items-center susunan_'+row.id+'">' +    
+                                    `<input disabled type="text" class="bahagian_nul pemberat_input" size="2" value="`+row.penyemak1_priority_order+`">`                            
+                                    '</td>'
+                                } 
+                                else
+                                {
+                                  data = '<td class="d-flex align-items-center susunan_'+row.id+'">' +    
+                                    `<input disabled  type="text" class="bahagian pemberat_input" size="2" value="0">`                            
+                                    '</td>'
+                                }
+
+                              } 
+                              else
+                              { 
                                 if(row.penyemak1_priority_order!=null)
                                 {
                                   data = '<td class="d-flex align-items-center susunan_'+row.id+'">' +    
@@ -475,10 +506,28 @@
                                   data = '<td class="d-flex align-items-center susunan_'+row.id+'">' +    
                                     `<input style="border-color:#FFC35A;" type="text" class="priority_input" id="penyemak_priority1_`+row.id+`" size="2" min="1" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" title="Sila klik di luar untuk menyimpan keutamaan" onfocusout="SetPenyemakPriority('1',`+row.id+`,`+row.tahun+`)" placeholder="" value="">`                            
                                     '</td>'
-                                }                       
+                                }
+                              }                       
                             }
                             else
                             {
+                              if(project_type=='bahagian'  && row.workflow_status==6)
+                              {
+                                if(row.penyemak1_priority_order!=null)
+                                {
+                                  data = '<td class="d-flex align-items-center susunan_'+row.id+'">' +    
+                                    `<input disabled  type="text" class="bahagian_nul pemberat_input" size="2" value="`+row.penyemak1_priority_order+`">`                            
+                                    '</td>'
+                                } 
+                                else
+                                {
+                                  data = '<td class="d-flex align-items-center susunan_'+row.id+'">' +    
+                                    `<input disabled  type="text" class="bahagian pemberat_input" size="2" value="0">`                            
+                                    '</td>'
+                                } 
+                              }
+                              else
+                              {
                                 if(row.penyemak1_priority_order!=null)
                                 {
                                   data = '<td class="d-flex align-items-center susunan_'+row.id+'">' +    
@@ -490,7 +539,8 @@
                                   data = '<td class="d-flex align-items-center susunan_'+row.id+'">' +    
                                     `<input disabled style="border-color:#2dc23a;" type="text" class="priority_input" value="0">`                            
                                     '</td>'
-                                }  
+                                } 
+                              }
                             }                           
                           }
                           return data;
@@ -735,7 +785,23 @@
                         }
                         
                   }, 
-                  { data: 'id'},                                
+                  { data: 'id'},  
+                  {
+                        targets:22,
+                        render: function ( data, type, row, meta ) {
+
+                              if(row.penyemak1_priority_order!=null)
+                              {
+                                data = row.penyemak1_priority_order;
+                              } 
+                              else
+                              {
+                                data = '0.00'
+                              }  
+                            return data;
+                        }
+                        
+                  },                              
               ],
               
                  
@@ -763,6 +829,7 @@
             project_table.column(15).visible(false);    // To hide
         }
         project_table.column(16).visible(false);    // To hide
+        project_table.column(22).visible(false);    // To hide
         loadcompleted();     
 
         $("#excelBtn").click(function(){
@@ -800,6 +867,8 @@
        var all_susunan  = document.querySelectorAll(".priority_input"); console.log(all_susunan);
        var all_rujukan  = document.querySelectorAll("#no_rujukan"); console.log(all_rujukan);
        var all_bahagian = document.querySelectorAll("#bahagian"); console.log(all_bahagian);
+       var all_project_type = document.querySelectorAll("#project_type"); console.log(all_project_type);
+
 
 
        let all_details = []
@@ -812,7 +881,18 @@
           data.rujukan = all_rujukan[i].value;
           data.bahagian = all_bahagian[i].value;
           data.user_id = {{Auth::user()->id}};
-          all_details.push(JSON.stringify(data))
+          if(all_project_type[i].value == 'bahagian' && all_workflow[i].value == '6')
+          {
+
+          }
+          else if(all_susunan[i].value=='' || all_susunan[i].value==0)
+          {
+
+          }
+          else
+          {
+            all_details.push(JSON.stringify(data))
+          }
        }
 
        var formData = new FormData();
@@ -1077,42 +1157,43 @@
 
                 if(response.data.code==200)
                 {
-                  if(item==1)
-                  {
-                    if(response.data.data.Is_submitted_by_penyemak1==1)
-                    {
-                      document.getElementById(input_id).style.borderColor ="#2dc23a";
-                    }
-                    else
-                    {
-                      document.getElementById(input_id).style.borderColor ="#FFC35A";
-                    }
-                  }
-                  else if(item==2)
-                  {
-                    if(response.data.data.Is_submitted_by_pengesha==1)
-                    {
-                      document.getElementById(input_id).style.borderColor ="#2dc23a";
-                    }
-                    else
-                    {
-                      document.getElementById(input_id).style.borderColor ="#FFC35A";
-                    }
-                  }
-                  else
-                  {
-                    if(response.data.data.Is_submitted_by_peraku==1)
-                    {
-                      document.getElementById(input_id).style.borderColor ="#2dc23a";
-                    }
-                    else
-                    {
-                      document.getElementById(input_id).style.borderColor ="#FFC35A";
-                    }
-                  }
+                  location.reload();
+                  // if(item==1)
+                  // {
+                  //   if(response.data.data.Is_submitted_by_penyemak1==1)
+                  //   {
+                  //     document.getElementById(input_id).style.borderColor ="#2dc23a";
+                  //   }
+                  //   else
+                  //   {
+                  //     document.getElementById(input_id).style.borderColor ="#FFC35A";
+                  //   }
+                  // }
+                  // else if(item==2)
+                  // {
+                  //   if(response.data.data.Is_submitted_by_pengesha==1)
+                  //   {
+                  //     document.getElementById(input_id).style.borderColor ="#2dc23a";
+                  //   }
+                  //   else
+                  //   {
+                  //     document.getElementById(input_id).style.borderColor ="#FFC35A";
+                  //   }
+                  // }
+                  // else
+                  // {
+                  //   if(response.data.data.Is_submitted_by_peraku==1)
+                  //   {
+                  //     document.getElementById(input_id).style.borderColor ="#2dc23a";
+                  //   }
+                  //   else
+                  //   {
+                  //     document.getElementById(input_id).style.borderColor ="#FFC35A";
+                  //   }
+                  // }
                   
-                  $("div.spanner").removeClass("show");
-                  $("div.overlay").removeClass("show");
+                  // $("div.spanner").removeClass("show");
+                  // $("div.overlay").removeClass("show");
                 }
                 else
                 {

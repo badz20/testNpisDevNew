@@ -13,6 +13,7 @@
                 <h4 class="project_list">Senarai Modul NPIS</h4>
             </div>
 
+            {{-- <iframe title="MODULE PERMOHONAN DEMO (22.08.23)" width="100%" height="100%" src="https://app.powerbi.com/reportEmbed?reportId=af018327-8d68-479d-ae6c-59915c91744e&autoAuth=true&ctid=6c36511e-f86e-4e58-a323-a448ab57551d" frameborder="0" allowFullScreen="true"></iframe> --}}
             <div class="project_register_content_container">
                 <div class="project_register_table_container">
                     <div class="project_register_search_container d-flex col-12">
@@ -143,6 +144,8 @@
                                     </tr>
                                 </tbody>
                             </table>
+
+                            
                         </div>
                     </div>
                 </div>

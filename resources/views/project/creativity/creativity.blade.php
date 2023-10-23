@@ -125,39 +125,144 @@
                   />
                 </div>
               </div>
+
               <div class="row">
-                <div class="col-lg-6 col-xs-12 out-come-container">
+                <div class="out-put-container col-6">
                   <div class="d-flex add_justify">
-                    <p class="sub-topic pl-0 pt-3">
-                      outcome  
-                    </p>
-                    @if(!$is_submitted)
-                      <button type="button" class="ml-3 add_outcome" style="background:transparent;border:none">
-                        <i class="ri-add-box-line ri-2x"></i>
-                      </button>
-                    @endif
-                  </div>
-                  
-                  <div id="outcome_content" class="outcome-Add">
-                    
-                  </div>
-                </div>
-                <div class="col-lg-6 col-xs-12 out-put-container">
-                  <div class="d-flex add_justify">
-                    <p class="sub-topic pl-0 pt-3">
+                    {{-- <p class="sub-topic pl-0 pt-3">
                       output
-                    </p>
-                    @if(!$is_submitted)
-                    <button type="button" class="ml-3 add_output" style="background:transparent;border:none">          
-                      <i class="ri-add-box-line ri-2x"></i>
-                    </button>
-                    @endif
+                    </p> --}}
+              
                   </div>
-                  <div id="output_content" class="output-Add">
-                    
+                  <div class="input_form_group">
+                    <div class="">
+                        <div id="output_input_fields_container">
+                         
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="out-come-container col-6">
+                  <div class="d-flex add_justify">
+                    {{-- <p class="sub-topic pl-0 pt-3">
+                      outcome  
+                    </p> --}}
                   </div>
+                 <div class="input_form_group">
+                  <div class="">
+                      <div id="input_fields_container">
+                          
+                      </div>
+                  </div>
+              </div>
                 </div>
               </div>
+          
+              {{-- <div>
+                <label for="">Outcome Units</label>
+                <div id="outcomeUnitContainer"></div>
+              </div>
+              
+              <div>
+                <label for="">Output Units</label>
+                <div id="outputUnitContainer"></div>
+              </div> --}}
+              
+              {{-- <div class="input_fill_content ">
+                <div class="col-lg-2 col-xs-12">
+                    <label for="faedah">Outcome Projek </label>
+                </div>
+                <div class="input_form_group col-lg-10 col-xs-12">
+                    <div class="w-100 table_scroll">
+                        <div id="input_fields_container">
+                            <!-- Input fields will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="input_fill_content ">
+                <div class="col-lg-2 col-xs-12">
+                    <label for="faedah">Output Projek </label>
+                </div>
+                <div class="input_form_group col-lg-10 col-xs-12">
+                    <div class="w-100 table_scroll">
+                        <div id="output_input_fields_container">
+                            <!-- Input fields for output will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+              
+                {{-- <div class="row">
+                  
+                  <div class="col-lg-6 col-xs-12 out-put-container">
+                    <div class="d-flex add_justify">
+                      <p class="sub-topic pl-0 pt-3">
+                        output
+                      </p>
+                      @if(!$is_submitted)
+                      <button type="button" class="ml-3 add_output" style="background:transparent;border:none">          
+                        <i class="ri-add-box-line ri-2x"></i>
+                      </button>
+                      @endif
+                    </div>
+                    <div id="output_details" class="d-flex align-items-center mb-3 outcome-con">
+                      <input
+                        type="text" id="output_input" `+readonly+` class="form-control" 
+                        value="" placeholder="" disabled
+                      />
+                
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <div class="">
+                        <label class="" for="">Kuantiti / Bilangan</label>
+                        <input type="text" class="form-control" name="" id="outputKuantiti" disabled>
+                      </div>
+                     <div>
+                      <label for="">Unit</label>
+                      <input type="text" class="form-control" name="" id="outputUnit" disabled>
+                     </div>
+                    
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-xs-12 out-come-container">
+                    <div class="d-flex add_justify">
+                      <p class="sub-topic pl-0 pt-3">
+                        outcome  
+                      </p>
+                    
+                      @if(!$is_submitted)
+                        <button type="button" class="ml-3 add_outcome" style="background:transparent;border:none">
+                          <i class="ri-add-box-line ri-2x"></i>
+                        </button>
+                      @endif
+                    </div>
+                    <div id="outcome_details" class="d-flex align-items-center mb-3 outcome-con">
+                      <input
+                        type="text" id="outcome_input" `+readonly+` class="form-control" 
+                        value="" placeholder="" disabled
+                      />
+                
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <div class="">
+                        <label class="" for="">Kuantiti / Bilangan</label>
+                        <input type="text" class="form-control" name="" id="outcomeKuantiti" disabled>
+                      </div>
+                     <div>
+                      <label for="">Unit</label>
+                      <input type="text" class="form-control" name="" id="outcomeUnit" disabled>
+                     </div>
+                    
+                    </div>
+                    <div id="outcome_content" class="outcome-Add">
+                      
+                    </div>
+                  </div>
+                </div>
+               --}}
+             
               <div class="impak-container">
                 <div class="d-flex add_justify">
                   <p class="sub-topic pl-0 pt-3">

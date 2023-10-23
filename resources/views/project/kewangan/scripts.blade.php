@@ -2,10 +2,9 @@
 <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0"></script>
 <script>
 
-
- 
-
 $(document).ready(function() {
+
+  
   if({{json_encode($viewOnly)}}) {
         disableInputs()
         }
@@ -356,8 +355,10 @@ if (pop_btn_all) {
             responseType: 'json',            
         })
         .then(function (response) { 
-
+          console.log('response skop details');
+          
             data = response.data.data.project; //console.log(data); 
+            projectData = data
             skop = response.data.data.skop; //console.log(skop); 
             kewangan = response.data.data.kewangan; //console.log(kewangan); 
             loadcompleted();
@@ -365,14 +366,22 @@ if (pop_btn_all) {
             {
               if(data.tahun_jangka_mula != data.tahun_jangka_siap )
               { // date are different
-                  $years = getYears(data.tahun_jangka_mula,data.tahun_jangka_siap); //console.log($years) //year array
+                  $years = getYears(data.tahun_jangka_mula,data.tahun_jangka_siap); console.log($years) //year array
+                  
                   var tr = document.getElementById('projek_table_kewagan').tHead.children[0];   //first tr for header
+                  var trBelanja_SP_tahun = document.getElementById('belanja_SP_tahun');   //first tr for header
+                  console.log(trBelanja_SP_tahun);
                   // appends header     
-                  for (i = 0; i <= $years.length; i++) {
+                  for (i = 0; i < $years.length; i++) {
                           th = document.createElement('th');
                           th.innerHTML = 'Siling '+$years[i]+'<br>'+'(RM)';
                           th.className="text-center col-1"
-                          tr.appendChild(th);  
+                          tr.appendChild(th);
+
+                          th = document.createElement('th');
+                          th.innerHTML = ' '+$years[i]+'<br>'+'';
+                          th.className="text-center col-1"
+                          trBelanja_SP_tahun.appendChild(th);
                   }
                           th.innerHTML = 'Jumlah Siling Peruntukan Tahunan (RM)​';
                           tr.appendChild(th);   
@@ -669,7 +678,7 @@ axios.defaults.headers.common["Authorization"] = api_token
                               }
                             else
                             {
-                                cell.innerHTML = '<input type="text" class="form-control input-element" readonly value=""/>';
+                                cell.innerHTML = '<input type="text" class="form-control input-element" id="jumlah_total_latest" readonly value=""/>';
                             }
                         }
                         else 
@@ -679,55 +688,62 @@ axios.defaults.headers.common["Authorization"] = api_token
                           cell.setAttribute("id", "kewangan"+k+'_'+j+"");
                           cell.setAttribute("onclick", "SetKewangan("+k+','+j+")");
 
-                          if(bayaran.length!=0){ ////console.log(j)
-                            if(j==2 && bayaran[k].yr1_quarters1=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==3 && bayaran[k].yr1_quarters2=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==4 && bayaran[k].yr1_quarters3=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==5 && bayaran[k].yr1_quarters4=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==6 && bayaran[k].yr1_quarters5=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==7 && bayaran[k].yr1_quarters6=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==8 && bayaran[k].yr1_quarters7=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==9 && bayaran[k].yr1_quarters8=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==10 && bayaran[k].yr1_quarters9=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==11 && bayaran[k].yr1_quarters10=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==12 && bayaran[k].yr1_quarters11=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==13 && bayaran[k].yr1_quarters12=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==14 && bayaran[k].yr1_quarters13=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==15 && bayaran[k].yr1_quarters14=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==16 && bayaran[k].yr1_quarters15=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==17 && bayaran[k].yr1_quarters16=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==18 && bayaran[k].yr1_quarters17=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==19 && bayaran[k].yr1_quarters18=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==20 && bayaran[k].yr1_quarters19=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==21 && bayaran[k].yr1_quarters20=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==22 && bayaran[k].yr1_quarters21=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==23 && bayaran[k].yr1_quarters22=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==24 && bayaran[k].yr1_quarters23=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==25 && bayaran[k].yr1_quarters24=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==26 && bayaran[k].yr1_quarters25=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==27 && bayaran[k].yr1_quarters26=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==28 && bayaran[k].yr1_quarters27=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==29 && bayaran[k].yr1_quarters28=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==30 && bayaran[k].yr1_quarters29=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==31 && bayaran[k].yr1_quarters30=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==32 && bayaran[k].yr1_quarters31=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==33 && bayaran[k].yr1_quarters32=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==34 && bayaran[k].yr1_quarters33=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==35 && bayaran[k].yr1_quarters34=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==36 && bayaran[k].yr1_quarters35=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==37 && bayaran[k].yr1_quarters36=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==38 && bayaran[k].yr1_quarters37=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==39 && bayaran[k].yr1_quarters38=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==40 && bayaran[k].yr1_quarters39=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==41 && bayaran[k].yr1_quarters40=="1"){ cell.innerHTML = '&#x2713;';
-                            }else{cell.innerHTML = '';}
+                          if(bayaran.length!=0){ console.log(j); console.log('found'); console.log(bayaran[k])
+                            if(typeof(bayaran[k])=='undefined')
+                            {
+                              cell.innerHTML = '';
+                            }
+                            else
+                            {
+                              if(j==2 && bayaran[k].yr1_quarters1=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==3 && bayaran[k].yr1_quarters2=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==4 && bayaran[k].yr1_quarters3=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==5 && bayaran[k].yr1_quarters4=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==6 && bayaran[k].yr1_quarters5=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==7 && bayaran[k].yr1_quarters6=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==8 && bayaran[k].yr1_quarters7=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==9 && bayaran[k].yr1_quarters8=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==10 && bayaran[k].yr1_quarters9=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==11 && bayaran[k].yr1_quarters10=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==12 && bayaran[k].yr1_quarters11=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==13 && bayaran[k].yr1_quarters12=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==14 && bayaran[k].yr1_quarters13=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==15 && bayaran[k].yr1_quarters14=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==16 && bayaran[k].yr1_quarters15=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==17 && bayaran[k].yr1_quarters16=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==18 && bayaran[k].yr1_quarters17=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==19 && bayaran[k].yr1_quarters18=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==20 && bayaran[k].yr1_quarters19=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==21 && bayaran[k].yr1_quarters20=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==22 && bayaran[k].yr1_quarters21=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==23 && bayaran[k].yr1_quarters22=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==24 && bayaran[k].yr1_quarters23=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==25 && bayaran[k].yr1_quarters24=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==26 && bayaran[k].yr1_quarters25=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==27 && bayaran[k].yr1_quarters26=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==28 && bayaran[k].yr1_quarters27=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==29 && bayaran[k].yr1_quarters28=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==30 && bayaran[k].yr1_quarters29=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==31 && bayaran[k].yr1_quarters30=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==32 && bayaran[k].yr1_quarters31=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==33 && bayaran[k].yr1_quarters32=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==34 && bayaran[k].yr1_quarters33=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==35 && bayaran[k].yr1_quarters34=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==36 && bayaran[k].yr1_quarters35=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==37 && bayaran[k].yr1_quarters36=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==38 && bayaran[k].yr1_quarters37=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==39 && bayaran[k].yr1_quarters38=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==40 && bayaran[k].yr1_quarters39=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==41 && bayaran[k].yr1_quarters40=="1"){ cell.innerHTML = '&#x2713;';
+                              }else{cell.innerHTML = '';}
+                            }
                           }
                           else
                           {
-                            ////console.log('not found')
+                            console.log('not found')
+                            cell.innerHTML = '&#x2713;';
 
                           }
-                          //cell.innerHTML = '&#x2713;';
                         }
                      }
    
@@ -743,7 +759,7 @@ axios.defaults.headers.common["Authorization"] = api_token
                     else if(i==1)
                     {
                       var project_cost=localStorage.getItem("project_cost");
-                      cell.innerHTML = '<input type="text" class="form-control input-element" readonly value="'+project_cost+'.00"/>';
+                      cell.innerHTML = '<input type="text" class="form-control input-element" id="jumlah_total_latest" readonly value="'+project_cost+'.00"/>';
                     }
                     else
                     {
@@ -798,7 +814,7 @@ axios.defaults.headers.common["Authorization"] = api_token
                             }
                             else
                             {
-                                cell.innerHTML = '<input type="text" class="form-control input-element" readonly value=""/>';
+                                cell.innerHTML = '<input type="text" class="form-control input-element" id="jumlah_total_latest" readonly value=""/>';
                             }
                         }
                         else 
@@ -807,15 +823,25 @@ axios.defaults.headers.common["Authorization"] = api_token
                           cell.classList.add("kewangan"+k+'_'+j+"");
                           cell.setAttribute("id", "kewangan"+k+'_'+j+"");
                           cell.setAttribute("onclick", "SetKewangan("+k+','+j+")");
-                          if(bayaran.length!=0){ ////console.log(j)
-                            if(j==2 && bayaran[k].yr1_quarters1=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==3 && bayaran[k].yr1_quarters2=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==4 && bayaran[k].yr1_quarters3=="1"){ cell.innerHTML = '&#x2713;';
-                            }else if(j==5 && bayaran[k].yr1_quarters4=="1"){ cell.innerHTML = '&#x2713;';
-                            }else{cell.innerHTML = '';}
+                          if(typeof(bayaran[k])=='undefined')
+                          {
+                            cell.innerHTML = '';
                           }
-                          else { }
+                          else
+                          {
+                            if(bayaran.length!=0){ ////console.log(j)
+                              if(j==2 && bayaran[k].yr1_quarters1=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==3 && bayaran[k].yr1_quarters2=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==4 && bayaran[k].yr1_quarters3=="1"){ cell.innerHTML = '&#x2713;';
+                              }else if(j==5 && bayaran[k].yr1_quarters4=="1"){ cell.innerHTML = '&#x2713;';
+                              }else{cell.innerHTML = '';}
+                            }
+                            else 
+                            { 
+                              cell.innerHTML = '';
+                            }
 
+                          }
                         }
                      }
    
@@ -832,7 +858,7 @@ axios.defaults.headers.common["Authorization"] = api_token
                     else if(i==1)
                     {
                       var project_cost=localStorage.getItem("project_cost");
-                      cell.innerHTML = '<input type="text" class="form-control input-element" readonly value="'+project_cost+'.00"/>';
+                      cell.innerHTML = '<input type="text" class="form-control input-element" id="jumlah_total_latest" readonly value="'+project_cost+'.00"/>';
                     }
                     else
                     {
@@ -1340,7 +1366,7 @@ axios.defaults.headers.common["Authorization"] = api_token
                                 <td>
                                   <div class="d-flex">
                                     <input type="text" 
-                                      class="form-control text-left"
+                                      class="form-control text-right"
                                       value=""
                                       id="kosOE4444"
                                       style="font-family: Poppins_Bold;"
@@ -1554,11 +1580,39 @@ axios.defaults.headers.common["Authorization"] = api_token
 
 
 
+//simpan belanja pengurus function
+// function submitBelanjaMengurus() {
+//     var formDataBelanja = new FormData();
+
+//     pelaksanaanTableData = getPelaksanaanTableValue()
+//     formDataBelanja.append('pelaksanaanTableData', JSON.stringify(pelaksanaanTableData))
+//     axios.defaults.headers.common["Authorization"] = "Bearer " + window.localStorage.getItem('token')
+//     axios({
+//             method: 'post',
+//             url: {{ env('API_URL') }} + "api/project/kewangan/belanja_mengurus",
+//             responseType: 'json',
+//             data: formDataBelanja
+//         })
+//         .then(function(response) {
+//             if (response.data.code == 200) {
+
+//             } else {
+//                     alert('error while saving project')
+//             }
+//         })
+//         .catch(function(error) {
+//             console.log(error);
+//         })
+//   }
+
+
 //********************************Simpan***********************************
 
 $("#simpan").click(function(){
   $("div.spanner").addClass("show");
 $("div.overlay").addClass("show");
+
+  submitBelanjaMengurus()
   var formData = new FormData();
   
   let txtskopid = document.querySelectorAll("[id='hiddenskopid']");  
@@ -3168,7 +3222,7 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
                                       <input
                                         type="text"
                                         value="`+subskopnama +`"
-                                        class="form-control" 
+                                        class="form-control text-left" 
                                         id="namacomponen" 
                                         readonly
                                         style="font-family: Poppins_Regular;"      
@@ -3251,7 +3305,7 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
                                       <input
                                         type="text"
                                         value="`+subskopnama +`"
-                                        class="form-control" 
+                                        class="form-control text-left" 
                                         id="namacomponen" 
                                         readonly
                                         style="font-family: Poppins_Regular;"      
@@ -3337,7 +3391,7 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
                                       <input
                                         type="text"
                                         value="`+subskopnama +`"
-                                        class="form-control" 
+                                        class="form-control text-left" 
                                         id="namacomponen" 
                                         readonly
                                         style="font-family: Poppins_Regular;"      
@@ -3496,7 +3550,7 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
                                       <input
                                         type="text"
                                         value="`+subskopnama +`"
-                                        class="form-control" 
+                                        class="form-control text-left" 
                                         id="namacomponen"  
                                         readonly
                                         style="font-family: Poppins_Regular;"     
@@ -3808,13 +3862,13 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
 
                                       let component_tr = `<tr id="subcomponentrow" class="d-row">
                                       <td><p id="rowno">`+mainrow+`.`+subrow+`.`+subsubrow+`</p></td>
-                                          <td class="pl-4">
+                                          <td class="pl-3">
                                           <input type="hidden" id="jumlahkos`+item.skop_project_code+`" value="`+item.skop_project_code+`" />
                                             <div class="d-flex">
                                             <input
                                               type="text"
                                               value="`+subskopitem.nama_componen+`"
-                                              class="form-control" 
+                                              class="form-control text-left" 
                                               id="subnamacomponenu"      
                                               />
                                               <button type="button" class="ml-auto component_row_minus">
@@ -3933,7 +3987,7 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
 
             if (Information_add) {
               $(".add_subrow").bind("click", function () {
-                var $this = $(this);
+                  var $this = $(this);
                   $parentTR = $this.closest("tr");
                   var lCompleteRow = $this.closest("tr");
                   var jumlahforid = lCompleteRow. find('td:eq(1) input[type="hidden"]'). val();
@@ -3971,13 +4025,13 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
 
                   let component_tr = `<tr id="subcomponentrow" class="d-row">
                                     <td></td>
-                                    <td class="pl-4">
+                                    <td class="pl-3">
                                     <input type="hidden" id="jumlahkos`+jumlahforid+`" value="`+jumlahforid+`" />
                                       <div class="d-flex">
                                       <input
                                         type="text"
                                         value=""
-                                        class="form-control" 
+                                        class="form-control text-left" 
                                         id="subnamacomponen"      
                                         />
                                         <button type="button" class="ml-auto component_row_minus">
@@ -4045,7 +4099,16 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
 
                  
 
-                $(component_tr).insertAfter($parentTR);
+                // $(component_tr).insertAfter($parentTR);
+                var lastSubcomponentRow = $parentTR.next("tr#subcomponentrow:last");
+                console.log(lastSubcomponentRow)
+                if (lastSubcomponentRow.length > 0) {
+                  $(component_tr).insertAfter(lastSubcomponentRow);
+                } else {
+                  // If there are no existing subcomponent rows, insert after the parent row
+                  $(component_tr).insertAfter($parentTR);
+                }
+
 
                 //var jumlahforid = jid. find('td:eq(1) input[type="hidden"]'). val();
                 //var subjumlahforid = jid. find('td:eq(4) input[type="hidden"]'). val();
@@ -4185,7 +4248,7 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
                                               Jawatan
                                             </label>
                                             
-                                            <input type="text"class="form-control col" id="txtjawatan" value="`+perundingitem.jawatan+`" />
+                                            <input type="text"class="form-control text-left col" id="txtjawatan" value="`+perundingitem.jawatan+`" />
                                             <button type="button" class="ml-auto sub-tr-btn-second_minus kajian_minus">
                                               <i class="ri-checkbox-indeterminate-line ri-2x"></i>
                                             </button>
@@ -4386,7 +4449,7 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
                                               Jawatan
                                             </label>
                                             
-                                            <input type="text"class="form-control col" id="txtjawatan" value="" />
+                                            <input type="text"class="form-control text-left col" id="txtjawatan" value="" />
                                             <button type="button" class="ml-auto sub-tr-btn-second_minus">
                                               <i class="ri-checkbox-indeterminate-line ri-2x"></i>
                                             </button>
@@ -4575,7 +4638,7 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
                                               Jawatan
                                             </label>
                                             
-                                            <input type="text"class="form-control col" id="txtjawatantapak" value="`+perundingitem.jawatan+`" />
+                                            <input type="text"class="form-control text-left col" id="txtjawatantapak" value="`+perundingitem.jawatan+`" />
                                             <button type="button" class="ml-auto sub-tr-btn-second">
                                               <i class="ri-checkbox-indeterminate-line ri-2x"></i>
                                             </button>
@@ -4770,7 +4833,7 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
                                               Jawatan
                                             </label>
                                             
-                                            <input type="text"class="form-control col" id="txtjawatantapak" value="" />
+                                            <input type="text"class="form-control text-left col" id="txtjawatantapak" value="" />
                                             <button type="button" class="ml-auto sub-tr-btn-second">
                                               <i class="ri-checkbox-indeterminate-line ri-2x"></i>
                                             </button>
@@ -4897,14 +4960,14 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
           if(responsedata){
             //if(responsedata.data.length>0){
 
-            if(responsedata.data.data.Komponen_id == null){
-              document.getElementById('cmbkomponen').value = 0;
-            }                       
-            else{
-              document.getElementById('cmbkomponen').value=responsedata.data.data.Komponen_id;
-            }
-            
-            document.getElementById('txtsilingdimohon').value=responsedata.data.data.Siling_Dimohon;
+            if(responsedata.data.data){
+              if(responsedata.data.data.Komponen_id == null){
+                document.getElementById('cmbkomponen').value = 0;
+              }
+              else{
+                document.getElementById('cmbkomponen').value=responsedata.data.data.Komponen_id;
+              }
+              document.getElementById('txtsilingdimohon').value=responsedata.data.data.Siling_Dimohon;
             document.getElementById('txtsilingbayangan').value=responsedata.data.data.Siling_Bayangan;
             document.getElementById('totalkoscomponen').value=responsedata.data.data.totalkos;
             
@@ -4914,6 +4977,11 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
             //document.getElementById('componentfinaltaxcopy').value=responsedata.data.data.sst_tax;
             document.getElementById('componentroughjumlahkos').value=responsedata.data.data.temp_jumlahkos;
             document.getElementById('finaltotaljumlahkos').value=responsedata.data.data.jumlahkos;
+
+            var table_row_count = document.getElementById("projek_table_kewagan").rows.length;
+            var row_count= table_row_count-1; console.log(row_count);
+            document.getElementById('total_'+row_count).value = responsedata.data.data.jumlahkos;
+            document.getElementById('jumlah_total_latest').value = responsedata.data.data.jumlahkos;
 
             if(isPerundingPresent && isTerperinciPresent){
 
@@ -4992,6 +5060,9 @@ var cmbkomponenget =  document.getElementById("cmbkomponen");
               yuransubprofessionaltapak[0].value = responsedata.data.data.yuran_subprofessional_tapak
             }           
           } 
+            }else {
+              
+            }
             
         }
       //}
@@ -5109,34 +5180,7 @@ function number_format($num)
 
 
 
-function getYears(date1,date2)
-  {
-    ////console.log(date1)
-    ////console.log(date2)
-        var start = new Date(date1,01,01); ////console.log(start)
-        var end = new Date(date2,01,01); ////console.log(end)
 
-        var diff = Math.floor(end.getTime() - start.getTime());
-        var day = 1000 * 60 * 60 * 24;
-
-        var days = Math.floor(diff/day);
-        var months = Math.floor(days/31);
-        var years = Math.floor(months/12);
-
-        localStorage.setItem("colspan", parseInt(years)+2);
-
-        
-        const date_array=[];
-
-        for(let k=0;k<=years;k++)
-        {
-          date_array.push(date1);
-          var date1=parseInt(date1)+1;
-        }
-        date_array.push(date2);
-
-      return date_array;
-  }
 
   //-----to copy imbuhan-------
 
@@ -6383,6 +6427,13 @@ function calculatekosunit(textid){
 
     //copytaxsst();
 
+    var table_row_count = document.getElementById("projek_table_kewagan").rows.length;
+    var row_count= table_row_count-1; console.log(row_count);
+    document.getElementById('total_'+row_count).value = finaljumlahtax;
+    document.getElementById('jumlah_total_latest').value = finaljumlahtax;
+
+
+
     splmainworkscontrol = document.querySelector(".splmainworksjumlah");
     splmainworks = document.getElementById(splmainworkscontrol.id)
     
@@ -6665,16 +6716,27 @@ function calculatecost(percentage){
 
 // -----Calculate cost for total main works ends ------
 
-function nf(){
+function nf() {
+  $('.input-element').toArray().forEach(function (field) {
+    // Get the current input value
+    var inputValue = $(field).val();
 
-  $('.input-element').toArray().forEach(function(field){
-new Cleave(field, {
-  numeral: true,
-  numeralThousandsGroupStyle: 'thousand'
-});
+    // Check if inputValue is a valid number and not empty
+    if (!isNaN(inputValue) && inputValue !== '') {
+      // Convert the inputValue to a number and format it to have two decimal places
+      var formattedValue = parseFloat(inputValue).toFixed(2);
+      
+      // Update the input field with the formatted value
+      $(field).val(formattedValue);
+    }
+
+    // Apply Cleave formatting
+    new Cleave(field, {
+      numeral: true,
+      numeralThousandsGroupStyle: 'thousand'
+    });
   });
-
-  }
+}
 
 //**************************Calculate Belanja table******************************************************
 
@@ -7122,7 +7184,7 @@ var rujukan_link = document.querySelectorAll(".rujukan_link");
                     $.each(result4.data, function (key, item) {
                       //console.log("Length : "+item.total_cost);
                       let rujukantablerow = `<tr>
-                    <td>`+item.total_cost+`</td>
+                    <td class="">`+number_format(item.total_cost)+`</td>
                     <td>
                       `+item.P_max+`
                     </td>

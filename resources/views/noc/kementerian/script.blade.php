@@ -11,14 +11,14 @@ $(document).ready(function () {
     const api_token = "Bearer "+ window.localStorage.getItem('token');  console.log(api_token);    
         axios({
         method: 'get',
-        url: api_url+"api/noc/noc-kementerian-silling-data/" + {{$id}},
+        url: api_url+"api/noc/noc-kementerian-data/" + {{$id}},
         headers: {"Authorization": api_token },
         responseType: 'json'
         })
         .then(function (response) { 
             var project_data = response.data.data.noc;
-            var kementerian_data = response.data.data.noc_kementerian;
-            var noc_economi = response.data.data.noc_economi;
+            var kementerian_data = response.data.data.noc_kementerian; console.log(kementerian_data);
+            var noc_economi = response.data.data.noc_economi; console.log(noc_economi);
 
             if(project_data)
             {
@@ -34,6 +34,7 @@ $(document).ready(function () {
                     document.getElementById('economi_surat_file_name').disabled=true;
                     $('#batal_btn').addClass('d-none');
                     $('#simpan_btn').addClass('d-none');
+                    $('#lulus_btn').addClass('d-none');
                 }
                 else  if(project_data.status_id==42)
                 {
@@ -43,6 +44,7 @@ $(document).ready(function () {
 
                     $('#batal').addClass('d-none');
                     $('#simpan').addClass('d-none');
+                    $('#lulus').addClass('d-none');
                 }
                 else  if(project_data.status_id==44)
                 {
@@ -61,6 +63,9 @@ $(document).ready(function () {
                     $('#simpan').addClass('d-none');
                     $('#batal_btn').addClass('d-none');
                     $('#simpan_btn').addClass('d-none');
+                    $('#lulus').addClass('d-none');
+                    $('#lulus_btn').addClass('d-none');
+
                 }
                 else  if(project_data.status_id==43 || project_data.status_id==45)
                 {
@@ -79,6 +84,8 @@ $(document).ready(function () {
                     $('#simpan').addClass('d-none');
                     $('#batal_btn').addClass('d-none');
                     $('#simpan_btn').addClass('d-none');
+                    $('#lulus').addClass('d-none');
+                    $('#lulus_btn').addClass('d-none');
                 }
                 else
                 {
@@ -97,55 +104,90 @@ $(document).ready(function () {
                     $('#simpan').addClass('d-none');
                     $('#batal_btn').addClass('d-none');
                     $('#simpan_btn').addClass('d-none');
+                    $('#lulus').addClass('d-none');
+                    $('#lulus_btn').addClass('d-none');
                 }
             }
-
-            if(kementerian_data)
+            else
             {
-                var data= "'"+kementerian_data.id+"'"+","+"'"+kementerian_data.kementerian_file_name+"'"+","+"'"+'kementerian_file_name'+"'"; //console.log(data);
-                let html= `<div class="" style="text-align: left;">
-                                  <label for="" class=" NOC_label">`+kementerian_data.kementerian_tarikh+`</label>
-                                  <label onclick="previewfile(`+data+`)" for="" class="NOC_label_uploaded_file" style="cursor:pointer;">`+kementerian_data.kementerian_file_name+`</label>
-                                </div>`;
+                $('#batal_btn').addClass('d-none');
+                $('#simpan_btn').addClass('d-none');
+                $('#lulus_btn').addClass('d-none');
+            }
 
-                $('#kem_list').append(html);
+            if(kementerian_data.length > 0) 
+            {
+                for(var i=0;i<kementerian_data.length>0;i++)
+                {
+                    var data= "'"+kementerian_data[i].id+"'"+","+"'"+kementerian_data[i].kementerian_file_name+"'"+","+"'"+'kementerian_file_name'+"'"; //console.log(data);
+                    let html= `<tr>
+                                    <td>`+(i+1)+`</td>
+                                    <td>`+kementerian_data[i].kementerian_tarikh+`</td>
+                                    <td><label onclick="previewfile(`+data+`)" style="cursor:pointer;color:#3381e4;">`+(i+1)+`. `+kementerian_data[i].kementerian_file_name+`</label></td>
+                                </tr>`;
+
+                    $('#hanter_table').append(html);
+                }
+                
+                $("#batal").prop("disabled", false);
+                document.getElementById("batal").style.opacity = "1";
+                $("#simpan").prop("disabled", false);
+                document.getElementById("simpan").style.opacity = "1";
             }
             else
             {
                 $('#kem_list').addClass('d-none');
+                $("#batal").prop("disabled", true);
+                document.getElementById("batal").style.opacity = "0.5";
+                $("#simpan").prop("disabled", true);
+                document.getElementById("simpan").style.opacity = "0.5";
             }
 
-            if(noc_economi)
+            if(noc_economi.length>0)
             {
-                var data1= "'"+noc_economi.id+"'"+","+"'"+noc_economi.economi_file_name+"'"+","+"'"+'economi_hanter_file_name'+"'"; //console.log(data);
-                let html1= `<div class="" style="text-align: left;">
-                                  <label for="" class=" NOC_label">`+noc_economi.economi_tarikh+`</label>
-                                  <label onclick="previewfile(`+data1+`)" for="" class="NOC_label_uploaded_file" style="cursor:pointer;">`+noc_economi.economi_file_name+`</label>
-                                </div>`;
-
-                $('#economi_list').append(html1);
-
-                var data2= "'"+noc_economi.id+"'"+","+"'"+noc_economi.economi_surat_file_name+"'"+","+"'"+'economi_surat_file_name'+"'"; ; //console.log(data);
-                let html2= `<div class="" style="text-align: left;">
-                                  <label for="" class=" NOC_label">`+noc_economi.economi_surat_tarikh+`</label>
-                                  <label onclick="previewfile(`+data2+`)" for="" class="NOC_label_uploaded_file" style="cursor:pointer;">`+noc_economi.economi_surat_file_name+`</label>
-                                </div>`;
-
-                $('#surat_list').append(html2);
-
-                document.getElementById('catatan').value = noc_economi.catatan;
-                if(noc_economi.status==1){
-                    document.getElementById('inlineRadio1').checked = true;
-                }
-                else
+                for(var i=0;i<noc_economi.length>0;i++)
                 {
-                    document.getElementById('inlineRadio2').value = true;
+
+                    var data1= "'"+noc_economi[i].id+"'"+","+"'"+noc_economi[i].economi_file_name+"'"+","+"'"+'economi_hanter_file_name'+"'"; //console.log(data);
+                    let html1= `<div class="" style="text-align: left;">
+                                    <label for="" class=" NOC_label">`+(i+1)+`. `+`</label>
+                                    <label onclick="previewfile(`+data1+`)" for="" style="cursor:pointer;;color:#3381e4;">`+noc_economi[i].economi_file_name+`</label>
+                                    </div>`;
+
+                    $('#economi_list').append(html1);
+
+                    var data2= "'"+noc_economi[i].id+"'"+","+"'"+noc_economi[i].economi_surat_file_name+"'"+","+"'"+'economi_surat_file_name'+"'"; ; //console.log(data);
+                    let html2= `<div class="" style="text-align: left;">
+                                    <label for="" class=" NOC_label">`+(i+1)+`. `+`</label>
+                                    <label onclick="previewfile(`+data2+`)" for="" style="cursor:pointer;color:#3381e4;">`+noc_economi[i].economi_surat_file_name+`</label>
+                                    </div>`;
+
+                    $('#surat_list').append(html2);
+
+                    document.getElementById('catatan').value = noc_economi[i].catatan;
+                    if(noc_economi[i].status==1){
+                        document.getElementById('inlineRadio1').checked = true;
+                    }
+                    else
+                    {
+                        document.getElementById('inlineRadio2').value = true;
+                    }
                 }
+
+                $("#batal_btn").prop("disabled", false);
+                document.getElementById("batal_btn").style.opacity = "1";
+                $("#simpan_btn").prop("disabled", false);
+                document.getElementById("simpan_btn").style.opacity = "1";
+                
             }
             else
             {
                 $('#surat_list').addClass('d-none');
                 $('#economi_list').addClass('d-none');
+                $("#batal_btn").prop("disabled", true);
+                document.getElementById("batal_btn").style.opacity = "0.5";
+                $("#simpan_btn").prop("disabled", true);
+                document.getElementById("simpan_btn").style.opacity = "0.5";
 
             }
 
@@ -171,6 +213,42 @@ $("#inlineRadio1").click(function(){
 $("#inlineRadio2").click(function(){
     $("#catatan_div").addClass('d-none')
 })
+
+function downloadDoc(type,medias)
+    {
+        console.log(medias)
+        if(medias) {
+
+                if(medias.collection_name == type) {
+                    const api_url = "{{env('API_URL')}}";  
+                    var api_token = "Bearer " + window.localStorage.getItem('token');
+
+                    parameters = {
+                        model_id : medias.id,
+                        mode_type_id : medias.model_id,
+                        model_type : medias.model_type,
+                        collection_name : medias.collection_name
+                    }
+                    axios({
+                            url: api_url+"api/media/download",
+                            method: 'GET',
+                            headers: { "Authorization": api_token, },
+                            params: parameters,
+                            responseType: 'blob', // important
+                        }).
+                        then((response) => {
+                            console.log(response.data);
+                            const url = window.URL.createObjectURL(response.data);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.setAttribute('download', medias.file_name);
+                            document.body.appendChild(link);
+                            link.click();
+                            URL.revokeObjectURL(url);
+                        });
+                }
+        }
+    }
 
 
 $("#economi_hanter_file_name").on( "change", function() {
@@ -226,7 +304,7 @@ $("#batal_btn").click(function(){
 
         $("#tutup-global").click(function(){  
             $('#global_sucess_modal').modal('hide');                  
-            UpdateStatus(43);
+            UpdateStatus(32);
         })
 
         $("#close-global").click(function(){                    
@@ -239,7 +317,7 @@ $("#batal").click(function(){
 
         $("#tutup-global").click(function(){  
             $('#global_sucess_modal').modal('hide');                  
-            UpdateStatus(45);
+            UpdateStatus(32);
         })
 
         $("#close-global").click(function(){                    
@@ -248,6 +326,23 @@ $("#batal").click(function(){
 });
 
 $("#simpan").click(function(){
+    UpdateStatus(42);
+});
+
+$("#simpan_btn").click(function(){
+
+    const Radiobtn = document.getElementById('inlineRadio1');
+        if(Radiobtn.checked)
+        {
+            UpdateStatus(44);
+        }
+        else
+        {
+            UpdateStatus(45);
+        }
+});
+
+$("#lulus").click(function(){
 
         var kementerian_date=$("#kementerian_date").val(); console.log(kementerian_date);
         if(kementerian_date==''){
@@ -285,7 +380,7 @@ $("#simpan").click(function(){
             formData.append('kementerian_date',kementerian_date);
             formData.append('id', {{$id}});
             formData.append('user_id', {{Auth::user()->id}});
-            formData.append('status', 42);
+            formData.append('status', 41);
 
             $("div.spanner").addClass("show");
             $("div.overlay").addClass("show");
@@ -310,7 +405,7 @@ $("#simpan").click(function(){
     
 });
 
-$("#simpan_btn").click(function(){
+$("#lulus_btn").click(function(){
 
         var economi_date=$("#economi_date").val(); //console.log(kementerian_date);
         if(economi_date==''){
@@ -360,11 +455,10 @@ $("#simpan_btn").click(function(){
 
         const Radiobtn = document.getElementById('inlineRadio1');
         let status_perm=0;
-        let status = 45;
         if(Radiobtn.checked)
         {
             status_perm=1;
-            status=44;
+           // status=44;
         }
 
         var formData = new FormData();
@@ -376,7 +470,7 @@ $("#simpan_btn").click(function(){
             formData.append('catatan',document.getElementById('catatan').value);
             formData.append('id', {{$id}});
             formData.append('user_id', {{Auth::user()->id}});
-            formData.append('status',status);
+            formData.append('status',42);
 
             $("div.spanner").addClass("show");
             $("div.overlay").addClass("show");
@@ -394,8 +488,8 @@ $("#simpan_btn").click(function(){
 
                     $('#add_role_sucess_modal').modal('show');
                         $("#tutup").click(function(){                    
-                                // location.reload();
-                                window.location.href = "/Kertas_Permohonan_NOC";
+                                 location.reload();
+                                //window.location.href = "/Kertas_Permohonan_NOC";
                         })
 
                 });

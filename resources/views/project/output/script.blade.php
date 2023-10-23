@@ -5,8 +5,36 @@
         disableInputs()
         }
 
+    // Retrieve Kuantiti/Bilangan value
+    const inputKuantiti = document.getElementById("kuantity");
+    const yearInputs = document.querySelectorAll("input[name^='yr_']");
 
-   function disableInputs() {
+    inputKuantiti.addEventListener("keyup", function() {
+        const kuantityValue  = this.value;
+        console.log("Kuantiti/Bilangan: " + kuantityValue );
+
+        // You can perform additional actions with the 'value' here.
+        if (kuantityValue  < 0) {
+            this.value = Math.abs(kuantityValue );
+        }
+
+        // Calculate the total of year inputs
+        let total = 0;
+        yearInputs.forEach((yearInput) => {
+            total += parseFloat(yearInput.value);
+        });
+
+        // Check if the total exceeds the kuantity value
+        if (total > kuantityValue) {
+            // You can handle this case as needed, for example, by disabling further input.
+            // In this example, we'll just alert the user.
+            alert("Total value of years cannot exceed Kuantiti/Bilangan.");
+        }
+    });
+
+
+
+    function disableInputs() {
       // Get all input elements
       const inputs = document.getElementsByTagName("input");
       
@@ -151,8 +179,14 @@
                         tr_new.appendChild(th_new);   
                         
                         var cell = table_pop.insertCell(j);
-                        var Div = '<div class="form-group"><input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"  value="0" name="yr_'+parseInt(j+1)+'" class="form-control" style="width: 80%;" value=""/></div>';
+                        var Div = '<div class="form-group"><input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"  value="0" name="yr_'+parseInt(j+1)+'" class="form-control yr_'+parseInt(j+1)+'" style="width: 80%;" placeholder="0"/></div>';
                         cell.innerHTML = Div;
+
+                        // Add event listener to each year input for keyup
+                        const yearInput = cell.querySelector('input');
+                        yearInput.addEventListener("keyup", function () {
+                            updateYearTotals(); // Recalculate totals on year input keyup
+                        });
                 }
             }
             else
@@ -176,8 +210,14 @@
                         tr_new.appendChild(th_new);   
                         
                         var cell = table_pop.insertCell(0);
-                        var Div = '<div class="form-group"><input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"  value="0" name="yr_1" class="form-control" value=""/></div>';
+                        var Div = '<div class="form-group"><input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"  value="0" name="yr_1" class="form-control"  placeholder="0"/></div>';
                         cell.innerHTML = Div;
+
+                        // Add event listener to year input for keyup
+                        const yearInput = cell.querySelector('input');
+                        yearInput.addEventListener("keyup", function () {
+                            updateYearTotals(); // Recalculate totals on year input keyup
+                        });
 
             }
         })
@@ -185,6 +225,53 @@
             $("div.spanner").removeClass("show");
             $("div.overlay").removeClass("show");
         })
+
+        function updateYearTotals() {
+          // Recalculate the total of year inputs
+          let total = 0;
+          
+          // Iterate through year inputs with class names yr_1, yr_2, yr_3, etc.
+          for (let i = 1; i <= $years.length; i++) {
+              const yearInput = document.querySelector(`input[name="yr_${i}"]`);
+              if (yearInput) {
+                  total += parseFloat(yearInput.value);
+              }
+          }
+
+          // Retrieve Kuantiti/Bilangan value
+          var inputKuantiti = document.getElementById("kuantity");
+          
+          const kuantityValue = parseFloat(inputKuantiti.value);
+          console.log("Kuantiti/Bilangan: " + kuantityValue)
+          console.log("Jumlah setiap tahun: "+ total)
+
+          // Calculate the remaining value
+          const remainingValue = kuantityValue - total;
+          console.log("Sisa Nilai: " + remainingValue);
+
+          if (remainingValue < 0) {
+              // Disable further input
+              for (let i = 1; i <= $years.length; i++) {
+                  const yearInput = document.querySelector(`input[name="yr_${i}"]`);
+                  const yearInputValue = parseFloat(yearInput.value);
+                  
+                  // yearInput.disabled = yearInputValue === 0;
+                  const currentYearInput = document.activeElement;
+                  const currentYearInputValue = parseFloat(currentYearInput.value);
+                  if (currentYearInputValue > remainingValue) {
+                      // Reset the current input to zero
+                      currentYearInput.value = 0;
+                  }
+              }
+          } else {
+              // Enable all inputs and make sure they're not disabled
+              for (let i = 1; i <= $years.length; i++) {
+                  const yearInput = document.querySelector(`input[name="yr_${i}"]`);
+                  yearInput.disabled = false;
+              }
+          }
+      }
+
       // ---------------------------
       axios.defaults.headers.common["Authorization"] = api_token
         axios({
@@ -1599,7 +1686,7 @@ axios.defaults.headers.common["Authorization"] = api_token
             console.log(result.data.data.kpi_unit)
             if(result.data){
 
-                loadYears(result.data.data.project_data[0],result.data.data.project_kpi[0]);
+              loadYears(result.data.data.project_data[0],result.data.data.project_kpi[0]);
 
               var popupunit =  document.getElementById("edit_unit");
               var unitoptions =  "";
@@ -1640,6 +1727,7 @@ axios.defaults.headers.common["Authorization"] = api_token
                 var tr_new = document.getElementById('edit_mytable').tHead.children[0]; //console.log(tr); popup-table
                 var table_pop= document.getElementById("edit_pop-tr");  console.log(table_pop)
                 var yrs='';
+                let total_edityrs = 0;
                 for (j = 0; j < $years.length; j++) {         
                         th_new = document.createElement('th');
                         th_new.innerHTML = $years[j];   
@@ -1660,8 +1748,16 @@ axios.defaults.headers.common["Authorization"] = api_token
                          }
                         console.log("yrs-"); console.log(yrs)
                         var cell = table_pop.insertCell(j);
-                        var Div = '<div class="form-group"><input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="yr_'+parseInt(j+1)+'" class="form-control" value="'+yrs+'"/></div>';
+                        var Div = '<div class="form-group"><input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="yr_'+parseInt(j+1)+'" class="form-control yr_'+parseInt(j+1)+'" value="'+yrs+'"/></div>';
                         cell.innerHTML = Div;
+
+                        total_edityrs += parseFloat(yrs);
+
+                        // Add event listener to each year input for keyup
+                        const yearInput = cell.querySelector('input');
+                        yearInput.addEventListener("keyup", function () {
+                            updateEditYearTotals(total_edityrs, kpi); // Recalculate totals on year input keyup
+                        })
                 }
             }
             else
@@ -1676,6 +1772,12 @@ axios.defaults.headers.common["Authorization"] = api_token
                         var cell = table_pop.insertCell(0);
                         var Div = '<div class="form-group"><input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="yr_1" class="form-control" value="'+kpi.yr_1+'"/></div>';
                         cell.innerHTML = Div;
+
+                        // Add event listener to each year input for keyup
+                        const yearInput = cell.querySelector('input');
+                        yearInput.addEventListener("keyup", function () {
+                            updateYearTotals(); // Recalculate totals on year input keyup
+                        })
 
             }
   }
@@ -1850,5 +1952,66 @@ axios.defaults.headers.common["Authorization"] = api_token
         return '0.00';
       }
     }      
+  }
+
+  function updateEditYearTotals(total_edityrs, kpi) {
+      // Recalculate the total of year inputs
+      let total = 0;
+      
+      // Iterate through year inputs with class names yr_1, yr_2, yr_3, etc.
+      for (let i = 1; i <= $years.length; i++) {
+          const yearInput = document.querySelector(`input[name="yr_${i}"]`);
+          if (yearInput) {
+              total += parseFloat(yearInput.value);
+          }
+      }
+
+      // Retrieve Kuantiti/Bilangan value
+      const editKuantiti = parseFloat(document.getElementById("edit_kuantity").value); 
+      if(editKuantiti != 0) {
+        var inputKuantiti = document.getElementById("edit_kuantity");
+      } else {
+        var inputKuantiti = document.getElementById("kuantity");
+      }
+      
+      const kuantityValue = parseFloat(inputKuantiti.value);
+      console.log("Kuantiti/Bilangan: " + kuantityValue)
+      console.log("Jumlah setiap tahun: "+ total)
+      console.log("Jumlah setiap tahun terkini: "+total_edityrs)
+
+      // Calculate the remaining value
+      var remainingValue = kuantityValue - total_edityrs;
+      console.log("Sisa Nilai: " + remainingValue);
+
+      if (remainingValue <= 0) {
+          // Disable further input
+          for (let i = 1; i <= $years.length; i++) {
+              const yearInput = document.querySelector(`input[name="yr_${i}"]`);
+              const yearInputValue = parseFloat(yearInput.value);
+              
+              //yearInput.disabled = yearInputValue === 0;
+              const currentYearInput = document.activeElement;
+              const currentYearInputName = currentYearInput.getAttribute('name');
+              const currentYearInputValue = parseFloat(currentYearInput.value);
+
+              if(kpi.hasOwnProperty(currentYearInputName)){
+                var yr_value = `${(kpi[currentYearInputName])}`;
+                var edit_yr_value = parseFloat(yr_value);
+
+                remainingValue += edit_yr_value;
+              }
+
+              if (currentYearInputValue > remainingValue) {
+                  // Reset the current input to zero
+                  currentYearInput.value = 0;
+              }
+          }
+      } else {
+          // Enable all inputs and make sure they're not disabled
+          for (let i = 1; i <= $years.length; i++) {
+              const yearInput = document.querySelector(`input[name="yr_${i}"]`);
+              yearInput.disabled = false;
+          }
+      }
   }
 </script>

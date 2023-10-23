@@ -1047,6 +1047,269 @@ function removecomma(num){
               $('#kos_seluruhan').val(0)
             }
           })
+
+          axios.defaults.headers.common["Authorization"] = api_token;
+
+
+
+
+axios({
+  method: 'get',
+  url: "{{ env('API_URL') }}" + "api/project/outputpage-details/" + {{$id}},
+  responseType: 'json'
+})
+.then(function (response) {
+    console.log("outcome");
+    console.log(response);
+    output = response.data.data.output;
+    outcome = response.data.data.outcome;
+
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
+
+// ...
+
+// Define a mapping of unit_id to unit names
+var unitIdToNameMap = {};
+
+// Make an API call to fetch unit details and populate the mapping
+axios({
+  method: 'get',
+  url: api_url + "api/project/unit-details",
+  responseType: 'json',
+})
+  .then(function (response) {
+    if (response.data && response.data.data) {
+      response.data.data.forEach(function (item) {
+        unitIdToNameMap[item.id] = item.nama_unit;
+      });
+
+      // Now, you have the mapping, and you can use it to update the outcomeUnit and outputUnit containers
+      var outcomeUnitContainer = document.getElementById("outcomeUnitContainer");
+      var outputUnitContainer = document.getElementById("outputUnitContainer");
+
+      // Iterate through the 'outcome' array and use the mapping to get the unit names.
+      for (let i = 0; i < outcome.length; i++) {
+        var unitId = outcome[i].unit_id;
+        if (unitIdToNameMap.hasOwnProperty(unitId)) {
+          // Create a new input field for each unit and set its value.
+          const outcomeUnitInput = document.createElement("input");
+          outcomeUnitInput.type = "text";
+          outcomeUnitInput.className = "form-control";
+          outcomeUnitInput.value = unitIdToNameMap[unitId];
+
+          // Append the new input field to the outcomeUnitContainer.
+          outcomeUnitContainer.appendChild(outcomeUnitInput);
+        }
+      }
+
+      // Iterate through the 'output' array and use the mapping to get the unit names.
+      for (let i = 0; i < output.length; i++) {
+        var unitId = output[i].unit_id;
+        if (unitIdToNameMap.hasOwnProperty(unitId)) {
+          // Create a new input field for each unit and set its value.
+          var outputUnitInput = document.createElement("input");
+          outputUnitInput.type = "text";
+          outputUnitInput.className = "form-control";
+          outputUnitInput.value = unitIdToNameMap[unitId];
+
+          // Append the new input field to the outputUnitContainer.
+          outputUnitContainer.appendChild(outputUnitInput);
+        }
+      }
+    }
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
+
+
+
+//----------- output/outcome -------------
+
+axios.defaults.headers.common["Authorization"] = api_token;
+
+axios({
+    method: 'get',
+    url: "{{ env('API_URL') }}" + "api/project/outputpage-details/" + {{$id}},
+    responseType: 'json'
+})
+.then(function (response) {
+    console.log("output");
+    console.log(response);
+    var output = response.data.data.output;
+    var outcome = response.data.data.outcome;
+
+    if (output.length > 0) {
+        var outputInputFieldsContainer = document.getElementById("output_input_fields_container");
+
+        for (let i = 0; i < output.length; i++) {
+            
+          var outputRow = document.createElement("div");
+            outputRow.classList.add("justify-content-between")
+            outputRow.classList.add("row"); // Create a Bootstrap row
+            outputRow.classList.add("mb-5");
+
+            // Create a column for "output_proj"
+            var outputProjCol = document.createElement("div");
+            outputProjCol.classList.add("col-md-12"); // Adjust the column size as needed
+
+            var outputProjLabel = document.createElement("label");
+            outputProjLabel.textContent = "Output";
+            outputProjLabel.classList.add("sub-topic");
+            outputProjLabel.classList.add("pl-0");
+            outputProjLabel.classList.add("pt-3");
+            outputProjCol.appendChild(outputProjLabel);
+
+            var inputField = document.createElement("input");
+            inputField.classList.add("form-control");
+            inputField.style = "margin-bottom:30px;"
+            inputField.disabled = true;
+            inputField.type = "text";
+            inputField.name = "output_proj_" + i;
+            inputField.value = output[i].output_proj;
+            outputProjCol.appendChild(inputField);
+
+           
+
+            // Create a column for "Kuantiti"
+            var kuantitiCol = document.createElement("div");
+            kuantitiCol.classList.add("col-md-4"); // Adjust the column size as needed
+
+            var outputProjLabel = document.createElement("label");
+            outputProjLabel.textContent = "Kuantiti/Bilangan";
+            kuantitiCol.appendChild(outputProjLabel);
+
+            if (output[i].Kuantiti) {
+                var inputField2 = document.createElement("input");
+                inputField2.classList.add("form-control");
+                inputField2.disabled = true;
+                inputField2.type = "text";
+                inputField2.value = output[i].Kuantiti;
+                kuantitiCol.appendChild(inputField2);
+            }
+
+            // Create a column for "unit_id"
+            var unitIdCol = document.createElement("div");
+            
+            unitIdCol.classList.add("col-md-4"); // Adjust the column size as needed
+
+            var outputProjLabel = document.createElement("label");
+            outputProjLabel.textContent = "Unit";
+            unitIdCol.appendChild(outputProjLabel);
+
+            if (output[i].unit_id) {
+                var inputField3 = document.createElement("input");
+                inputField3.classList.add("form-control");
+                inputField3.disabled = true;
+                inputField3.type = "text";
+                inputField3.value =  inputField3.value = unitIdToNameMap[output[i].unit_id]; 
+                
+                unitIdCol.appendChild(inputField3);
+            }
+
+            // Append columns to the row
+            outputRow.appendChild(outputProjCol);
+            outputRow.appendChild(kuantitiCol);
+            outputRow.appendChild(unitIdCol);
+
+            // Append the row to the container
+            outputInputFieldsContainer.appendChild(outputRow);
+        }
+    }
+
+
+    if (outcome.length > 0) {
+        var outcomeInputFieldsContainer = document.getElementById("input_fields_container");
+
+        for (let i = 0; i < outcome.length; i++) {
+            
+          var outputRow = document.createElement("div");
+            outputRow.classList.add("justify-content-between")
+            outputRow.classList.add("row"); // Create a Bootstrap row
+            outputRow.classList.add("mb-5");
+
+            // Create a column for "output_proj"
+            var outputProjCol = document.createElement("div");
+            outputProjCol.classList.add("col-md-12"); // Adjust the column size as needed
+
+            var outputProjLabel = document.createElement("label");
+            outputProjLabel.textContent = "Outcome";
+            outputProjLabel.classList.add("sub-topic");
+            outputProjLabel.classList.add("pl-0");
+            outputProjLabel.classList.add("pt-3");
+            outputProjCol.appendChild(outputProjLabel);
+
+            var inputField = document.createElement("input");
+            inputField.classList.add("form-control");
+            inputField.style = "margin-bottom:30px;"
+            inputField.disabled = true;
+            inputField.type = "text";
+            inputField.value = outcome[i].Projek_Outcome;
+            outputProjCol.appendChild(inputField);
+
+           
+
+            // Create a column for "Kuantiti"
+            var kuantitiCol = document.createElement("div");
+            kuantitiCol.classList.add("col-md-4"); // Adjust the column size as needed
+
+            var outputProjLabel = document.createElement("label");
+            outputProjLabel.textContent = "Kuantiti/Bilangan";
+            kuantitiCol.appendChild(outputProjLabel);
+
+            if (outcome[i].Kuantiti) {
+                var inputField2 = document.createElement("input");
+                inputField2.classList.add("form-control");
+                inputField2.disabled = true;
+                inputField2.type = "text";
+                inputField2.value = outcome[i].Kuantiti;
+                kuantitiCol.appendChild(inputField2);
+            }
+
+            // Create a column for "unit_id"
+            var unitIdCol = document.createElement("div");
+            unitIdCol.classList.add("col-md-4"); // Adjust the column size as needed
+
+            var outputProjLabel = document.createElement("label");
+            outputProjLabel.textContent = "Unit";
+            unitIdCol.appendChild(outputProjLabel);
+
+            if (outcome[i].unit_id) {
+                var inputField3 = document.createElement("input");
+                inputField3.classList.add("form-control");
+                inputField3.disabled = true;
+                inputField3.type = "text";
+                inputField3.value =  inputField3.value = unitIdToNameMap[outcome[i].unit_id]; 
+                unitIdCol.appendChild(inputField3);
+            }
+
+            // Append columns to the row
+            outputRow.appendChild(outputProjCol);
+            outputRow.appendChild(kuantitiCol);
+            outputRow.appendChild(unitIdCol);
+
+            // Append the row to the container
+            outcomeInputFieldsContainer.appendChild(outputRow);
+        }
+    }
+
+
+})
+.catch(function (error) {
+    $("div.spanner").removeClass("show");
+    $("div.overlay").removeClass("show");
+});
+
+
+
+
+
+
+     
+
           
           axios({
           method: 'get',
@@ -1549,6 +1812,11 @@ function removecomma(num){
             $("div.spanner").removeClass("show");
               $("div.overlay").removeClass("show");
           })
+
+
+        
+
+
           
   })   
   </script>

@@ -268,7 +268,7 @@
         <div class="modal fade" id="add_role_sucess_modal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered add_role_sucess_modal_dialog" role="document">
-                <div class="modal-content add_role_sucess_modal_content" style="width:88% !important;">
+                <div class="modal-content add_role_sucess_modal_content" style="width:100% !important;">
                     <div class="modal-body add_role_sucess_modal_body">
                         <div class="add_role_sucess_modal_header text-end">
                             <button class="ml-auto" data-bs-dismiss="modal" aria-label="Close">

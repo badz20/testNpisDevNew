@@ -544,7 +544,7 @@
             class="modal-dialog modal-dialog-centered add_role_sucess_modal_dialog"
             role="document"
           >
-            <div class="modal-content add_role_sucess_modal_content" style="width:88% !important;">
+            <div class="modal-content add_role_sucess_modal_content" style="width:100% !important;">
               <div class="modal-body add_role_sucess_modal_body">
                 <div class="add_role_sucess_modal_header text-end">
                 </div>

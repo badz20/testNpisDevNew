@@ -486,7 +486,7 @@
 
                                   /></td>
                               <td>Siling Bayangan 2023 (RM)</td>
-                              <td><input type="text" class="form-control input-element" id="txtsilingbayangan" value="0" /></td>
+                              <td><input type="text" class="form-control input-element text-right" id="txtsilingbayangan" value="0" /></td>
                               
                             </tr>
                           </tbody>

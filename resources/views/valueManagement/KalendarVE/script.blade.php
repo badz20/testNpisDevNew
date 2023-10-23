@@ -223,6 +223,66 @@
             console.log(yearsData);
             console.log(filterMonthData)
 
+            var projectData = response.data.projectData;
+            console.log(projectData)
+            console.log('Nabilah')
+
+            // Add date data in tarikh mula & tarikh tamat for Makmal VE & VR
+            var url = $(location).attr('href'),
+            parts = url.split("/"),
+            last_part = parts[parts.length-1];
+
+            var disabledDates = [];
+
+            for (a=0; a < projectData.length; a++) {
+                var startDate = projectData[a].tarikh_mula;
+                var endDate = projectData[a].tarikh_tamat;
+
+                if(startDate && endDate) {
+                    disabledDates.push({ start: startDate, end: endDate });
+                }
+            }
+
+            console.log(disabledDates);
+
+            var tarikhMulaInput = document.getElementById('Tarikh_Mula');
+
+            tarikhMulaInput.addEventListener('input', function() {
+                var selectedDate = new Date(tarikhMulaInput.value);
+    
+                // Check if the selected date falls within any of the disabled date ranges
+                var isDisabled = disabledDates.some(function(range) {
+                    var startDate = new Date(range.start);
+                    var endDate = new Date(range.end);
+                    return selectedDate >= startDate && selectedDate <= endDate;
+                });
+                
+                // If the date is disabled, clear the input value
+                if (isDisabled) {
+                    tarikhMulaInput.value = '';
+                    $('#date_conflict_modal').modal('show');  
+                } 
+            });
+
+            var tarikhTamatInput = document.getElementById('Tarikh_Tamat');
+
+            tarikhTamatInput.addEventListener('input', function() {
+                var selectedDate = new Date(tarikhTamatInput.value);
+    
+                // Check if the selected date falls within any of the disabled date ranges
+                var isDisabled = disabledDates.some(function(range) {
+                    var startDate = new Date(range.start);
+                    var endDate = new Date(range.end);
+                    return selectedDate >= startDate && selectedDate <= endDate;
+                });
+                
+                // If the date is disabled, clear the input value
+                if (isDisabled) {
+                    tarikhTamatInput.value = '';
+                    $('#date_conflict_modal').modal('show');  
+                } 
+            });
+
             console.log(projekName)
             var events = []; //The array
             for(var i =0; i < eventsData.length; i++) 

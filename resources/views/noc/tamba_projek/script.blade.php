@@ -32,7 +32,7 @@
         
         $.ajax({
                     type: "GET",
-                    url: api_url+"api/noc/list_projects/"+{{$id}},
+                    url: api_url+"api/noc/list_projects/"+{{$id}}+"/"+{{$type}},
                     dataType:"json",
                     contentType: "application/json",
                     header:{
@@ -85,7 +85,7 @@
                                     "infoEmpty": "Tiada rekod tersedia",
                                     "infoFiltered": "(filtered from _MAX_ total records)",
                                     "search": "_INPUT_",
-                                    "searchPlaceholder": " Carian",
+                                    "searchPlaceholder": "    Carian",
                                     "paginate": {
                                     "first":      "Awal",
                                     "last":       "Akhir",
@@ -222,7 +222,15 @@
                     $(this).removeClass().addClass("searchIn")
                 })
 
-                var noc_selected = response.noc_data; console.log(noc_selected)
+                if({{$type}}==1)
+                {
+                    var noc_selected = response.noc_data_jps; 
+                }
+                else
+                {
+                    var noc_selected = response.noc_data_agensy; 
+                }
+                console.log(noc_selected)
                 if(noc_selected)
                 {
                     for(var i = 0; i < noc_selected.length; i++)
@@ -243,8 +251,9 @@
 
     function loadProjeck(id)
     {
-            var url = '{{ route("noc.loadProjeck", [":id"])}}'
+            var url = '{{ route("noc.loadProjeck", [":id"  , ":type"])}}'
             url = url.replace(':id', id);
+            url = url.replace(':type', {{$type}});
             window.location.href = url;
     }
 
@@ -288,6 +297,7 @@
 
         var formData = new FormData();
         formData.append('user_id', {{Auth::user()->id}})
+        formData.append('type',{{$type}})
 
         ProjectData.forEach((item) => {
             formData.append('project_array[]', item);

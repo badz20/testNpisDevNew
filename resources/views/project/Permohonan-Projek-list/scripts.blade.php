@@ -247,9 +247,9 @@
                               }
                               else if(row.workflow_status=="5")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                     data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                    '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                    '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                   '</div>';
                                 }
                                else
@@ -288,9 +288,9 @@
                               }
                               else if(row.workflow_status=="8")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                         data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                        '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                        '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                       '</div>';
                                   }
                                 else
@@ -338,9 +338,9 @@
                               }
                               else if(row.workflow_status=="12")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                   data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                          '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                          '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                         '</div>';
                                   }
                                 else
@@ -379,9 +379,9 @@
                               }
                               else if(row.workflow_status=="15")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                       data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                      '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                      '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                     '</div>';
                                   }
                                 else
@@ -417,9 +417,9 @@
                               }
                               else if(row.workflow_status=="18")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                   data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                  '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updatedBy.name + '</p>' +
+                                  '<p>' + 'Permintaan untuk Dikemaskini oleh'+'<br>' +row.updated_by.name + '</p>' +
                                 '</div>';
                                   }
                                 else
@@ -443,9 +443,9 @@
                               }
                               else if(row.workflow_status=="20")
                               {
-                                if(row.updatedBy){
+                                if(row.updated_by){
                                     data = '<div class="d-flex" onClick="loadProject('+row.id+','+row.workflow_status+','+row.dibuat_oleh +','+row.negeri_id +','+row.daerah_id +')">'+                                
-                                              '<p>' + 'Dibatalkan'+'<br>' +row.updatedBy.name + '</p>' +
+                                              '<p>' + 'Dibatalkan'+'<br>' +row.updated_by.name + '</p>' +
                                             '</div>';
                                   }
                                 else

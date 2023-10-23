@@ -35,7 +35,7 @@ $(document).ready(function () {
                         "infoEmpty": "Tiada rekod tersedia",
                         "infoFiltered": "(ditapis dari _MAX_ jumlah rekod)",
                         "search": "_INPUT_",
-                        "searchPlaceholder": " Carian",
+                        "searchPlaceholder": "    Carian",
                         "paginate": {
                         "first":      "Awal",
                         "last":       "Akhir",
@@ -51,7 +51,7 @@ $(document).ready(function () {
                         render: function ( data, type, row, meta ) {
                             //console.log(row)
                                     // count=count+1; 
-                                    data='<div class="d-flex" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status_id +')">'+                                
+                                    data='<div class="d-flex" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status +')">'+                                
                                             // '<p>' + count + '</p>' +
 
                                         '</div>';
@@ -62,7 +62,7 @@ $(document).ready(function () {
                         targets:1, // Start with the last
                         render: function ( data, type, row, meta ) {
                             if(type === 'display'){
-                                    data='<div class="d-flex align-items-center list_'+row.noc_id+'" title="'+row.noc_id+'" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status_id +')">' +                                
+                                    data='<div class="d-flex align-items-center list_'+row.noc_id+'" title="'+row.noc_id+'" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status +')">' +                                
                                             '<p style="cursor:pointer">' + row.rujukan + '</p>' +
                                         '</div>';
                             }
@@ -74,8 +74,8 @@ $(document).ready(function () {
                         render: function ( data, type, row, meta ) { //console.log(row.kod_projeck)
                             if(type === 'display'){
                                         const specificDate = new Date(row.created_at);
-                                    data='<div class="d-flex" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status_id +')">'+                                
-                                            '<p>' + specificDate.getFullYear() + '</p>' +
+                                    data='<div class="d-flex ml-5" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status +')">'+                                
+                                            '<p style="cursor:pointer">' + specificDate.getFullYear() + '</p>' +
                                         '</div>';
                             }
                             return data;
@@ -85,7 +85,7 @@ $(document).ready(function () {
                         targets:3, // Start with the last
                         render: function ( data, type, row, meta ) {
                             if(type === 'display'){                              
-                                data = '<div class="d-flex align-items-center list_'+row.noc_id+'" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status_id +')">' +                                
+                                data = '<div class="d-flex align-items-center list_'+row.noc_id+'" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status +')">' +                                
                                     '<p style="cursor:pointer">' + row.kod_projeck + '</p>' +
                                 '</div>'                              
                             }
@@ -96,7 +96,7 @@ $(document).ready(function () {
                         targets:4, // Start with the last
                         render: function ( data, type, row, meta ) {
                             if(type === 'display'){                              
-                                data = '<div class="d-flex align-items-center list_'+row.noc_id+'" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status_id +')">' +                                
+                                data = '<div class="d-flex align-items-center list_'+row.noc_id+'" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status +')">' +                                
                                     '<p style="cursor:pointer">' + row.name + '</p>' +
                                 '</div>'                              
                             }
@@ -105,32 +105,23 @@ $(document).ready(function () {
                     }, 
                     {
                         targets:5, // Start with the last
-                        render: function ( data, type, row, meta ) {             
-                                    data= '<div class="d-flex" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status_id +')">'+                                
-                                            '<p>' + row.row_status + '</p>' +
-                                        '</div>';
-                                return data;
-                        }
-                    }, 
-                    {
-                        targets:6, // Start with the last
                         render: function ( data, type, row, meta ) {      // console.log(row)  
                             var kategori = getKategoryArray(row);   console.log(kategori);       
-                                    data='<div class="d-flex" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status_id +')">'+                                
-                                            '<p>' + kategori + '</p>' +
+                                    data='<div class="d-flex" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status +')">'+                                
+                                            '<p style="cursor:pointer">' + kategori + '</p>' +
                                         '</div>';
                                 return data;
                         }
                     }, 
                     {
                         targets:7, // Start with the last
-                        render: function ( data, type, row, meta ) { //console.log(row.status_id);
+                        render: function ( data, type, row, meta ) { //console.log(row.status);
                                     let color='';
-                                    if(row.status_id==43 || row.status_id==45)
+                                    if(row.status==43 || row.status==45)
                                     {
                                     color='#ff0000';
                                     }
-                                    else if(row.status_id==44)
+                                    else if(row.status==44)
                                     {
                                         color='#1bc727';
                                     }
@@ -139,8 +130,8 @@ $(document).ready(function () {
                                         color='#202820';
                                     }
 
-                                    data='<div class="d-flex" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status_id +')">'+                                
-                                            '<p style="color:'+color+'">' + row.status_name + '</p>' +
+                                    data='<div class="d-flex" onClick="loadProject('+row.noc_id+','+row.dibuat_oleh +','+row.status +')">'+                                
+                                            '<p style="color:'+color+';cursor:pointer;">' + row.status_name + '</p>' +
                                         '</div>';
                                 return data;
                         }
@@ -153,7 +144,7 @@ $(document).ready(function () {
                     { data: 'row_status'  },
                     { data: 'kod_projeck'  },  
                     { data: 'name'  },      
-                    { data: 'row_status'  },  
+                    { data: 'kategori'  },  
                     { data: 'updated_at'  }, 
                     { data: 'status_name'  },  
                 ],
@@ -235,7 +226,28 @@ function getKategoryArray(data)
       return str1;
 }
 
-function loadProject(id,dibuat,status){
+function printDataTable() {
+    // Clone the DataTable and remove any interactive elements
+    var printableTable = $('#projectTable').clone();
+    printableTable.find('.view-button').remove(); // Remove view buttons, for example
+
+    // Apply print-specific CSS styles
+    printableTable.addClass('printable-table');
+    
+    // Open the print dialog
+    var printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Printable DataTable</title></head><body>');
+    printWindow.document.write('<style>@media print {.printable-table { /* your print styles here */ }}</style>');
+    printWindow.document.write(printableTable[0].outerHTML);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
+    printWindow.close();
+
+    // window.print();
+}
+
+function loadProject(id,dibuat,status){ //alert(status)
        let user_type= {{$user}};
        localStorage.setItem('noc_status',status);
         if(user_type==4)

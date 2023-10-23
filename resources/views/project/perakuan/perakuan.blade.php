@@ -132,27 +132,27 @@
                         <tr class="d-none" id="penyemak_peraku">
                           <td style="font-size: 0.8rem;">Penyemak</td>
                           <td style="font-size: 0.8rem;" id="date_penyemak_peraku"></td>
-                          <td style="font-size: 0.8rem;" id="ulusan_penyemak_peraku"></td>
+                          <td style="font-size: 0.8rem; text-align: left;" id="ulusan_penyemak_peraku"></td>
                         </tr>
                         <tr class="d-none" id="penyemak1_peraku">
                           <td style="font-size: 0.8rem;">Penyemak1</td>
                           <td style="font-size: 0.8rem;" id="date_penyemak1_peraku"></td>
-                          <td style="font-size: 0.8rem;" id="ulusan_penyemak1_peraku"></td>
+                          <td style="font-size: 0.8rem; text-align: left;" id="ulusan_penyemak1_peraku"></td>
                         </tr>
                         <tr class="d-none" id="penyemak2_peraku">
                           <td style="font-size: 0.8rem;">Penyemak2</td>
                           <td style="font-size: 0.8rem;" id="date_penyemak2_peraku"></td>
-                          <td style="font-size: 0.8rem;" id="ulusan_penyemak2_peraku"></td>
+                          <td style="font-size: 0.8rem; text-align: left;" id="ulusan_penyemak2_peraku"></td>
                         </tr>
                         <tr class="d-none" id="pengesah_peraku">
                           <td style="font-size: 0.8rem;">Pengesah</td>
                           <td style="font-size: 0.8rem;" id="date_pengesah_peraku"></td>
-                          <td style="font-size: 0.8rem;" id="ulusan_pengesah_peraku"></td>
+                          <td style="font-size: 0.8rem; text-align: left;" id="ulusan_pengesah_peraku"></td>
                         </tr>
                         <tr class="d-none" id="peraku_peraku">
                           <td style="font-size: 0.8rem;">Peraku</td>
                           <td style="font-size: 0.8rem;" id="date_peraku_peraku"></td>
-                          <td style="font-size: 0.8rem;" id="ulusan_peraku_peraku"></td>
+                          <td style="font-size: 0.8rem; text-align: left;" id="ulusan_peraku_peraku"></td>
                         </tr>                       
                       </tbody>
                     </table>
@@ -504,49 +504,90 @@
       </div>
     </section>
     <section>
-            <div class="add_role_sucess_modal_container">
-                <div
-                class="modal fade"
-                id="reject_mode_sucess_modal"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalCenterTitle"
-                aria-hidden="true"
-                data-backdrop="static"
-                data-keyboard="false"
-                >
-                <div
-                    class="modal-dialog modal-dialog-centered add_role_sucess_modal_dialog"
-                    role="document"
-                >
-                    <div class="modal-content add_role_sucess_modal_content">
-                    <div class="modal-body add_role_sucess_modal_body">
-                        <div class="add_role_sucess_modal_header text-end">
-                        <button class="ml-auto" data-dismiss="modal">
-                            <img src="{{ asset('dashboard/assets/images/close_img.png') }}" alt="close_img" id="close_image_new"/>
-                        </button>
-                        </div>
-                        <div class="comment"> 
-                    <h5>Sila nyatakan komen anda dibawah:</h5>
+      <div class="project_register_form_modal_container">
+        <div
+          class="modal spaced_modal fade"
+          id="reject_mode_sucess_modal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div
+            class="modal-dialog modal-dialog-centered project_register_form_modal_dialog"
+            role="document"
+          >
+            <div class="modal-content project_register_form_modal_content">
+              <div class="modal-body project_register_form_modal_body">
+                  <div class="project_register_form_modal_body_Content">
+                    <div class="d-flex" style="justify-content: flex-end">
+                      <button type="button" data-dismiss="modal" aria-label="Close" style="background-color: transparent;border: none;">
+                        <i class="mdi mdi-window-close icon_black" id="close_image"></i>
+                      </button>
                     </div>
-                        <div class="add_role_sucess_modal_body_Content" id="user_pop-up">
-                        <h5>Komen: <br/></h5>
-                        <div class="reject_comment">
-                        <textarea class="form-control" rows="3" id="komen" name="komen"></textarea>
-                        </div>
-                        <span class="error" id="error_komen"></span>                               
-                        <div class="text-center">
-                            <button data-dismiss="modal" id="cancel_updates">Kembali</button>
-                            <button data-dismiss="modal" id="send_update">Kemaskini</button>
-                        </div>
-                        </div>
-                        
+                    <h5 class="success_header p-0 mb-2 text-center">
+                    Adakah anda pasti untuk kembalikan projek ini kepada Penyedia?
+                    </h5><br>
+                    <div class="btn_holder d-flex">
+                      <button data-dismiss="modal" class="fix_button red" id="cancel_updates">
+                        Tidak
+                      </button>
+                      <button data-dismiss="modal" class="fix_button fgreen" id="send_update">
+                        Ya
+                      </button>
                     </div>
-                    </div>
-                </div>
-                </div>
+                  </div>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="project_register_form_modal_container">
+        <div
+          class="modal spaced_modal fade"
+          id="comment_application_modal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div
+            class="modal-dialog modal-dialog-centered project_register_form_modal_dialog"
+            role="document"
+          >
+            <div class="modal-content project_register_form_modal_content">
+              <div class="modal-body project_register_form_modal_body">
+                  <div class="project_register_form_modal_body_Content">
+                    <div class="d-flex" style="justify-content: flex-end">
+                      <button type="button" data-dismiss="modal" aria-label="Close" style="background-color: transparent;border: none;">
+                        <i class="mdi mdi-window-close icon_black" id="close_image"></i>
+                      </button>
+                    </div>
+                    <h5 class="success_header p-0 mb-2 text-left">
+                    Sila nyatakan komen anda dibawah:
+                    </h5><br>
+                    <div>
+                      <textarea class="form-control" rows="4" id="komen" name="komen"></textarea>
+                    </div>
+                    <span class="error" id="error_komen"></span>   
+                    <div class="btn_holder d-flex mt-4">
+                      <button data-dismiss="modal" class="fix_button red" id="cancel_comment">
+                        Batal
+                      </button>
+                      <button data-dismiss="modal" class="fix_button fgreen" id="send_comment">
+                        Hantar
+                      </button>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
         <section>
           <div class="project_register_form_modal_container">
@@ -567,9 +608,11 @@
                 <div class="modal-content project_register_form_modal_content">
                     <div class="modal-body project_register_form_modal_body">
                       <div class="project_register_form_modal_body_Content">
-                        <button type="button" data-dismiss="modal" aria-label="Close" style="background-color: transparent;border: none;">
-                          <i class="mdi mdi-window-close icon_black" id="close_image"></i>
-                        </button>
+                        <div class="d-flex" style="justify-content: flex-end">
+                          <button type="button" data-dismiss="modal" aria-label="Close" style="background-color: transparent;border: none;">
+                            <i class="mdi mdi-window-close icon_black" id="close_image"></i>
+                          </button>
+                        </div>
                         <h3 class="success_header p-0 mb-2">
                           PERHATIAN
                         </h3><br>
@@ -587,6 +630,49 @@
             </div>
           </div>
         </section>
+
+    {{-- Show cadangan kod projek --}}
+    <section>
+      <div class="project_register_form_modal_container">
+        <div
+          class="modal spaced_modal fade"
+          id="cadangan_application_modal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div
+            class="modal-dialog modal-dialog-centered project_register_form_modal_dialog"
+            role="document"
+          >
+            <div class="modal-content project_register_form_modal_content">
+              <div class="modal-body project_register_form_modal_body">
+                <div class="modal-header" style="border: none; margin: 0; padding: 0;">
+                  <!-- Add a button with data-dismiss attribute to close the modal -->
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: transparent; border: none;">
+                      <i class="mdi mdi-window-close icon_black" id="close-modal"></i>
+                  </button>
+                </div>
+                <div class="modal-body project_register_form_modal_body_Content">
+                    <h5 class="success_header p-0 text-center">
+                      Cadangan Kod Projek
+                    </h5><br>
+                    <h5 class="success_header p-0 mb-2 text-center">
+                      <strong id="kod_projeck"></strong>
+                    </h5><br>
+                    <div class="btn_holder d-flex">
+                      <button data-dismiss="modal" class="fix_button" style="background-color: #5b63c3;" id="tutup-modal">
+                        Tutup
+                      </button>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     @include('project.common-scripts')
   @include('project.perakuan.scripts')
 @endsection
